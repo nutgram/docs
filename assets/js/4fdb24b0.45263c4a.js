@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunknutgram_docs=self.webpackChunknutgram_docs||[]).push([[718],{631:function(s){s.exports=JSON.parse('{"allTagsPath":"/blog/tags","slug":"/blog/tags/world","name":"world","count":1,"permalink":"/blog/tags/world"}')}}]);
