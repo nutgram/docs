@@ -24,12 +24,17 @@ const config = {
         docs: {
           remarkPlugins: [require('mdx-mermaid')],
           sidebarPath: require.resolve('./sidebars.js'),
-          // Please change this to your repo.
           editUrl: 'https://github.com/nutgram/docs/tree/master',
+          lastVersion: '1.x',
+          versions: {
+            current: {
+              label: '2.x',
+              path: '.',
+            },
+          },
         },
         blog: {
           showReadingTime: true,
-          // Please change this to your repo.
           editUrl:
             'https://github.com/nutgram/docs/tree/master',
         },
@@ -57,6 +62,12 @@ const config = {
             label: 'Documentation',
           },
           {to: '/blog', label: 'Blog', position: 'left'},
+          {
+            type: 'docsVersionDropdown',
+            position: 'right',
+            //dropdownItemsAfter: [{to: '/versions', label: 'All versions'}],
+            dropdownActiveClassDisabled: true,
+          },
           {
             href: 'https://github.com/nutgram/nutgram',
             label: 'GitHub',
@@ -99,7 +110,7 @@ const config = {
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} Sergio Brighenti. Documentation built with Docusaurus.`,
+        copyright: `Copyright © ${new Date().getFullYear()} Sergio Brighenti. Docs built with Docusaurus.`,
       },
       prism: {
         theme: lightCodeTheme,

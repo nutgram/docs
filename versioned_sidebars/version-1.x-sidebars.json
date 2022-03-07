@@ -1,0 +1,38 @@
+{
+  "docs": [
+    {
+      "type": "doc",
+      "label": "Introduction",
+      "id": "introduction"
+    },
+    {
+      "type": "category",
+      "label": "Getting Started",
+      "link": {
+        "type": "generated-index"
+      },
+      "collapsed": false,
+      "items": [
+        "configuration/installation",
+        "configuration/cache",
+        "configuration/laravel"
+      ]
+    },
+    {
+      "type": "category",
+      "label": "Usage",
+      "link": {
+        "type": "generated-index"
+      },
+      "collapsed": false,
+      "items": [
+        "usage/getting_updates",
+        "usage/sending_requests",
+        "usage/handlers",
+        "usage/middleware",
+        "usage/conversations",
+        "usage/inline_menu"
+      ]
+    }
+  ]
+}
