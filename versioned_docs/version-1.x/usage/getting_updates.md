@@ -64,7 +64,7 @@ method anyway, as Telegram expects a response quickly.
 ## Customization
 
 You can create your own running mode, if these do not satisfy you, in fact, you will just create a class that extends
-the [`RunningMode`](https://github.com/SergiX44/Nutgram/blob/master/src/RunningMode/RunningMode.php) interface.
+the [`RunningMode`](https://github.com/nutgram/nutgram/blob/master/src/RunningMode/RunningMode.php) interface.
 
 ## Retrieving updates manually
 

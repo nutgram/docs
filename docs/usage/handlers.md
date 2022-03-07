@@ -162,7 +162,7 @@ $bot->run();
 ```
 
 You can see all the constants, in
-the [MessageTypes::class](https://github.com/SergiX44/Nutgram/blob/master/src/Telegram/Attributes/MessageTypes.php).
+the [MessageTypes::class](https://github.com/nutgram/nutgram/blob/master/src/Telegram/Attributes/MessageTypes.php).
 
 ### `onCallbackQueryData`
 
@@ -278,7 +278,7 @@ $bot->run();
 ```
 
 You can see all the constants, in
-the [UpdateTypes::class](https://github.com/SergiX44/Nutgram/blob/master/src/Telegram/Attributes/UpdateTypes.php).
+the [UpdateTypes::class](https://github.com/nutgram/nutgram/blob/master/src/Telegram/Attributes/UpdateTypes.php).
 
 ### `onException`
 
