@@ -1,5 +1,5 @@
 ---
-sort: 6
+sidebar_position: 3
 ---
 
 # Handlers
@@ -33,29 +33,29 @@ Of course, **you can override them at any time**, simply by specifying them in t
 
 Here a full list of all the handler that listens to specific type of updates:
 
-| Handler Method | Type | Description                                                                                                                                                                       |
-| --- | --- |-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `onCommand(string $command, $callable)` | **Specific** | Handles text messages that begin with `/`.<br/>Automatically parses commands like `cmd@botname`.                                                                                  |
-| `onText(string $pattern, $callable)` | **Specific** | Handles text messages that match the given pattern (regex or parameters).                                                                                                         |
-| `onMessageType(string $type, $callable)` | **Specific** | Handles messages defined by type.                                                                                                                                                 |
+| Handler Method                                    | Type         | Description                                                                                                                                                                       |
+|---------------------------------------------------|--------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `onCommand(string $command, $callable)`           | **Specific** | Handles text messages that begin with `/`.<br/>Automatically parses commands like `cmd@botname`.                                                                                  |
+| `onText(string $pattern, $callable)`              | **Specific** | Handles text messages that match the given pattern (regex or parameters).                                                                                                         |
+| `onMessageType(string $type, $callable)`          | **Specific** | Handles messages defined by type.                                                                                                                                                 |
 | `onCallbackQueryData(string $pattern, $callable)` | **Specific** | Handles callback query with a specific pattern, similar to `onText`.                                                                                                              |
-| `onMessage($callable)` | **Generic** | Handles any incoming message.                                                                                                                                                     |
-| `onCallbackQuery($callable)` | **Generic** | Handles any incoming callback query.                                                                                                                                              |
-| `onEditedMessage($callable)` | **Generic** | Handles any incoming edited message.                                                                                                                                              |
-| `onChannelPost($callable)` | **Generic** | Handles any message posted in a channel where the bot is administrator.                                                                                                           |
-| `onEditedChannelPost($callable)` | **Generic** | Handles any message edited in a channel where the bot is administrator.                                                                                                           |
-| `onInlineQuery($callable)` | **Generic** | Handles any incoming inline query.                                                                                                                                                |
-| `onChosenInlineResult($callable)` | **Generic** | Handles any incoming chosen inline result.                                                                                                                                        |
-| `onShippingQuery($callable)` | **Generic** | Handles any incoming shipping query.                                                                                                                                              |
-| `onPreCheckoutQuery($callable)` | **Generic** | Handles any incoming pre checkout query.                                                                                                                                          |
-| `onPoll($callable)` | **Generic** | Handles any incoming poll.                                                                                                                                                        |
-| `onPollAnswer($callable)` | **Generic** | Handles any incoming poll answer.                                                                                                                                                 |
-| `onMyChatMember($callable)` | **Generic** | Handles any chat member when updated.                                                                                                                                             |
-| `onChatMember($callable)` | **Generic** | Handles any chat member in other chats when updated.                                                                                                                              |
-| `onException($callable)` | **Special** | This handler will be called whenever the handling of an update throws an exception, if undefined the exception will not be caught.<br/>Check the next paragraph for more details. |
-| `onApiError($callable)` | **Special** | This handler will be called every time a call to Telegram's api fails, if undefined the exception will not be caught.<br/>Check the next paragraph for more details.              |
-| `fallback($callable)` | **Special** | This handler if defined will be called if no handler, specific or generic, has been found for the current update.                                                                 |
-| `fallbackOn(string $type, $callable)` | **Special** | This handler has the same behavior as the previous one, but allows you to put a filter on the type of updates it can handle.                                                      |
+| `onMessage($callable)`                            | **Generic**  | Handles any incoming message.                                                                                                                                                     |
+| `onCallbackQuery($callable)`                      | **Generic**  | Handles any incoming callback query.                                                                                                                                              |
+| `onEditedMessage($callable)`                      | **Generic**  | Handles any incoming edited message.                                                                                                                                              |
+| `onChannelPost($callable)`                        | **Generic**  | Handles any message posted in a channel where the bot is administrator.                                                                                                           |
+| `onEditedChannelPost($callable)`                  | **Generic**  | Handles any message edited in a channel where the bot is administrator.                                                                                                           |
+| `onInlineQuery($callable)`                        | **Generic**  | Handles any incoming inline query.                                                                                                                                                |
+| `onChosenInlineResult($callable)`                 | **Generic**  | Handles any incoming chosen inline result.                                                                                                                                        |
+| `onShippingQuery($callable)`                      | **Generic**  | Handles any incoming shipping query.                                                                                                                                              |
+| `onPreCheckoutQuery($callable)`                   | **Generic**  | Handles any incoming pre checkout query.                                                                                                                                          |
+| `onPoll($callable)`                               | **Generic**  | Handles any incoming poll.                                                                                                                                                        |
+| `onPollAnswer($callable)`                         | **Generic**  | Handles any incoming poll answer.                                                                                                                                                 |
+| `onMyChatMember($callable)`                       | **Generic**  | Handles any chat member when updated.                                                                                                                                             |
+| `onChatMember($callable)`                         | **Generic**  | Handles any chat member in other chats when updated.                                                                                                                              |
+| `onException($callable)`                          | **Special**  | This handler will be called whenever the handling of an update throws an exception, if undefined the exception will not be caught.<br/>Check the next paragraph for more details. |
+| `onApiError($callable)`                           | **Special**  | This handler will be called every time a call to Telegram's api fails, if undefined the exception will not be caught.<br/>Check the next paragraph for more details.              |
+| `fallback($callable)`                             | **Special**  | This handler if defined will be called if no handler, specific or generic, has been found for the current update.                                                                 |
+| `fallbackOn(string $type, $callable)`             | **Special**  | This handler has the same behavior as the previous one, but allows you to put a filter on the type of updates it can handle.                                                      |
 
 ## Specific & Special Handlers
 
@@ -433,9 +433,9 @@ $bot->onCommand('help', function (Nutgram $bot) {
 $bot->run();
 ```
 
-```tip
+:::tip
 If you need to persist data on disk, be sure to choose an appropriate cache adapter!
-```
+:::
 
 ### Available methods
 

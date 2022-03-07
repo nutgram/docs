@@ -1,5 +1,5 @@
 ---
-sort: 8
+sidebar_position: 5
 ---
 
 # Conversations
@@ -61,9 +61,9 @@ $bot->run();
       that will be **serialized to cache**.
     - In the second step, we are ending the conversation.
 
-```note
+:::note
 If a conversation is not explicitly terminated with the `end()`, at the user next message will repeat the lastest saved step!
-```
+:::
 
 If you want to customize the name of the first step, you just need to override the `$step` property from conversation:
 
@@ -290,11 +290,11 @@ function secondStep(Nutgram $bot)
 $bot->run();
 ```
 
-```warning
+:::warning
 Using conversations in this way, you will not be able to skip middlewares or skip handlers!
 
 By default, it will always allow funnel escaping and will always apply global middlewares.
-```
+:::
 
 ## Inline Usage
 

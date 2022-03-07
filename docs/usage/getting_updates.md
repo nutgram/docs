@@ -1,5 +1,5 @@
 ---
-sort: 4
+sidebar_position: 1
 ---
 
 # Getting Updates

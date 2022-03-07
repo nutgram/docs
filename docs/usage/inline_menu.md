@@ -1,5 +1,5 @@
 ---
-sort: 9
+sidebar_position: 6
 ---
 
 # Inline Menu

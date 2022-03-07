@@ -1,5 +1,5 @@
 ---
-sort: 3
+sidebar_position: 3
 ---
 
 # Laravel Integration
@@ -37,10 +37,10 @@ class TelegramController extends Controller
 }
 ```
 
-```tip
+:::tip
 When calling the `run()` method on the bot instance, it automatically recognize if use the `Polling` method to retrieve updates,
 or `Webhook`, based on whether the current instance is running in a cli process, or is serving a web request.
-```
+:::
 
 ## Configuration
 

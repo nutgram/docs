@@ -4,32 +4,29 @@ import styles from './styles.module.css';
 
 const FeatureList = [
   {
+    title: 'Blazing Fast',
+    Svg: require('@site/static/img/rocket.svg').default,
+    description: (
+      <>
+          Focusing to keep the framework overhead as low as possible, what's worse than a slow chatbot?
+      </>
+    ),
+  },
+  {
     title: 'Easy to Use',
-    Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
+    Svg: require('@site/static/img/items.svg').default,
     description: (
       <>
-        Docusaurus was designed from the ground up to be easily installed and
-        used to get your website up and running quickly.
+          Scales from a proof of concept to the most complex flows, without losing your mind.
       </>
     ),
   },
   {
-    title: 'Focus on What Matters',
-    Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
+    title: 'Production Ready',
+    Svg: require('@site/static/img/tasks.svg').default,
     description: (
       <>
-        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-        ahead and move your docs into the <code>docs</code> directory.
-      </>
-    ),
-  },
-  {
-    title: 'Powered by React',
-    Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
-    description: (
-      <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
+        Already battle-tested on high traffic chatbots, provides a good number of integrations and testing features.
       </>
     ),
   },
