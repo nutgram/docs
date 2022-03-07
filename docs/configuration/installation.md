@@ -9,7 +9,7 @@ sidebar_position: 1
 You can install the package as usual via Composer:
 
 ```bash
-composer require sergix44/nutgram
+composer require nutgram/nutgram
 ```
 
 And you ready to go!
