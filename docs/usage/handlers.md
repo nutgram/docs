@@ -386,27 +386,27 @@ $bot->run();
 
 ### Available helpers
 
-| Method | Return type | Description
-| --- | --- | --- |
-| `update()` | `?Update` | The current `Update` object. |
-| `chatId()` | `?int` | The current `chat_id` if available, `null` otherwise. |
-| `chat()` | `?Chat` | The current `Chat` if available, `null` otherwise. |
-| `userId()` | `?int` | The current `from`.`id` if available, `null` otherwise. |
-| `user()` | `?User` | The current `User` (`from` Telegram's object) if available, `null` otherwise. |
-| `messageId()` | `?int` | The current `message`.`message_id` if available, `null` otherwise. |
-| `message()` | `?Message` | The current `Message` if available, `null` otherwise. |
-| `isCallbackQuery()` | `bool` | If the current update contains a `callback_query`. |
-| `callbackQuery()` | `?CallbackQuery` | The current `CallbackQuery` if available, `null` otherwise. |
-| `isInlineQuery()` | `bool` | If the current update contains an `inline_query`. |
-| `inlineQuery()` | `?InlineQuery` | The current `InlineQuery` if available, `null` otherwise. |
-| `chosenInlineResult()` | `?ChosenInlineResult` | The current `ChosenInlineResult` if available, `null` otherwise. |
-| `shippingQuery()` | `?ShippingQuery` | The current `ShippingQuery` if available, `null` otherwise. |
-| `isPreCheckoutQuery()` | `bool` | If the current update contains a `pre_checkout_query`. |
-| `preCheckoutQuery()` | `?PreCheckoutQuery` | The current `PreCheckoutQuery` if available, `null` otherwise. |
-| `poll()` | `?Poll` | The current `Poll` if available, `null` otherwise. |
-| `pollAnswer()` | `?PollAnswer` | The current `PollAnswer` if available, `null` otherwise. |
-| `isMyChatMember()` | `bool` | If the current `ChatMemberUpdated` is in the `my_chat_member`. |
-| `chatMember()` | `?ChatMemberUpdated` | The current `ChatMemberUpdated` if available, `null` otherwise. |
+| Method                 | Return type           | Description                                                                   |
+|------------------------|-----------------------|-------------------------------------------------------------------------------|
+| `update()`             | `?Update`             | The current `Update` object.                                                  |
+| `chatId()`             | `?int`                | The current `chat_id` if available, `null` otherwise.                         |
+| `chat()`               | `?Chat`               | The current `Chat` if available, `null` otherwise.                            |
+| `userId()`             | `?int`                | The current `from`.`id` if available, `null` otherwise.                       |
+| `user()`               | `?User`               | The current `User` (`from` Telegram's object) if available, `null` otherwise. |
+| `messageId()`          | `?int`                | The current `message`.`message_id` if available, `null` otherwise.            |
+| `message()`            | `?Message`            | The current `Message` if available, `null` otherwise.                         |
+| `isCallbackQuery()`    | `bool`                | If the current update contains a `callback_query`.                            |
+| `callbackQuery()`      | `?CallbackQuery`      | The current `CallbackQuery` if available, `null` otherwise.                   |
+| `isInlineQuery()`      | `bool`                | If the current update contains an `inline_query`.                             |
+| `inlineQuery()`        | `?InlineQuery`        | The current `InlineQuery` if available, `null` otherwise.                     |
+| `chosenInlineResult()` | `?ChosenInlineResult` | The current `ChosenInlineResult` if available, `null` otherwise.              |
+| `shippingQuery()`      | `?ShippingQuery`      | The current `ShippingQuery` if available, `null` otherwise.                   |
+| `isPreCheckoutQuery()` | `bool`                | If the current update contains a `pre_checkout_query`.                        |
+| `preCheckoutQuery()`   | `?PreCheckoutQuery`   | The current `PreCheckoutQuery` if available, `null` otherwise.                |
+| `poll()`               | `?Poll`               | The current `Poll` if available, `null` otherwise.                            |
+| `pollAnswer()`         | `?PollAnswer`         | The current `PollAnswer` if available, `null` otherwise.                      |
+| `isMyChatMember()`     | `bool`                | If the current `ChatMemberUpdated` is in the `my_chat_member`.                |
+| `chatMember()`         | `?ChatMemberUpdated`  | The current `ChatMemberUpdated` if available, `null` otherwise.               |
 
 ## Persisting data
 
@@ -439,11 +439,11 @@ If you need to persist data on disk, be sure to choose an appropriate cache adap
 
 ### Available methods
 
-| Method | Return type |
-| --- | --- |
-| `getGlobalData($key, $default = null)` | The data associated to the `$key`, if null `$default` is returned. |
-| `setGlobalData($key, $value)` | `bool` |
-| `deleteGlobalData($key)` | `bool` |
+| Method                                                    | Return type                                                        |
+|-----------------------------------------------------------|--------------------------------------------------------------------|
+| `getGlobalData($key, $default = null)`                    | The data associated to the `$key`, if null `$default` is returned. |
+| `setGlobalData($key, $value)`                             | `bool`                                                             |
+| `deleteGlobalData($key)`                                  | `bool`                                                             |
 | `getUserData($key, ?int $userId = null, $default = null)` | The data associated to the `$key`, if null `$default` is returned. |
-| `setUserData($key, $value, ?int $userId = null)` | `bool` |
-| `deleteUserData($key, ?int $userId = null)` | `bool` |
+| `setUserData($key, $value, ?int $userId = null)`          | `bool`                                                             |
+| `deleteUserData($key, ?int $userId = null)`               | `bool`                                                             |

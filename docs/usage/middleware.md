@@ -4,7 +4,7 @@ sidebar_position: 4
 
 # Middleware
 
-In the framework context, any handler is threaded like a **link of chain**, so you can easily link together multiple
+In the framework context, any handler is like a **link of chain**, so you can easily link together multiple
 handlers (middlewares). It applies the same concept that frameworks like Laravel have, allowing you to leverage them to
 separate repeated logic, or perform checks before executing a message handler.
 

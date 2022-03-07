@@ -12,7 +12,8 @@ For example:
 
 ```php
 
-use SergiX44\Nutgram\Nutgram;use SergiX44\Nutgram\Telegram\Types\Message\Message;
+use SergiX44\Nutgram\Nutgram;
+use SergiX44\Nutgram\Telegram\Types\Message\Message;
 
 $bot = new Nutgram($_ENV['TOKEN']);
 
@@ -34,7 +35,8 @@ If you already have the Telegram `file_id`, you can simply specify it.
 
 ```php
 
-use SergiX44\Nutgram\Nutgram;use SergiX44\Nutgram\Telegram\Types\Message\Message;
+use SergiX44\Nutgram\Nutgram;
+use SergiX44\Nutgram\Telegram\Types\Message\Message;
 
 $bot = new Nutgram($_ENV['TOKEN']);
 
@@ -61,7 +63,8 @@ $message = $bot->sendSticker($fileId, ['chat_id' => 111222333]);
 As opposed to uploading, there are some additional methods available that allow you to download files:
 
 ```php
-use SergiX44\Nutgram\Nutgram;use SergiX44\Nutgram\Telegram\Types\Media\File;
+use SergiX44\Nutgram\Nutgram;
+use SergiX44\Nutgram\Telegram\Types\Media\File;
 
 $bot = new Nutgram($_ENV['TOKEN']);
 
@@ -84,7 +87,9 @@ $bot->getFile($fileId)->save('file/or/directory');
 The framework give you some helper constants to format your text messages:
 
 ```php
-use SergiX44\Nutgram\Nutgram;use SergiX44\Nutgram\Telegram\Attributes\ParseMode;use SergiX44\Nutgram\Telegram\Types\Message\Message;
+use SergiX44\Nutgram\Nutgram;
+use SergiX44\Nutgram\Telegram\Attributes\ParseMode;
+use SergiX44\Nutgram\Telegram\Types\Message\Message;
 
 $bot = new Nutgram($_ENV['TOKEN']);
 
@@ -105,76 +110,364 @@ $message = $bot->sendMessage('<i>Hi!</i>', [
 ```
 
 ## Available methods
-
-| Method | Return Type | Telegram Docs |
-| --- | --- | --- |
-| `getMe()` | `?User` | [#getme](https://core.telegram.org/bots/api#getme) |
-| `logOut()` | `?bool` | [#logout](https://core.telegram.org/bots/api#logout) |
-| `close()` | `?bool` | [#close](https://core.telegram.org/bots/api#close) |
-| `sendMessage(string $text, ?array $opt = [])` | `?Message` | [#sendmessage](https://core.telegram.org/bots/api#sendmessage) |
-| `forwardMessage(string|int $chat_id, string|int $from_chat_id, int $message_id, array $opt = [])` | `?Message` | [#forwardmessage](https://core.telegram.org/bots/api#forwardmessage) |
-| `copyMessage(string|int $chat_id, string|int $from_chat_id, int $message_id, array $opt = [])` | `?MessageId` | [#copymessage](https://core.telegram.org/bots/api#copymessage) |
-| `sendPhoto($photo, array $opt = [])` | `?Message` | [#sendphoto](https://core.telegram.org/bots/api#sendphoto) |
-| `sendAudio($audio, array $opt = [])` | `?Message` | [#sendaudio](https://core.telegram.org/bots/api#sendaudio) |
-| `sendDocument($document, array $opt = [])` | `?Message` | [#senddocument](https://core.telegram.org/bots/api#senddocument) |
-| `sendVideo($video, array $opt = [])` | `?Message` | [#sendvideo](https://core.telegram.org/bots/api#sendvideo) |
-| `sendAnimation($video, array $opt = [])` | `?Message` | [#sendanimation](https://core.telegram.org/bots/api#sendanimation) |
-| `sendVoice($voice, array $opt = [])` | `?Message` | [#sendvoice](https://core.telegram.org/bots/api#sendvoice) |
-| `sendVideoNote($video_note, array $opt = [])` | `?Message` | [#sendvideonote](https://core.telegram.org/bots/api#sendvideonote) |
-| `sendMediaGroup(array $media, array $opt = [])` | `?array` | [#sendmediagroup](https://core.telegram.org/bots/api#sendmediagroup) |
-| `sendLocation(float $latitude, float $longitude, ?array $opt = [])` | `?Message` | [#sendlocation](https://core.telegram.org/bots/api#sendlocation) |
-| `editMessageLiveLocation(float $latitude, float $longitude, ?array $opt = [])` | `Message|bool|null` | [#editmessagelivelocation](https://core.telegram.org/bots/api#editmessagelivelocation) |
-| `stopMessageLiveLocation(?array $opt = [])` | `Message|bool|null` | [#stopmessagelivelocation](https://core.telegram.org/bots/api#stopmessagelivelocation) |
-| `sendVenue(float $latitude, float $longitude, string $title, string $address, ?array $opt = [])` | `?Message` | [#sendvenue](https://core.telegram.org/bots/api#sendvenue) |
-| `sendContact(string $first_name, string $phone_number, ?array $opt = [])` | `?Message` | [#sendcontact](https://core.telegram.org/bots/api#sendcontact) |
-| `sendPoll(string $question, array $options, ?array $opt = [])` | `?Message` | [#sendpoll](https://core.telegram.org/bots/api#sendpoll) |
-| `sendDice(?array $opt = [])` | `?Message` | [#senddice](https://core.telegram.org/bots/api#senddice) |
-| `sendChatAction(string $action, ?array $opt = [])` | `?bool` | [#sendchataction](https://core.telegram.org/bots/api#sendchataction) |
-| `getFile(string $file_id)` | `?File` | [#getfile](https://core.telegram.org/bots/api#getfile) |
-| `kickChatMember(string|int $chat_id, int $user_id, ?array $opt = [])` | `?bool` | [#kickchatmember](https://core.telegram.org/bots/api#kickchatmember) |
-| `unbanChatMember(string|int $chat_id, int $user_id, ?array $opt = [])` | `?bool` | [#unbanchatmember](https://core.telegram.org/bots/api#unbanchatmember) |
-| `restrictChatMember(string|int $chat_id, int $user_id, ChatPermissions $permissions, ?array $opt = [])` | `?bool` | [#restrictchatmember](https://core.telegram.org/bots/api#restrictchatmember) |
-| `promoteChatMember(string|int $chat_id, int $user_id, ?array $opt = [])` | `?bool` | [#promotechatmember](https://core.telegram.org/bots/api#promotechatmember) |
-| `setChatAdministratorCustomTitle(string|int $chat_id, int $user_id, string $custom_title, ?array $opt = [])` | `?bool` | [#setchatadministratorcustomtitle](https://core.telegram.org/bots/api#setchatadministratorcustomtitle) |
-| `setChatPermissions(string|int $chat_id, ChatPermissions $permissions, ?array $opt = [])` | `?bool` | [#setchatpermissions](https://core.telegram.org/bots/api#setchatpermissions) |
-| `exportChatInviteLink(string|int $chat_id)` | `?string` | [#exportchatinvitelink](https://core.telegram.org/bots/api#exportchatinvitelink) |
-| `createChatInviteLink(string|int $chat_id, ?array $opt = [])` | `?ChatInviteLink` | [#createchatinvitelink](https://core.telegram.org/bots/api#createchatinvitelink) |
-| `editChatInviteLink(string|int $chat_id, string $invite_link, ?array $opt = [])` | `?ChatInviteLink` | [#editchatinvitelink](https://core.telegram.org/bots/api#editchatinvitelink) |
-| `revokeChatInviteLink(string|int $chat_id, string $invite_link)` | `?ChatInviteLink` | [#revokechatinvitelink](https://core.telegram.org/bots/api#revokechatinvitelink) |
-| `setChatPhoto(string|int $chat_id, $photo)` | `?bool` | [#setchatphoto](https://core.telegram.org/bots/api#setchatphoto) |
-| `deleteChatPhoto(string|int $chat_id)` | `?bool` | [#deletechatphoto](https://core.telegram.org/bots/api#deletechatphoto) |
-| `setChatTitle(string|int $chat_id, string $title)` | `?bool` | [#setchattitle](https://core.telegram.org/bots/api#setchattitle) |
-| `setChatDescription(string|int $chat_id, ?string $description = null)` | `?bool` | [#setchatdescription](https://core.telegram.org/bots/api#setchatdescription) |
-| `pinChatMessage(string|int $chat_id, int $message_id, ?array $opt = [])` | `?bool` | [#pinchatmessage](https://core.telegram.org/bots/api#pinchatmessage) |
-| `unpinChatMessage(string|int $chat_id, int $message_id)` | `?bool` | [#unpinchatmessage](https://core.telegram.org/bots/api#unpinchatmessage) |
-| `unpinAllChatMessages(string|int $chat_id)` | `?bool` | [#unpinallchatmessages](https://core.telegram.org/bots/api#unpinallchatmessages) |
-| `leaveChat(string|int $chat_id)` | `?bool` | [#leavechat](https://core.telegram.org/bots/api#leavechat) |
-| `getChat(string|int $chat_id)` | `?Chat` | [#getchat](https://core.telegram.org/bots/api#getchat) |
-| `getChatAdministrators(string|int $chat_id)` | `?array` | [#getchatadministrators](https://core.telegram.org/bots/api#getchatadministrators) |
-| `getChatMembersCount(string|int $chat_id)` | `?int` | [#getchatmemberscount](https://core.telegram.org/bots/api#getchatmemberscount) |
-| `getChatMember(string|int $chat_id, int $user_id)` | `?ChatMember` | [#getchatmember](https://core.telegram.org/bots/api#getchatmember) |
-| `setChatStickerSet(string|int $chat_id, string $sticker_set_name)` | `?bool` | [#setchatstickerset](https://core.telegram.org/bots/api#setchatstickerset) |
-| `deleteChatStickerSet(string|int $chat_id)` | `?bool` | [#deletechatstickerset](https://core.telegram.org/bots/api#deletechatstickerset) |
-| `answerCallbackQuery(?array $opt = [])` | `?bool` | [#answercallbackquery](https://core.telegram.org/bots/api#answercallbackquery) |
-| `setMyCommands(array $commands = [])` | `?bool` | [#setmycommands](https://core.telegram.org/bots/api#setmycommands) |
-| `getMyCommands()` | `?array` | [#getmycommands](https://core.telegram.org/bots/api#getmycommands) |
-| `editMessageText(string $text, ?array $opt = [])` | `Message|bool|null` | [#editmessagetext](https://core.telegram.org/bots/api#editmessagetext) |
-| `editMessageCaption(?array $opt = [])` | `Message|bool|null` | [#editmessagecaption](https://core.telegram.org/bots/api#editmessagecaption) |
-| `editMessageMedia(array $media, ?array $opt = [])` | `Message|bool|null` | [#editmessagemedia](https://core.telegram.org/bots/api#editmessagemedia) |
-| `editMessageReplyMarkup(?array $opt = [])` | `Message|bool|null` | [#editmessagereplymarkup](https://core.telegram.org/bots/api#editmessagereplymarkup) |
-| `stopPoll(string|int $chat_id, int $message_id, ?array $opt = [])` | `?Poll` | [#stoppoll](https://core.telegram.org/bots/api#stoppoll) |
-| `deleteMessage(string|int $chat_id, int $message_id)` | `?bool` | [#deletemessage](https://core.telegram.org/bots/api#deletemessage) |
-| `sendSticker($sticker, array $opt = [])` | `?Message` | [#sendsticker](https://core.telegram.org/bots/api#sendsticker) |
-| `getStickerSet(string $name)` | `?StickerSet` | [#getstickerset](https://core.telegram.org/bots/api#getstickerset) |
-| `createNewStickerSet(string $name, string $title, ?array $opt = [])` | `?bool` | [#createnewstickerset](https://core.telegram.org/bots/api#createnewstickerset) |
-| `setStickerPositionInSet(string $sticker, int $position)` | `?bool` | [#setstickerpositioninset](https://core.telegram.org/bots/api#setstickerpositioninset) |
-| `deleteStickerFromSet(string $sticker)` | `?bool` | [#deletestickerfromset](https://core.telegram.org/bots/api#deletestickerfromset) |
-| `setStickerSetThumb(string $name, ?array $opt = [])` | `?bool` | [#setstickersetthumb](https://core.telegram.org/bots/api#setstickersetthumb) |
-| `answerInlineQuery(array $results, ?array $opt = [])` | `?bool` | [#answerinlinequery](https://core.telegram.org/bots/api#answerinlinequery) |
-| `sendInvoice(string $title, string $description, string $payload, string $provider_token, string $start_parameter, string $currency, array $prices, ?array $opt = [])` | `?Message` | [#sendinvoice](https://core.telegram.org/bots/api#sendinvoice) |
-| `answerShippingQuery(bool $ok, ?array $opt = [])` | `?bool` | [#answershippingquery](https://core.telegram.org/bots/api#answershippingquery) |
-| `answerPreCheckoutQuery(bool $ok, ?array $opt = [])` | `?bool` | [#answerprecheckoutquery](https://core.telegram.org/bots/api#answerprecheckoutquery) |
-| `setPassportDataErrors(int $user_id, array $errors)` | `?bool` | [#setpassportdataerrors](https://core.telegram.org/bots/api#setpassportdataerrors) |
-| `sendGame(string $game_short_name, ?array $opt = [])` | `?Message` | [#sendgame](https://core.telegram.org/bots/api#sendgame) |
-| `setGameScore(int $score, ?array $opt = [])` | `?bool` | [#setgamescore](https://core.telegram.org/bots/api#setgamescore) |
-| `getGameHighScores(?array $opt = [])` | `?array` | [#getgamehighscores](https://core.telegram.org/bots/api#getgamehighscores) |
+<table>
+   <thead>
+      <tr>
+         <th>Method</th>
+         <th>Return Type</th>
+         <th>Telegram Docs</th>
+      </tr>
+   </thead>
+   <tbody>
+      <tr>
+         <td><code>getMe()</code></td>
+         <td><code>?User</code></td>
+         <td><a href="https://core.telegram.org/bots/api#getme">#getme</a></td>
+      </tr>
+      <tr>
+         <td><code>logOut()</code></td>
+         <td><code>?bool</code></td>
+         <td><a href="https://core.telegram.org/bots/api#logout">#logout</a></td>
+      </tr>
+      <tr>
+         <td><code>close()</code></td>
+         <td><code>?bool</code></td>
+         <td><a href="https://core.telegram.org/bots/api#close">#close</a></td>
+      </tr>
+      <tr>
+         <td><code>sendMessage(string $text, ?array $opt = [])</code></td>
+         <td><code>?Message</code></td>
+         <td><a href="https://core.telegram.org/bots/api#sendmessage">#sendmessage</a></td>
+      </tr>
+      <tr>
+         <td><code>forwardMessage(string|int $chat_id, string|int $from_chat_id, int $message_id, array $opt = [])</code></td>
+         <td><code>?Message</code></td>
+         <td><a href="https://core.telegram.org/bots/api#forwardmessage">#forwardmessage</a></td>
+      </tr>
+      <tr>
+         <td><code>copyMessage(string|int $chat_id, string|int $from_chat_id, int $message_id, array $opt = [])</code></td>
+         <td><code>?MessageId</code></td>
+         <td><a href="https://core.telegram.org/bots/api#copymessage">#copymessage</a></td>
+      </tr>
+      <tr>
+         <td><code>sendPhoto($photo, array $opt = [])</code></td>
+         <td><code>?Message</code></td>
+         <td><a href="https://core.telegram.org/bots/api#sendphoto">#sendphoto</a></td>
+      </tr>
+      <tr>
+         <td><code>sendAudio($audio, array $opt = [])</code></td>
+         <td><code>?Message</code></td>
+         <td><a href="https://core.telegram.org/bots/api#sendaudio">#sendaudio</a></td>
+      </tr>
+      <tr>
+         <td><code>sendDocument($document, array $opt = [])</code></td>
+         <td><code>?Message</code></td>
+         <td><a href="https://core.telegram.org/bots/api#senddocument">#senddocument</a></td>
+      </tr>
+      <tr>
+         <td><code>sendVideo($video, array $opt = [])</code></td>
+         <td><code>?Message</code></td>
+         <td><a href="https://core.telegram.org/bots/api#sendvideo">#sendvideo</a></td>
+      </tr>
+      <tr>
+         <td><code>sendAnimation($video, array $opt = [])</code></td>
+         <td><code>?Message</code></td>
+         <td><a href="https://core.telegram.org/bots/api#sendanimation">#sendanimation</a></td>
+      </tr>
+      <tr>
+         <td><code>sendVoice($voice, array $opt = [])</code></td>
+         <td><code>?Message</code></td>
+         <td><a href="https://core.telegram.org/bots/api#sendvoice">#sendvoice</a></td>
+      </tr>
+      <tr>
+         <td><code>sendVideoNote($video_note, array $opt = [])</code></td>
+         <td><code>?Message</code></td>
+         <td><a href="https://core.telegram.org/bots/api#sendvideonote">#sendvideonote</a></td>
+      </tr>
+      <tr>
+         <td><code>sendMediaGroup(array $media, array $opt = [])</code></td>
+         <td><code>?array</code></td>
+         <td><a href="https://core.telegram.org/bots/api#sendmediagroup">#sendmediagroup</a></td>
+      </tr>
+      <tr>
+         <td><code>sendLocation(float $latitude, float $longitude, ?array $opt = [])</code></td>
+         <td><code>?Message</code></td>
+         <td><a href="https://core.telegram.org/bots/api#sendlocation">#sendlocation</a></td>
+      </tr>
+      <tr>
+         <td><code>editMessageLiveLocation(float $latitude, float $longitude, ?array $opt = [])</code></td>
+         <td><code>Message|bool|null</code></td>
+         <td><a href="https://core.telegram.org/bots/api#editmessagelivelocation">#editmessagelivelocation</a></td>
+      </tr>
+      <tr>
+         <td><code>stopMessageLiveLocation(?array $opt = [])</code></td>
+         <td><code>Message|bool|null</code></td>
+         <td><a href="https://core.telegram.org/bots/api#stopmessagelivelocation">#stopmessagelivelocation</a></td>
+      </tr>
+      <tr>
+         <td><code>sendVenue(float $latitude, float $longitude, string $title, string $address, ?array $opt = [])</code></td>
+         <td><code>?Message</code></td>
+         <td><a href="https://core.telegram.org/bots/api#sendvenue">#sendvenue</a></td>
+      </tr>
+      <tr>
+         <td><code>sendContact(string $first_name, string $phone_number, ?array $opt = [])</code></td>
+         <td><code>?Message</code></td>
+         <td><a href="https://core.telegram.org/bots/api#sendcontact">#sendcontact</a></td>
+      </tr>
+      <tr>
+         <td><code>sendPoll(string $question, array $options, ?array $opt = [])</code></td>
+         <td><code>?Message</code></td>
+         <td><a href="https://core.telegram.org/bots/api#sendpoll">#sendpoll</a></td>
+      </tr>
+      <tr>
+         <td><code>sendDice(?array $opt = [])</code></td>
+         <td><code>?Message</code></td>
+         <td><a href="https://core.telegram.org/bots/api#senddice">#senddice</a></td>
+      </tr>
+      <tr>
+         <td><code>sendChatAction(string $action, ?array $opt = [])</code></td>
+         <td><code>?bool</code></td>
+         <td><a href="https://core.telegram.org/bots/api#sendchataction">#sendchataction</a></td>
+      </tr>
+      <tr>
+         <td><code>getFile(string $file_id)</code></td>
+         <td><code>?File</code></td>
+         <td><a href="https://core.telegram.org/bots/api#getfile">#getfile</a></td>
+      </tr>
+      <tr>
+         <td><code>kickChatMember(string|int $chat_id, int $user_id, ?array $opt = [])</code></td>
+         <td><code>?bool</code></td>
+         <td><a href="https://core.telegram.org/bots/api#kickchatmember">#kickchatmember</a></td>
+      </tr>
+      <tr>
+         <td><code>unbanChatMember(string|int $chat_id, int $user_id, ?array $opt = [])</code></td>
+         <td><code>?bool</code></td>
+         <td><a href="https://core.telegram.org/bots/api#unbanchatmember">#unbanchatmember</a></td>
+      </tr>
+      <tr>
+         <td><code>restrictChatMember(string|int $chat_id, int $user_id, ChatPermissions $permissions, ?array $opt = [])</code></td>
+         <td><code>?bool</code></td>
+         <td><a href="https://core.telegram.org/bots/api#restrictchatmember">#restrictchatmember</a></td>
+      </tr>
+      <tr>
+         <td><code>promoteChatMember(string|int $chat_id, int $user_id, ?array $opt = [])</code></td>
+         <td><code>?bool</code></td>
+         <td><a href="https://core.telegram.org/bots/api#promotechatmember">#promotechatmember</a></td>
+      </tr>
+      <tr>
+         <td><code>setChatAdministratorCustomTitle(string|int $chat_id, int $user_id, string $custom_title, ?array $opt = [])</code></td>
+         <td><code>?bool</code></td>
+         <td><a href="https://core.telegram.org/bots/api#setchatadministratorcustomtitle">#setchatadministratorcustomtitle</a></td>
+      </tr>
+      <tr>
+         <td><code>setChatPermissions(string|int $chat_id, ChatPermissions $permissions, ?array $opt = [])</code></td>
+         <td><code>?bool</code></td>
+         <td><a href="https://core.telegram.org/bots/api#setchatpermissions">#setchatpermissions</a></td>
+      </tr>
+      <tr>
+         <td><code>exportChatInviteLink(string|int $chat_id)</code></td>
+         <td><code>?string</code></td>
+         <td><a href="https://core.telegram.org/bots/api#exportchatinvitelink">#exportchatinvitelink</a></td>
+      </tr>
+      <tr>
+         <td><code>createChatInviteLink(string|int $chat_id, ?array $opt = [])</code></td>
+         <td><code>?ChatInviteLink</code></td>
+         <td><a href="https://core.telegram.org/bots/api#createchatinvitelink">#createchatinvitelink</a></td>
+      </tr>
+      <tr>
+         <td><code>editChatInviteLink(string|int $chat_id, string $invite_link, ?array $opt = [])</code></td>
+         <td><code>?ChatInviteLink</code></td>
+         <td><a href="https://core.telegram.org/bots/api#editchatinvitelink">#editchatinvitelink</a></td>
+      </tr>
+      <tr>
+         <td><code>revokeChatInviteLink(string|int $chat_id, string $invite_link)</code></td>
+         <td><code>?ChatInviteLink</code></td>
+         <td><a href="https://core.telegram.org/bots/api#revokechatinvitelink">#revokechatinvitelink</a></td>
+      </tr>
+      <tr>
+         <td><code>setChatPhoto(string|int $chat_id, $photo)</code></td>
+         <td><code>?bool</code></td>
+         <td><a href="https://core.telegram.org/bots/api#setchatphoto">#setchatphoto</a></td>
+      </tr>
+      <tr>
+         <td><code>deleteChatPhoto(string|int $chat_id)</code></td>
+         <td><code>?bool</code></td>
+         <td><a href="https://core.telegram.org/bots/api#deletechatphoto">#deletechatphoto</a></td>
+      </tr>
+      <tr>
+         <td><code>setChatTitle(string|int $chat_id, string $title)</code></td>
+         <td><code>?bool</code></td>
+         <td><a href="https://core.telegram.org/bots/api#setchattitle">#setchattitle</a></td>
+      </tr>
+      <tr>
+         <td><code>setChatDescription(string|int $chat_id, ?string $description = null)</code></td>
+         <td><code>?bool</code></td>
+         <td><a href="https://core.telegram.org/bots/api#setchatdescription">#setchatdescription</a></td>
+      </tr>
+      <tr>
+         <td><code>pinChatMessage(string|int $chat_id, int $message_id, ?array $opt = [])</code></td>
+         <td><code>?bool</code></td>
+         <td><a href="https://core.telegram.org/bots/api#pinchatmessage">#pinchatmessage</a></td>
+      </tr>
+      <tr>
+         <td><code>unpinChatMessage(string|int $chat_id, int $message_id)</code></td>
+         <td><code>?bool</code></td>
+         <td><a href="https://core.telegram.org/bots/api#unpinchatmessage">#unpinchatmessage</a></td>
+      </tr>
+      <tr>
+         <td><code>unpinAllChatMessages(string|int $chat_id)</code></td>
+         <td><code>?bool</code></td>
+         <td><a href="https://core.telegram.org/bots/api#unpinallchatmessages">#unpinallchatmessages</a></td>
+      </tr>
+      <tr>
+         <td><code>leaveChat(string|int $chat_id)</code></td>
+         <td><code>?bool</code></td>
+         <td><a href="https://core.telegram.org/bots/api#leavechat">#leavechat</a></td>
+      </tr>
+      <tr>
+         <td><code>getChat(string|int $chat_id)</code></td>
+         <td><code>?Chat</code></td>
+         <td><a href="https://core.telegram.org/bots/api#getchat">#getchat</a></td>
+      </tr>
+      <tr>
+         <td><code>getChatAdministrators(string|int $chat_id)</code></td>
+         <td><code>?array</code></td>
+         <td><a href="https://core.telegram.org/bots/api#getchatadministrators">#getchatadministrators</a></td>
+      </tr>
+      <tr>
+         <td><code>getChatMembersCount(string|int $chat_id)</code></td>
+         <td><code>?int</code></td>
+         <td><a href="https://core.telegram.org/bots/api#getchatmemberscount">#getchatmemberscount</a></td>
+      </tr>
+      <tr>
+         <td><code>getChatMember(string|int $chat_id, int $user_id)</code></td>
+         <td><code>?ChatMember</code></td>
+         <td><a href="https://core.telegram.org/bots/api#getchatmember">#getchatmember</a></td>
+      </tr>
+      <tr>
+         <td><code>setChatStickerSet(string|int $chat_id, string $sticker_set_name)</code></td>
+         <td><code>?bool</code></td>
+         <td><a href="https://core.telegram.org/bots/api#setchatstickerset">#setchatstickerset</a></td>
+      </tr>
+      <tr>
+         <td><code>deleteChatStickerSet(string|int $chat_id)</code></td>
+         <td><code>?bool</code></td>
+         <td><a href="https://core.telegram.org/bots/api#deletechatstickerset">#deletechatstickerset</a></td>
+      </tr>
+      <tr>
+         <td><code>answerCallbackQuery(?array $opt = [])</code></td>
+         <td><code>?bool</code></td>
+         <td><a href="https://core.telegram.org/bots/api#answercallbackquery">#answercallbackquery</a></td>
+      </tr>
+      <tr>
+         <td><code>setMyCommands(array $commands = [])</code></td>
+         <td><code>?bool</code></td>
+         <td><a href="https://core.telegram.org/bots/api#setmycommands">#setmycommands</a></td>
+      </tr>
+      <tr>
+         <td><code>getMyCommands()</code></td>
+         <td><code>?array</code></td>
+         <td><a href="https://core.telegram.org/bots/api#getmycommands">#getmycommands</a></td>
+      </tr>
+      <tr>
+         <td><code>editMessageText(string $text, ?array $opt = [])</code></td>
+         <td><code>Message|bool|null</code></td>
+         <td><a href="https://core.telegram.org/bots/api#editmessagetext">#editmessagetext</a></td>
+      </tr>
+      <tr>
+         <td><code>editMessageCaption(?array $opt = [])</code></td>
+         <td><code>Message|bool|null</code></td>
+         <td><a href="https://core.telegram.org/bots/api#editmessagecaption">#editmessagecaption</a></td>
+      </tr>
+      <tr>
+         <td><code>editMessageMedia(array $media, ?array $opt = [])</code></td>
+         <td><code>Message|bool|null</code></td>
+         <td><a href="https://core.telegram.org/bots/api#editmessagemedia">#editmessagemedia</a></td>
+      </tr>
+      <tr>
+         <td><code>editMessageReplyMarkup(?array $opt = [])</code></td>
+         <td><code>Message|bool|null</code></td>
+         <td><a href="https://core.telegram.org/bots/api#editmessagereplymarkup">#editmessagereplymarkup</a></td>
+      </tr>
+      <tr>
+         <td><code>stopPoll(string|int $chat_id, int $message_id, ?array $opt = [])</code></td>
+         <td><code>?Poll</code></td>
+         <td><a href="https://core.telegram.org/bots/api#stoppoll">#stoppoll</a></td>
+      </tr>
+      <tr>
+         <td><code>deleteMessage(string|int $chat_id, int $message_id)</code></td>
+         <td><code>?bool</code></td>
+         <td><a href="https://core.telegram.org/bots/api#deletemessage">#deletemessage</a></td>
+      </tr>
+      <tr>
+         <td><code>sendSticker($sticker, array $opt = [])</code></td>
+         <td><code>?Message</code></td>
+         <td><a href="https://core.telegram.org/bots/api#sendsticker">#sendsticker</a></td>
+      </tr>
+      <tr>
+         <td><code>getStickerSet(string $name)</code></td>
+         <td><code>?StickerSet</code></td>
+         <td><a href="https://core.telegram.org/bots/api#getstickerset">#getstickerset</a></td>
+      </tr>
+      <tr>
+         <td><code>createNewStickerSet(string $name, string $title, ?array $opt = [])</code></td>
+         <td><code>?bool</code></td>
+         <td><a href="https://core.telegram.org/bots/api#createnewstickerset">#createnewstickerset</a></td>
+      </tr>
+      <tr>
+         <td><code>setStickerPositionInSet(string $sticker, int $position)</code></td>
+         <td><code>?bool</code></td>
+         <td><a href="https://core.telegram.org/bots/api#setstickerpositioninset">#setstickerpositioninset</a></td>
+      </tr>
+      <tr>
+         <td><code>deleteStickerFromSet(string $sticker)</code></td>
+         <td><code>?bool</code></td>
+         <td><a href="https://core.telegram.org/bots/api#deletestickerfromset">#deletestickerfromset</a></td>
+      </tr>
+      <tr>
+         <td><code>setStickerSetThumb(string $name, ?array $opt = [])</code></td>
+         <td><code>?bool</code></td>
+         <td><a href="https://core.telegram.org/bots/api#setstickersetthumb">#setstickersetthumb</a></td>
+      </tr>
+      <tr>
+         <td><code>answerInlineQuery(array $results, ?array $opt = [])</code></td>
+         <td><code>?bool</code></td>
+         <td><a href="https://core.telegram.org/bots/api#answerinlinequery">#answerinlinequery</a></td>
+      </tr>
+      <tr>
+         <td><code>sendInvoice(string $title, string $description, string $payload, string $provider_token, string $start_parameter, string $currency, array $prices, ?array $opt = [])</code></td>
+         <td><code>?Message</code></td>
+         <td><a href="https://core.telegram.org/bots/api#sendinvoice">#sendinvoice</a></td>
+      </tr>
+      <tr>
+         <td><code>answerShippingQuery(bool $ok, ?array $opt = [])</code></td>
+         <td><code>?bool</code></td>
+         <td><a href="https://core.telegram.org/bots/api#answershippingquery">#answershippingquery</a></td>
+      </tr>
+      <tr>
+         <td><code>answerPreCheckoutQuery(bool $ok, ?array $opt = [])</code></td>
+         <td><code>?bool</code></td>
+         <td><a href="https://core.telegram.org/bots/api#answerprecheckoutquery">#answerprecheckoutquery</a></td>
+      </tr>
+      <tr>
+         <td><code>setPassportDataErrors(int $user_id, array $errors)</code></td>
+         <td><code>?bool</code></td>
+         <td><a href="https://core.telegram.org/bots/api#setpassportdataerrors">#setpassportdataerrors</a></td>
+      </tr>
+      <tr>
+         <td><code>sendGame(string $game_short_name, ?array $opt = [])</code></td>
+         <td><code>?Message</code></td>
+         <td><a href="https://core.telegram.org/bots/api#sendgame">#sendgame</a></td>
+      </tr>
+      <tr>
+         <td><code>setGameScore(int $score, ?array $opt = [])</code></td>
+         <td><code>?bool</code></td>
+         <td><a href="https://core.telegram.org/bots/api#setgamescore">#setgamescore</a></td>
+      </tr>
+      <tr>
+         <td><code>getGameHighScores(?array $opt = [])</code></td>
+         <td><code>?array</code></td>
+         <td><a href="https://core.telegram.org/bots/api#getgamehighscores">#getgamehighscores</a></td>
+      </tr>
+   </tbody>
+</table>
