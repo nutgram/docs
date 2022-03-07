@@ -4,9 +4,9 @@ sidebar_position: 5
 
 # Conversations
 
-```warning
-If you are using the `Webhook` update mode, you need some kind of persistent cache across requests to use this feature!
-```
+:::warning
+If you are using the `Webhook` update mode, you need a persistent cache adapter to use this feature!
+:::
 
 ## Concept
 

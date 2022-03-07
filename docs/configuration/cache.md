@@ -10,7 +10,7 @@ By default, it uses the internal `ArrayCache` class, which is non-persistent, us
 polling mode.
 
 :::danger
-Without configuring a cache adapter accordingly, feature like global or per-user object storage and conversations may not work!
+Without configuring a cache adapter accordingly, feature like global or per-user object storage and conversations will not work when using the `Webhook` mode.
 :::
 
 ## Configuration
