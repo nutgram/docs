@@ -29,7 +29,7 @@ const config = {
           versions: {
             current: {
               label: '2.x',
-              path: '.',
+              // path: '.',
             },
           },
         },

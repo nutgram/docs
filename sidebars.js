@@ -49,6 +49,17 @@ const sidebars = {
                 'usage/inline_menu',
             ],
         },
+        {
+            type: 'category',
+            label: 'Upgrading',
+            link: {
+                type: 'generated-index',
+            },
+            collapsed: false,
+            items: [
+                'upgrading/from-1.x-to-2.x',
+            ],
+        },
     ]
 
     // By default, Docusaurus generates a sidebar from the docs folder structure
