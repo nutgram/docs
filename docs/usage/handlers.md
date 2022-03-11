@@ -52,6 +52,7 @@ Here a full list of all the handler that listens to specific type of updates:
 | `onPollAnswer($callable)`                         | **Generic**  | Handles any incoming poll answer.                                                                                                                                                 |
 | `onMyChatMember($callable)`                       | **Generic**  | Handles any chat member when updated.                                                                                                                                             |
 | `onChatMember($callable)`                         | **Generic**  | Handles any chat member in other chats when updated.                                                                                                                              |
+| `onChatJoinRequest($callable)`                    | **Generic**  | Handles any chat join request.                                                                                                                                                    |
 | `onException($callable)`                          | **Special**  | This handler will be called whenever the handling of an update throws an exception, if undefined the exception will not be caught.<br/>Check the next paragraph for more details. |
 | `onApiError($callable)`                           | **Special**  | This handler will be called every time a call to Telegram's api fails, if undefined the exception will not be caught.<br/>Check the next paragraph for more details.              |
 | `fallback($callable)`                             | **Special**  | This handler if defined will be called if no handler, specific or generic, has been found for the current update.                                                                 |
@@ -308,6 +309,33 @@ $bot->onException(function (Nutgram $bot, \Throwable $exception) {
 $bot->run();
 ```
 
+The `onExcepion` handler supports also different callbacks based on the exception instance:
+
+```php
+use SergiX44\Nutgram\Nutgram;
+
+$bot = new Nutgram($_ENV['TOKEN']);
+
+// and exception is thrown...
+$bot->onMessage(function (Nutgram $bot) {
+    if (random_int(0, 1)) {    
+        throw new InvalidArgumentException();
+    }
+    throw new Exception('Oh no!');
+});
+
+$bot->onException(InvalidArgumentException::class, function (Nutgram $bot, InvalidArgumentException $exception) {
+    //
+});
+
+$bot->onException(Exception::class, function (Nutgram $bot, Exception $exception) {
+    //
+});
+
+$bot->run();
+```
+
+
 ### `onApiError`
 
 The same concept of the `onException`, but for outgoing requests:
@@ -325,6 +353,30 @@ $bot->onMessage(function (Nutgram $bot) {
 $bot->onApiError(function (Nutgram $bot, TelegramException $exception) {
     echo $exception->getMessage(); // TelegramException: ...
     error_log($exception);
+});
+
+$bot->run();
+```
+
+Like the `onException`, the handler support a regex matching the text returned by the telegram api:
+
+```php
+use SergiX44\Nutgram\Nutgram;
+use SergiX44\Nutgram\Telegram\Exceptions\TelegramException;
+
+$bot = new Nutgram($_ENV['TOKEN']);
+
+$bot->onMessage(function (Nutgram $bot) {
+    $bot->sendMessage('Invalid call!', ['chat_id' => null]);
+});
+
+$bot->onApiError('chat not found', function (Nutgram $bot, TelegramException $exception) {
+    //
+});
+
+
+$bot->onApiError('user(.*)deactivated', function (Nutgram $bot, TelegramException $exception) {
+    //
 });
 
 $bot->run();
@@ -352,7 +404,10 @@ use SergiX44\Nutgram\Nutgram;
 
 $bot = new Nutgram($_ENV['TOKEN']);
 
-$bot->onCommand('start {param}', MyCommand::class);
+// all of those are valid definitions:
+$bot->onCommand('start {param}', MyCommand::class); // with __invoke
+$bot->onCommand('start1 {param}', [MyCommand::class, 'handle']); // class-method
+$bot->onCommand('start2 {param}', [$instance, 'handle']); // instance-method
 
 $bot->run();
 ```

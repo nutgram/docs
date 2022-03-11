@@ -12,8 +12,6 @@ You can install the package as usual via Composer:
 composer require nutgram/nutgram
 ```
 
-And you ready to go!
-
 ## Configuration
 
 The framework can work out-of-the-box without much configuration, the only mandatory parameter is (obviously) the

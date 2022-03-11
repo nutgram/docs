@@ -28,19 +28,12 @@ class TelegramController extends Controller
     /**
      * Handle the request.
      */
-    public function handle()
+    public function handle(Nutgram $bot)
     {
-        $bot = app(Nutgram::class); // also app('nutgram') is a valid alias
-        
-        // do some stuff with your instance      
+        //
     }
 }
 ```
-
-:::tip
-When calling the `run()` method on the bot instance, it automatically recognize if use the `Polling` method to retrieve updates,
-or `Webhook`, based on whether the current instance is running in a cli process, or is serving a web request.
-:::
 
 ## Configuration
 
@@ -53,9 +46,11 @@ php artisan vendor:publish --provider="SergiX44\Nutgram\NutgramServiceProvider" 
 In the `config/nutgram.php` file, you will find something like that:
 
 ```php
-return [
     // The Telegram BOT api token
-    'token' => env('TELEGRAM_TOKEN', ''),
+    'token' => env('TELEGRAM_TOKEN'),
+
+    // if the webhook mode must validate the incoming IP range is from a telegram server
+    'safe_mode' => env('APP_ENV', 'local') === 'production',
 
     // Extra or specific configurations
     'config' => [],
@@ -63,7 +58,6 @@ return [
     // Set if the service provider should automatically load
     // handlers from /routes/telegram.php
     'routes' => true,
-];
 ```
 
 The second `config` array, is basically any configuration option, already
@@ -126,12 +120,17 @@ class FrontController extends Controller
     /**
      * Handle the telegram webhook request.
      */
-    public function __invoke()
+    public function __invoke(Nutgram $bot)
     {
-        app(Nutgram::class)->run();
+        $bot->run();
     }
 }
 ```
+
+:::tip
+When calling the `run()` method on the bot instance, it automatically recognize if use the `Polling` method to retrieve updates,
+or `Webhook`, based on whether the current instance is running in a cli process, or is serving a web request.
+:::
 
 and remember to register it on you http routes:
 
