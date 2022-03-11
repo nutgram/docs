@@ -309,7 +309,7 @@ $bot->onException(function (Nutgram $bot, \Throwable $exception) {
 $bot->run();
 ```
 
-The `onExcepion` handler supports also different callbacks based on the exception instance:
+The `onException` handler supports also different callbacks based on the exception instance:
 
 ```php
 use SergiX44\Nutgram\Nutgram;
