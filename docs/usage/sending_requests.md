@@ -42,18 +42,18 @@ $bot = new Nutgram($_ENV['TOKEN']);
 
 // Send a photo to a specific user
 $photo = fopen('image.png', 'r+'); // open the file
+
 /** @var Message $message */
 $message = $bot->sendPhoto($photo, ['chat_id' => 111222333]); // pass the resource
-fclose($photo); // close the file!
-
 
 $video = fopen('funnyvideo.mp4', 'r+');
+
 /** @var Message $message */
 $message = $bot->sendPhoto($video, ['chat_id' => 111222333]);
-fclose($video);
 
 // send a sticker via file_id
 $fileId = $bot->message()->sticker->file_id;
+
 /** @var Message $message */
 $message = $bot->sendSticker($fileId, ['chat_id' => 111222333]);
 ```
