@@ -47,6 +47,7 @@ const sidebars = {
                 'usage/middleware',
                 'usage/conversations',
                 'usage/inline_menu',
+                'usage/testing',
             ],
         },
         {
