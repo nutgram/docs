@@ -139,3 +139,28 @@ and remember to register it on you http routes:
 
 Route::post('/webhook', 'FrontController');
 ```
+
+## Testing
+
+Inside unit tests, you can automatically retrieve the `fake` instance with all your handlers and middleware loaded, 
+simply by resolving it via DI:
+
+```php
+namespace Tests\Feature;
+
+use SergiX44\Nutgram\Nutgram;
+use Tests\TestCase;
+
+class ExampleTest extends TestCase
+{
+    /**
+     * @return void
+     */
+    public function test_bot()
+    {
+        $bot = app(Nutgram::class);
+        
+        // ...
+    }
+}
+```
