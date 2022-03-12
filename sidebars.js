@@ -48,6 +48,7 @@ const sidebars = {
                 'usage/conversations',
                 'usage/inline_menu',
                 'usage/testing',
+                'usage/extend',
             ],
         },
         {
