@@ -18,7 +18,7 @@ sidebar_position: 1
 
 > The Telegram bot library that doesn't drive you nuts
 
-Taking advantage of the **PHP8** features, thi framework and tries to make the **speed**, **scalability** and **flexibility** of use its strength, allowing to quickly make simple bots, but at the same time, it provides
+Taking advantage of the **PHP8** features, this framework and tries to make the **speed**, **scalability** and **flexibility** of use its strength, allowing to quickly make simple bots, but at the same time, it provides
 more **advanced features** to handle even the most complicated flows. Some architectural concepts on which
 Nutgram is based are heavily influenced by other open source projects such as [Botman](https://github.com/botman/botman)
 and [Zanzara](https://github.com/badfarm/zanzara).
