@@ -17,7 +17,7 @@ We assume that the `$this->bot` is loaded as mentioned on the [Introduction](int
 ```php
 $this
     ->bot
-    ->hearText('foo')
+    ->hearText('/foo')
     ->reply();
 ```
 
@@ -41,6 +41,8 @@ $bot->onCommand('foo', function (Nutgram $bot) {
             <div><code><a href="#hearUpdate">hearUpdate()</a></code></div>
             <div><code><a href="#hearUpdateType">hearUpdateType()</a></code></div>
             <div><code><a href="#hearMessage">hearMessage()</a></code></div>
+        </div>
+        <div class="col col--6">
             <div><code><a href="#hearText">hearText()</a></code></div>
             <div><code><a href="#hearCallbackQueryData">hearCallbackQueryData()</a></code></div>
         </div>
@@ -48,3 +50,32 @@ $bot->onCommand('foo', function (Nutgram $bot) {
 </div>
 
 ### hearUpdate
+The `hearUpdate` hears an outcoming `Update` object.
+```php
+->hearUpdate(new Update());
+```
+
+### hearUpdateType
+The `hearUpdateType` hears an outcoming `Update` subtype array.
+The `partialAttributes` and `fillNullableFields` parameters are optionals.
+```php
+->hearUpdateType(UpdateTypes::MESSAGE, partialAttributes: ['text' => '/foo'], fillNullableFields: false);
+```
+
+### hearMessage
+The `hearMessage` hears an outcoming `Message` array.
+```php
+->hearMessage(['text' => 'foo']);
+```
+
+### hearText
+The `hearText` hears an outcoming `Message` text.
+```php
+->hearText('foo');
+```
+
+### hearCallbackQueryData
+The `hearCallbackQueryData` hears an outcoming `CallbackQuery` data.
+```php
+->hearCallbackQueryData('baz');
+```
