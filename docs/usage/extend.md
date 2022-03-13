@@ -14,12 +14,12 @@ Nugram::macro('sendHelloMessage', function(){
 });
 
 Message::macro('pin', function($opt = []){
-    return $this->bot->pinChatMessage($this->chat->id, $this->message_id, $opt);
+    return $this->pinChatMessage($this->chat->id, $this->message_id, $opt);
 });
 
 $bot = new Nutgram('you telegram token here');
-$message = $bot->sendHelloMessage(); // return a Message object
-$message->pin(); // pin the message
+$message = $bot->sendHelloMessage();
+$message->pin();
 ```
 
 You can also add multiple methods in one go by using a `mixin` class. 
@@ -27,23 +27,23 @@ A mixin class contains methods that return callables.
 Each method from the mixin will be registered on the class.
 
 ```php
-$mixin = new class() {
-    public function mixinMethod()
-    {
-       return function() {
-          return 'mixinMethod';
-       };
+class NutgramCustomMethod{
+    public function sendHelloMessage(){
+        return function(){
+            return $this->sendMessage('Hello!');
+        };
     }
     
-    public function anotherMixinMethod()
-    {
-       return function() {
-          return 'anotherMixinMethod';
-       };
+    public function sendByeMessage(){
+        return function(){
+            return $this->sendMessage('Bye!');
+        };
     }
-};
+}
 
-Nugram::mixin($mixin);
-$macroableClass->mixinMethod() // returns 'mixinMethod';
-$macroableClass->anotherMixinMethod() // returns 'anotherMixinMethod';
+Nugram::mixin(new NutgramCustomMethod());
+
+$bot = new Nutgram('you telegram token here');
+$bot->sendHelloMessage();
+$bot->sendByeMessage();
 ```
