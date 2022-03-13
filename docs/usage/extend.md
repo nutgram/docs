@@ -42,7 +42,7 @@ class CustomMethods {
     }
 }
 
-Nugram::mixin(CustomMethods::class);
+Nugram::mixin(new CustomMethods());
 
 $bot = new Nutgram('you telegram token here');
 $bot->sendHelloMessage();
