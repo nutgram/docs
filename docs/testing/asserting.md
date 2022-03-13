@@ -1,3 +1,0 @@
-# Available Assertions
-
-**TODO**

@@ -1,0 +1,148 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Available Assertions
+
+## Overview
+
+The assertions are the ones that perform the checks to ensure that things are going as planned.
+
+:::caution
+The assertions must be called after the `reply()` method!
+:::
+
+### Example
+We assume that the `$this->bot` is loaded as mentioned on the [Introduction](introduction.md) page.
+
+<Tabs>
+<TabItem value="test" label="Test" default>
+
+```php
+$this
+    ->bot
+    ->hearText('foo')
+    ->reply()
+    ->assertReplyText('bar');
+```
+
+</TabItem>
+<TabItem value="handler" label="Handler">
+
+```php
+$bot->onText('foo', function (Nutgram $bot) {
+    $bot->sendMessage('bar');
+});
+```
+
+</TabItem>
+</Tabs>
+
+## Available Assertions
+
+<div class="container">
+    <div class="row">
+        <div class="col col--6">
+            <div><code><a href="#assertRaw">assertRaw()</a></code></div>
+            <div><code><a href="#assertCalled">assertCalled()</a></code></div>
+            <div><code><a href="#assertReply">assertReply()</a></code></div>
+            <div><code><a href="#assertReplyMessage">assertReplyMessage()</a></code></div>
+        </div>
+        <div class="col col--6">
+            <div><code><a href="#assertReplyText">assertReplyText()</a></code></div>
+            <div><code><a href="#assertActiveConversation">assertActiveConversation()</a></code></div>
+            <div><code><a href="#assertNoConversation">assertNoConversation()</a></code></div>
+            <div><code><a href="#assertNoReply">assertNoReply()</a></code></div>
+        </div>
+    </div>
+</div>
+
+### assertRaw
+The `assertRaw` asserts the given callback returns a truthy value.
+The `index` parameter is optional.
+```php
+->assertRaw(function(GuzzleHttp\Psr7\Request $request){
+    $content = json_decode((string)$request->getBody(), true, flags: JSON_THROW_ON_ERROR);
+    return $content['text'] === 'bar';
+}, index: 0);
+```
+
+### assertCalled
+The `assertCalled` asserts the given method name is called one time.
+The `times` parameter is optional.
+```php
+->assertCalled('sendMessage', times: 1);
+```
+
+### assertReply
+The `assertReply` asserts the given method name is called in the index history.
+The `expected` and `index` parameters are optionals.
+```php
+->assertReply('sendMessage', expected: ['text' => 'foo'], index: 0);
+```
+
+<Tabs>
+<TabItem value="test" label="Test" default>
+
+```php
+$this
+    ->bot
+    ->hearText('foo')
+    ->reply()
+    ->assertReply('sendMessage', ['text' => 'bar'], 0);
+    ->assertReply('sendMessage', ['text' => 'baz'], 1);
+```
+
+</TabItem>
+<TabItem value="handler" label="Handler">
+
+```php
+$bot->onText('foo', function (Nutgram $bot) {
+    $bot->sendMessage('bar');
+    $bot->sendMessage('baz');
+});
+```
+
+</TabItem>
+</Tabs>
+
+### assertReplyMessage
+The `assertReplyMessage` asserts the given data exists in the `message` attribute.
+The `index` and `forceMethod` parameters are optionals.
+```php
+->assertReplyMessage(['text' => 'bar'], index: 0, forceMethod:'sendMessage');
+```
+
+### assertReplyText
+The `assertReplyText` asserts the given value is equal to the `message->text` attribute.
+The `index` parameter is optional.
+```php
+->assertReplyText('bar', index: 0);
+```
+
+### assertActiveConversation
+The `assertActiveConversation` asserts there is an active conversation.
+The parameters `userId` and `chatId` are optionals.
+```php
+->assertActiveConversation(userId: 123 , chatId: 321);
+```
+
+:::caution
+You must use the `willStartConversation()` method to use this assertion without parameters.
+:::
+
+### assertNoConversation
+The `assertNoConversation` asserts there is no active conversation.
+The parameters `userId` and `chatId` are optionals.
+```php
+->assertNoConversation(userId: 123 , chatId: 321);
+```
+
+:::caution
+You must use the `willStartConversation()` method to use this assertion without parameters.
+:::
+
+### assertNoReply
+The `assertNoReply` asserts there is no reply.
+```php
+->assertNoReply();
+```
