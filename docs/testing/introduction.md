@@ -1,4 +1,4 @@
-# Testing
+# Introduction
 
 The framework supports some automatic mocking features that allows you to easily create unit tests for your application.
 Given the framework-agnostic nature, you are free to use the test library you want (PHPUnit, PEST, etc), in the examples shown PHPUnit will be used.
@@ -55,9 +55,3 @@ class BotTest extends TestCase
     }
 }
 ```
-
-## Hearing updates
-
-## Mock incoming responses
-
-## Available Assertions

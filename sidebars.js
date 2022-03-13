@@ -47,8 +47,21 @@ const sidebars = {
                 'usage/middleware',
                 'usage/conversations',
                 'usage/inline_menu',
-                'usage/testing',
                 'usage/extend',
+            ],
+        },
+        {
+            type: 'category',
+            label: 'Testing',
+            link: {
+                type: 'generated-index',
+            },
+            collapsed: false,
+            items: [
+                'testing/introduction',
+                'testing/hearing',
+                'testing/mocking',
+                'testing/asserting',
             ],
         },
         {
