@@ -1,6 +1,6 @@
 # Extend
 
-Nutgram provides to you a way to extend the framework.
+The framework provides multiple ways to extends its functionalities.
 
 The `Nutgram` class and all its types (`BaseType` class) have the ability that makes 
 it possible to add methods at runtime.
@@ -9,11 +9,11 @@ it possible to add methods at runtime.
 You can add a new method using `macro`:
 
 ```php
-Nugram::macro('sendHelloMessage', function(){
+Nugram::macro('sendHelloMessage', function() {
     return $this->sendMessage('Hello!');
 });
 
-Message::macro('pin', function($opt = []){
+Message::macro('pin', function(array $opt = []) {
     return $this->pinChatMessage($this->chat->id, $this->message_id, $opt);
 });
 
@@ -27,21 +27,22 @@ A mixin class contains methods that return callables.
 Each method from the mixin will be registered on the class.
 
 ```php
-class NutgramCustomMethod{
-    public function sendHelloMessage(){
-        return function(){
+class CustomMethods {
+
+    public function sendHelloMessage() {
+        return function() {
             return $this->sendMessage('Hello!');
         };
     }
     
-    public function sendByeMessage(){
-        return function(){
+    public function sendByeMessage() {
+        return function() {
             return $this->sendMessage('Bye!');
         };
     }
 }
 
-Nugram::mixin(new NutgramCustomMethod());
+Nugram::mixin(CustomMethods::class);
 
 $bot = new Nutgram('you telegram token here');
 $bot->sendHelloMessage();

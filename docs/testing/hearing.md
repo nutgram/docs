@@ -1,3 +1,0 @@
-# Hearing updates
-
-**TODO**

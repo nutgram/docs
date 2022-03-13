@@ -1,0 +1,50 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Hearing updates
+
+## Overview
+
+After you have configured your first testcase, to test your handlers you have to define which update it will process.
+To do that, the framework gives you some methods to automatically generate incoming updates.
+
+### Example
+We assume that the `$this->bot` is loaded as mentioned on the [Introduction](introduction.md) page.
+
+<Tabs>
+<TabItem value="test" label="Test" default>
+
+```php
+$this
+    ->bot
+    ->hearText('foo')
+    ->reply();
+```
+
+</TabItem>
+<TabItem value="handler" label="Triggered Handler">
+
+```php
+$bot->onCommand('foo', function (Nutgram $bot) {
+    // this handler will be called
+});
+```
+
+</TabItem>
+</Tabs>
+
+## Available Methods
+
+<div class="container">
+    <div class="row">
+        <div class="col col--6">
+            <div><code><a href="#hearUpdate">hearUpdate()</a></code></div>
+            <div><code><a href="#hearUpdateType">hearUpdateType()</a></code></div>
+            <div><code><a href="#hearMessage">hearMessage()</a></code></div>
+            <div><code><a href="#hearText">hearText()</a></code></div>
+            <div><code><a href="#hearCallbackQueryData">hearCallbackQueryData()</a></code></div>
+        </div>
+    </div>
+</div>
+
+### hearUpdate
