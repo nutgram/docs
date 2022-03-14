@@ -41,9 +41,13 @@ $bot->onText('dice', function (Nutgram $bot) {
 <div class="container">
     <div class="row">
         <div class="col col--6">
-            <div><code><a href="#willReceive">willReceive()</a></code></div>
-            <div><code><a href="#willReceivePartial">willReceivePartial()</a></code></div>
-            <div><code><a href="#willStartConversation">willStartConversation()</a></code></div>
+            <div><code><a href="#willreceive">willReceive()</a></code></div>
+            <div><code><a href="#willreceivepartial">willReceivePartial()</a></code></div>
+            <div><code><a href="#willstartconversation">willStartConversation()</a></code></div>
+        </div>
+        <div class="col col--6">
+            <div><code><a href="#withoutmiddleware">withoutMiddleware()</a></code></div>
+            <div><code><a href="#overridemiddleware">overrideMiddleware()</a></code></div>
         </div>
     </div>
 </div>
@@ -94,4 +98,16 @@ and [`assertNoConversation`](asserting#assertnoconversation).<br/>
 The `remember` parameter is optional.
 ```php
 ->willStartConversation(remember: true);
+```
+
+### withoutMiddleware
+The `withoutMiddleware` will remove the listed middlewares from the global middleware list.
+```php
+->withoutMiddleware([FooMiddleware::class]);
+```
+
+### overridemiddleware
+The `overridemiddleware` will override the global middleware list with the listed middlewares.
+```php
+->overridemiddleware([BarMiddleware::class]);
 ```
