@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunknutgram_docs=self.webpackChunknutgram_docs||[]).push([[631],{45641:function(e){e.exports=JSON.parse('{"title":"Recent posts","items":[{"title":"Hello World!","permalink":"/blog/hello-world"}]}')}}]);

@@ -12,6 +12,8 @@
         <id>hello-world</id>
         <link href="https://nutgram.dev/blog/hello-world"/>
         <updated>2022-03-06T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Welcome to the new Nutgram documentation website!]]></summary>
+        <content type="html"><![CDATA[<p>Welcome to the new Nutgram documentation website!</p>]]></content>
         <author>
             <name>Sergio Brighenti</name>
             <uri>https://github.com/sergix44</uri>
