@@ -86,7 +86,10 @@ class MyConversation extends Conversation {
 A more complete example:
 
 ```php
-use SergiX44\Nutgram\Conversations\Conversation;use SergiX44\Nutgram\Nutgram;use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardButton;use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardMarkup;
+use SergiX44\Nutgram\Conversations\Conversation;
+use SergiX44\Nutgram\Nutgram;
+use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardButton;
+use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardMarkup;
 
 class AskIceCreamConversation extends Conversation {
 

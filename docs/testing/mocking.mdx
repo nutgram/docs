@@ -1,0 +1,113 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Mock incoming responses
+
+## Overview
+
+After you have configured your hearing method, to test a custom response from Telegram 
+you have to mock the received data.
+To do that, the framework gives you some methods to automatically generate incoming responses.
+
+### Example
+We assume that the `$this->bot` is loaded as mentioned on the [Introduction](introduction.md) page.
+
+<Tabs>
+<TabItem value="test" label="Test" default>
+
+```php
+$this
+    ->bot
+    ->hearText('dice')
+    ->willReceivePartial(['dice' => ['emoji' => '🎲', 'value' => 4]])
+    ->reply()
+    ->assertReplyMessage(['dice' => ['emoji' => '🎲', 'value' => 4]]);
+```
+
+</TabItem>
+<TabItem value="handler" label="Handler">
+
+```php
+$bot->onText('dice', function (Nutgram $bot) {
+    $bot->sendDice(['emoji' => Emojis::DICE]);
+});
+```
+
+</TabItem>
+</Tabs>
+
+## Available Methods
+
+<div class="container">
+    <div class="row">
+        <div class="col col--6">
+            <div><code><a href="#willreceive">willReceive()</a></code></div>
+            <div><code><a href="#willreceivepartial">willReceivePartial()</a></code></div>
+            <div><code><a href="#willstartconversation">willStartConversation()</a></code></div>
+        </div>
+        <div class="col col--6">
+            <div><code><a href="#withoutmiddleware">withoutMiddleware()</a></code></div>
+            <div><code><a href="#overridemiddleware">overrideMiddleware()</a></code></div>
+        </div>
+    </div>
+</div>
+
+### willReceive
+The `willReceive` will mock an entire response.
+The `ok` parameter is optional.
+```php
+->willReceive([
+    'message_id' => 1234,
+    'date' => 1647284950,
+    'from' => [
+        'id' => 123456789,
+        'is_bot' => true,
+        'username' => 'nutgrambot',
+        'first_name' => 'nutgrambot',
+    ],
+    'chat' => [
+        'id' => 12345,
+        'type' => 'private',
+        'username' => 'nutgram',
+        'first_name' => 'foo',
+        'last_name' => 'bar',
+    ],
+    'dice' => [
+        'emoji' => '🎲', 
+        'value' => 4
+    ]
+], ok: true);
+```
+
+### willReceivePartial
+The `willReceivePartial` will mock a partial response.
+The `ok` parameter is optional.
+```php
+->willReceivePartial([
+    'dice' => [
+        'emoji' => '🎲', 
+        'value' => 4
+    ]
+], ok: true);
+```
+
+### willStartConversation
+The `willStartConversation` will cache `userId` and `chatId`.<br/>
+Useful when used with [`assertActiveConversation`](asserting#assertactiveconversation) 
+and [`assertNoConversation`](asserting#assertnoconversation).<br/>
+The `remember` parameter is optional.
+```php
+->willStartConversation(remember: true);
+```
+
+### withoutMiddleware
+The `withoutMiddleware` will remove the listed middlewares from the global middleware list.
+```php
+->withoutMiddleware([FooMiddleware::class]);
+```
+
+### overridemiddleware
+The `overridemiddleware` will override the global middleware list with the listed middlewares.
+```php
+->overridemiddleware([BarMiddleware::class]);
+```

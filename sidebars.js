@@ -47,6 +47,32 @@ const sidebars = {
                 'usage/middleware',
                 'usage/conversations',
                 'usage/inline_menu',
+                'usage/extend',
+            ],
+        },
+        {
+            type: 'category',
+            label: 'Testing',
+            link: {
+                type: 'generated-index',
+            },
+            collapsed: false,
+            items: [
+                'testing/introduction',
+                'testing/hearing',
+                'testing/mocking',
+                'testing/asserting',
+            ],
+        },
+        {
+            type: 'category',
+            label: 'Upgrading',
+            link: {
+                type: 'generated-index',
+            },
+            collapsed: false,
+            items: [
+                'upgrading/from-1.x-to-2.x',
             ],
         },
     ]

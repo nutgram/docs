@@ -4,9 +4,17 @@ sidebar_position: 4
 
 # Middleware
 
-In the framework context, any handler is like a **link of chain**, so you can easily link together multiple
-handlers (middlewares). It applies the same concept that frameworks like Laravel have, allowing you to leverage them to
-separate repeated logic, or perform checks before executing a message handler.
+In the framework context, any handler is like a **link of chain**, so you can easily link together multiple handlers (
+middlewares). It applies the same concept that frameworks like Laravel have, allowing you to leverage them to separate
+repeated logic, or perform checks before executing a message handler.
+
+The best explanation comes from the Laravel documentation:
+
+> It's best to envision middleware as a series of "layers" HTTP requests must pass through before they hit your application. Each layer can examine the request and even reject it entirely.
+
+Where you can replace the HTTP requests with an incoming update from Telegram.
+
+Let's see an example:
 
 ```php
 use SergiX44\Nutgram\Nutgram;
@@ -99,6 +107,33 @@ $bot->onCommand('user', function (Nutgram $bot) {
 });
 
 $bot->run();
+```
+
+## Before & After
+
+The model allow you to perform actions before and after the chain executed:
+
+```php
+use SergiX44\Nutgram\Nutgram;
+
+$bot = new Nutgram($_ENV['TOKEN']);
+
+// global middleware
+$bot->middleware(function (Nutgram $bot, $next) {
+
+    // do something before the handlers
+    
+    $next($bot); // sends "Hi!"
+    
+    // do something
+});
+
+$bot->onMessage(function (Nutgram $bot) {
+    $bot->sendMessage('Hi!');
+});
+
+$bot->run();
+
 ```
 
 ## OOP
