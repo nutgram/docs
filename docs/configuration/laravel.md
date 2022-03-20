@@ -70,6 +70,8 @@ default is `true`.
 
 The framework automatically register some useful commands in your Laravel application:
 
+- `nutgram:list`
+    - List all registered handlers
 - `nutgram:hook:info`
     - Get current webhook status
 - `nutgram:hook:remove {--d|drop-pending-updates}`
