@@ -40,18 +40,25 @@ use SergiX44\Nutgram\Telegram\Types\Message\Message;
 
 $bot = new Nutgram($_ENV['TOKEN']);
 
-// Send a photo to a specific user
+// Send a photo to a specific user ***********************************************
 $photo = fopen('image.png', 'r+'); // open the file
 
 /** @var Message $message */
 $message = $bot->sendPhoto($photo, ['chat_id' => 111222333]); // pass the resource
 
-$video = fopen('funnyvideo.mp4', 'r+');
+fclose($photo); // close the file
+
+
+// Send a video to a specific user ***********************************************
+$video = fopen('funnyvideo.mp4', 'r+'); // open the file
 
 /** @var Message $message */
 $message = $bot->sendPhoto($video, ['chat_id' => 111222333]);
 
-// send a sticker via file_id
+fclose($video); // close the file
+
+
+// send a sticker via file_id ****************************************************
 $fileId = $bot->message()->sticker->file_id;
 
 /** @var Message $message */
