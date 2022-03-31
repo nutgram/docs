@@ -187,10 +187,12 @@ $this
 
 ```php
 $bot->onText('foo', function (Nutgram $bot) {
-    $bot->sendDocument(InputFile::make(fopen('image.jpg'), 'name.jpg'), [
+    $file = fopen('image.jpg', 'r');
+    $bot->sendDocument(InputFile::make(file, 'name.jpg'), [
         'caption' => 'my caption',
         'parse_mode' => ParseMode::HTML,
     ]);
+    fclose($file);
 });
 ```
 
