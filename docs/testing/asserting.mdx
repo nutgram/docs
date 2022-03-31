@@ -65,6 +65,7 @@ The `index` parameter is optional.
     return $content['text'] === 'bar';
 }, index: 0);
 ```
+**⚠️ Caution!** See the [Asserting files](#asserting-files) section to assert files sent with multi-part requests.
 
 ### assertCalled
 The `assertCalled` asserts the given method name is called one time.
@@ -79,6 +80,7 @@ The `expected` and `index` parameters are optionals.
 ```php
 ->assertReply('sendMessage', expected: ['text' => 'foo'], index: 0);
 ```
+**⚠️ Caution!** See the [Asserting files](#asserting-files) section to assert files sent with multi-part requests.
 
 <Tabs>
 <TabItem value="test" label="Test" default>
@@ -111,6 +113,7 @@ The `index` and `forceMethod` parameters are optionals.
 ```php
 ->assertReplyMessage(['text' => 'bar'], index: 0, forceMethod:'sendMessage');
 ```
+**⚠️ Caution!** See the [Asserting files](#asserting-files) section to assert files sent with multi-part requests.
 
 ### assertReplyText
 The `assertReplyText` asserts the given value is equal to the `message->text` attribute.
@@ -146,3 +149,52 @@ The `assertNoReply` asserts there is no reply.
 ```php
 ->assertNoReply();
 ```
+
+## Asserting files
+When you send a file **as resource** via the following methods: 
+`sendPhoto`, `sendAudio`, `sendDocument`, `sendVideo`, `sendAnimation`, `sendVoice`, `sendVideoNote` or `sendSticker`,
+Nutgram will use a multi-part request.
+
+With a multi-part request, the assertions [`assertRaw`](#assertraw), [`assertReply`](#assertreply), 
+[`assertReplyMessage`](#assertreplymessage) will not have the field containing the file.
+
+To assert files you must use the `assertRaw` assertion in combination with `FormDataParser::parse($request)->files`, 
+see the example below:
+
+<Tabs>
+<TabItem value="test" label="Test" default>
+
+```php
+$this
+    ->bot
+    ->hearText('foo')
+    ->reply()
+    ->assertReply('sendDocument', [
+        'caption' => 'my caption',
+        'parse_mode' => ParseMode::HTML,
+    ])
+    ->assertRaw(function (Request $request) {
+        /** @var OutgoingResource $document */
+        $document = FormDataParser::parse($request)->files['document'];
+    
+        //check size
+        return $document->getSize() <= 123456;
+    });
+```
+
+</TabItem>
+<TabItem value="handler" label="Handler">
+
+```php
+$bot->onText('foo', function (Nutgram $bot) {
+    $file = fopen('image.jpg', 'r');
+    $bot->sendDocument(InputFile::make(file, 'name.jpg'), [
+        'caption' => 'my caption',
+        'parse_mode' => ParseMode::HTML,
+    ]);
+    fclose($file);
+});
+```
+
+</TabItem>
+</Tabs>
