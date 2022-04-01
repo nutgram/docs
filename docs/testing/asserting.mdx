@@ -156,8 +156,10 @@ When you send a file **as resource** via the following methods:
 Nutgram will use a multi-part request.
 
 With a multi-part request, the assertions [`assertRaw`](#assertraw), [`assertReply`](#assertreply), 
-[`assertReplyMessage`](#assertreplymessage) will not have the field containing the file.
+[`assertReplyMessage`](#assertreplymessage) will have an [`OutgoingResource`](#outgoingresource) object instead of a `resource` 
+in the field containing the file.
 
+### Example
 To assert files you must use the `assertRaw` assertion in combination with `FormDataParser::parse($request)->files`, 
 see the example below:
 
@@ -170,6 +172,7 @@ $this
     ->hearText('foo')
     ->reply()
     ->assertReply('sendDocument', [
+        //'document' => ??? We can't assert `document` field here because is an OutgoingResource
         'caption' => 'my caption',
         'parse_mode' => ParseMode::HTML,
     ])
@@ -198,3 +201,14 @@ $bot->onText('foo', function (Nutgram $bot) {
 
 </TabItem>
 </Tabs>
+
+### OutgoingResource
+This object is a wrapper from an outgoing resource and provide the following methods:
+
+| Method             | Type        | Description                                                        |
+|:-------------------|:------------|:-------------------------------------------------------------------|
+| `getName()`        | `?string`   | Returns the file name.                                             |
+| `getType()`        | `?string`   | Returns the MIME content type.                                     |
+| `getSize()`        | `int`       | Returns the file size in bytes.                                    |
+| `getError()`       | `int`       | Returns 0 (There is no error) or 7 (Failed to create the resource) |
+| `getTmpResource()` | `?resource` | Returns the resource.                                              |
