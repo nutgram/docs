@@ -175,3 +175,34 @@ $bot->onCommand('start {param}', MyCommand::class)
 
 $bot->run();
 ```
+
+## Flow
+The global middlewares are executed in descending order.
+The handlers middlewares are executed in **ascending** order. 
+
+```php
+use SergiX44\Nutgram\Nutgram;
+
+$bot = new Nutgram($_ENV['TOKEN']);
+
+// global middlewares
+$bot->middleware(MiddlewareA::class);           // 1°
+$bot->middleware(MiddlewareB::class);           // 2°
+
+// handlers
+$bot->onCommand('start', StartCommand::class)   // 5°
+    ->middleware(MiddlewareC::class)            // 4°
+    ->middleware(MiddlewareD::class);           // 3°
+
+$bot->run();
+```
+
+In the example above, the sequence of the calls is
+
+```mermaid
+graph LR
+    MiddlewareA-->MiddlewareB
+    MiddlewareB-->MiddlewareD
+    MiddlewareD-->MiddlewareC
+    MiddlewareC-->StartCommand
+```
