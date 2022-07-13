@@ -43,6 +43,25 @@ Here a list of all the options you can specify:
 - **default:** `'https://api.telegram.org'`
 - Useful if you need to change to a local API server.
 
+### `is_local`
+
+- **type:** boolean
+- **default:** `false`
+- Enable the local mode when used along a self-hosted Telegram Bot API server.<br/>
+_Nutgram will copy the file from your Telegram Bot API server instead downloading it._
+
+### `local_path_transformer`
+
+- **type:** callable(string $path): string
+- **default:** `null`
+- Useful if you need to remap a relative file path when used along `is_local` config.
+
+### `test_env`
+
+- **type:** boolean
+- **default:** `null`
+- Enable test environments useful when working with [Web Apps](https://core.telegram.org/bots/webapps#testing-web-apps).
+
 ### `timeout`
 
 - **type:** integer
