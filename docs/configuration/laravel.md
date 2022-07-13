@@ -58,6 +58,9 @@ In the `config/nutgram.php` file, you will find something like that:
     // Set if the service provider should automatically load
     // handlers from /routes/telegram.php
     'routes' => true,
+
+    // Enable or disable Nutgram mixins
+    'mixins' => false,
 ```
 
 The second `config` array, is basically any configuration option, already
@@ -82,6 +85,15 @@ The framework automatically register some useful commands in your Laravel applic
     - Register the bot commands, see [automatically-register-bot-commands](../usage/handlers.md#automatically-register-bot-commands)
 - `nutgram:run`
     - Start the bot in long polling mode. Useful in development mode.
+- `nutgram:make:command {name}`
+  - Create a new command class 
+- `nutgram:make:conversation {name} {--menu}`
+  - Create a new conversation class
+- `nutgram:make:handler {name}`
+  - Create a new handler class
+- `nutgram:make:middleware {name}`
+  - Create a new middleware class
+
 
 ## Handlers definition
 
@@ -110,6 +122,21 @@ $bot->onCommand('start', function (Nutgram $bot) {
 
 This file is automatically loaded by the framework, so here is where you should define middleware, handlers and
 conversations.
+
+## Mixins
+
+Nutgram provides a few mixins to help you work best with Laravel.
+
+Just enable the `mixins` option in the `config/nutgram.php` file, and you will be able to use them in your handlers.
+
+- `Nutgram` class:
+  - `downloadFileToDisk(File $file, string $path, string $disk = null, array $clientOpt = []): bool`<br/>
+    _Save a File to Laravel disk._ 
+
+- `File` class:
+  - `saveToDisk(string $path, string $disk = null, array $clientOpt = []): bool`<br/>
+    _Save the File to Laravel disk._
+
 
 ## Webhook updates
 
