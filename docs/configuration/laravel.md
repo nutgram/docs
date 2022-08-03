@@ -93,6 +93,8 @@ The framework automatically register some useful commands in your Laravel applic
   - Create a new handler class
 - `nutgram:make:middleware {name}`
   - Create a new middleware class
+- `nutgram:ide:generate`
+  - Generate a file helping IDEs to autocomplete [mixins](#mixins) methods.
 
 
 ## Handlers definition

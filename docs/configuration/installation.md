@@ -87,3 +87,12 @@ _Nutgram will copy the file from your Telegram Bot API server instead downloadin
 - **default:** `['timeout' => 10, 'limit' => 100]`
 - Contains all the options that used when requesting updates to Telegram via the `getUpdates`, it's possible to specify
   also the field `allowed_updates` if you want.
+
+### `split_long_messages`
+
+- **type:** boolean
+- **default:** `false`
+- Split long text message to multiple messages.<br/>
+This is useful when you want to send a message longer than the maximum length allowed by Telegram.<br/>
+Available only with the `sendMessage` method. (It will returns an array of Message)<br/>
+Optional `reply_markup` parameter will be sent on last message.
