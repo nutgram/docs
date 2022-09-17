@@ -136,6 +136,35 @@ $bot->run();
 
 ```
 
+## Skipping global middlewares for a specific handler
+
+If you want to skip the global middlewares for a specific handler, you can use the method `skipGlobalMiddlewares()`:
+
+```php
+use SergiX44\Nutgram\Nutgram;
+
+$bot = new Nutgram($_ENV['TOKEN']);
+
+// global middlewares
+$bot->middleware(GlobalMiddlewareA::class);
+$bot->middleware(GlobalMiddlewareB::class);
+
+// handler that skips global middlewares
+$bot
+    ->onMessage(SendHelloHandler::class)
+    ->skipGlobalMiddlewares();
+
+// handler that skips some global middlewares
+$bot
+    ->onCommand('secret'::class)
+    ->skipGlobalMiddlewares([
+        GlobalMiddlewareB::class
+    ]);
+
+$bot->run();
+
+```
+
 ## OOP
 
 Also in this case, all the `$callable` can be also defined as class-method or invokable class:
