@@ -96,3 +96,9 @@ _Nutgram will copy the file from your Telegram Bot API server instead downloadin
 This is useful when you want to send a message longer than the maximum length allowed by Telegram.<br/>
 Available only with the `sendMessage` method. (It will returns an array of Message)<br/>
 Optional `reply_markup` parameter will be sent on last message.
+
+### `logger` 
+- **type:** `Psr\Log\LoggerInterface`
+- **default:** `Psr\Log\NullLogger`
+- The logger used to log debug http requests.<br/>
+  [Check out the Logging page for other info.](logging)
