@@ -102,3 +102,15 @@ Optional `reply_markup` parameter will be sent on last message.
 - **default:** `Psr\Log\NullLogger`
 - The logger used to log debug http requests.<br/>
   [Check out the Logging page for other info.](logging)
+
+## IDE autocompletion
+
+To enable IDE autocompletion, you can install the following plugin on your IDE:
+
+
+### Plugin
+- Jetbrains [deep-assoc-completion](https://plugins.jetbrains.com/plugin/9927-deep-assoc-completion)
+- Visual Studio Code [deep-assoc-completion-vscode](https://marketplace.visualstudio.com/items?itemName=klesun.deep-assoc-completion-vscode)
+
+### Preview
+![IDE autocompletion](https://i.imgur.com/UHY3MZd.gif)
