@@ -113,4 +113,4 @@ To enable IDE autocompletion, you can install the following plugin on your IDE:
 - Visual Studio Code [deep-assoc-completion-vscode](https://marketplace.visualstudio.com/items?itemName=klesun.deep-assoc-completion-vscode)
 
 ### Preview
-![IDE autocompletion](https://i.imgur.com/UHY3MZd.gif)
+![IDE autocompletion](https://i.imgur.com/mnsLRsZ.gif)
