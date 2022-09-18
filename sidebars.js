@@ -30,6 +30,7 @@ const sidebars = {
             items: [
                 'configuration/installation',
                 'configuration/cache',
+                'configuration/logging',
                 'configuration/laravel',
             ],
         },

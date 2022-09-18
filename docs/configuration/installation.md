@@ -96,3 +96,21 @@ _Nutgram will copy the file from your Telegram Bot API server instead downloadin
 This is useful when you want to send a message longer than the maximum length allowed by Telegram.<br/>
 Available only with the `sendMessage` method. (It will returns an array of Message)<br/>
 Optional `reply_markup` parameter will be sent on last message.
+
+### `logger` 
+- **type:** `Psr\Log\LoggerInterface`
+- **default:** `Psr\Log\NullLogger`
+- The logger used to log debug http requests.<br/>
+  [Check out the Logging page for other info.](logging)
+
+## IDE autocompletion
+
+To enable IDE autocompletion, you can install the following plugin on your IDE:
+
+
+### Plugin
+- Jetbrains [deep-assoc-completion](https://plugins.jetbrains.com/plugin/9927-deep-assoc-completion)
+- Visual Studio Code [deep-assoc-completion-vscode](https://marketplace.visualstudio.com/items?itemName=klesun.deep-assoc-completion-vscode)
+
+### Preview
+![IDE autocompletion](https://i.imgur.com/mnsLRsZ.gif)

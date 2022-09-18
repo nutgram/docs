@@ -29,6 +29,18 @@ create inline menu messages in your bot.
 - `closeMenu()`<br/>
   Close the menu deleting the current message
 
+### Changing Telegram method type
+Override the following methods only to change the Telegram method used:
+
+- `doOpen()`<br/>
+  Send the message. Default: `sendMessage`
+
+- `doUpdate()`<br/>
+  Edit the message. Default: `editMessageText`
+
+- `doClose()`<br/>
+  Delete the message. Default: `deleteMessage`
+
 ## Example
 
 ```php
