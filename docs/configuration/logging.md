@@ -12,7 +12,7 @@ which is a fall-back "black hole" implementation if no logger is given to it.
 ## Configuration
 
 :::tip
-If you are using Laravel, you can skip this section, since the service provider automatically inject the Laravel cache repository for you.
+If you are using Laravel, you can skip this section, since the service provider automatically inject the Laravel logger repository for you.
 
 [Check out the Laravel integration page](laravel.md)
 :::

@@ -26,7 +26,7 @@ $bot->run(); // finally, begin to process incoming updates
 
 ## Polling
 
-This is the **default** running mode, when the `->run()` method is called, will block the script execution aand starts
+This is the **default** running mode, when the `->run()` method is called, will block the script execution and starts
 the update loop. This is meant to be used on a CLI or in a service unit.
 
 ```php
