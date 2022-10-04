@@ -101,6 +101,8 @@ The framework automatically register some useful commands in your Laravel applic
   - Create a new middleware class
 - `nutgram:ide:generate`
   - Generate a file helping IDEs to autocomplete [mixins](#mixins) methods.
+- `nutgram:logout {--d|drop-pending-updates}`
+  - Log out from the cloud Bot API server
 
 
 ## Handlers definition
