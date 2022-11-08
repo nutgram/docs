@@ -43,6 +43,12 @@ Here a list of all the options you can specify:
 - **default:** `'https://api.telegram.org'`
 - Useful if you need to change to a local API server.
 
+### `bot_name`
+
+- **type:** string
+- **default:** `null`
+- Useful when the bot is a group bot (with [Group Privacy](https://core.telegram.org/bots/features#privacy-mode) **disabled**) and you need to specify the bot name.
+
 ### `is_local`
 
 - **type:** boolean

@@ -49,6 +49,7 @@ const sidebars = {
                 'usage/conversations',
                 'usage/inline_menu',
                 'usage/extend',
+                'usage/bulk_messenger',
             ],
         },
         {
