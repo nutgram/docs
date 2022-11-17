@@ -32,36 +32,340 @@ Of course, **you can override them at any time**, simply by specifying them in t
 
 Here a full list of all the handler that listens to specific type of updates:
 
-| Handler Method                                           | Type         | Description                                                                                                                                                                       |
-|----------------------------------------------------------|--------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `onCommand(string $command, $callable)`                  | **Specific** | Handles text messages that begin with `/`.<br/>Automatically parses commands like `cmd@botname`.                                                                                  |
-| `onText(string $pattern, $callable)`                     | **Specific** | Handles text messages that match the given pattern (regex or parameters).                                                                                                         |
-| `onSuccessfulPayment($callable)`                         | **Generic**  | Handles successful_payment messages.                                                                                                                                              |
-| `onSuccessfulPaymentPayload(string $pattern, $callable)` | **Specific** | Handles successful_payment messages with a specific payload pattern.                                                                                                              |
-| `onMessageType(string $type, $callable)`                 | **Specific** | Handles messages defined by type.                                                                                                                                                 |
-| `onCallbackQueryData(string $pattern, $callable)`        | **Specific** | Handles callback query with a specific pattern, similar to `onText`.                                                                                                              |
-| `onMessage($callable)`                                   | **Generic**  | Handles any incoming message.                                                                                                                                                     |
-| `onCallbackQuery($callable)`                             | **Generic**  | Handles any incoming callback query.                                                                                                                                              |
-| `onEditedMessage($callable)`                             | **Generic**  | Handles any incoming edited message.                                                                                                                                              |
-| `onChannelPost($callable)`                               | **Generic**  | Handles any message posted in a channel where the bot is administrator.                                                                                                           |
-| `onEditedChannelPost($callable)`                         | **Generic**  | Handles any message edited in a channel where the bot is administrator.                                                                                                           |
-| `onInlineQuery($callable)`                               | **Generic**  | Handles any incoming inline query.                                                                                                                                                |
-| `onChosenInlineResult($callable)`                        | **Generic**  | Handles any incoming chosen inline result.                                                                                                                                        |
-| `onShippingQuery($callable)`                             | **Generic**  | Handles any incoming shipping query.                                                                                                                                              |
-| `onPreCheckoutQuery($callable)`                          | **Generic**  | Handles any incoming pre checkout query.                                                                                                                                          |
-| `onPreCheckoutQueryPayload(string $pattern, $callable)`  | **Specific** | Handles any incoming pre checkout query with a specific payload pattern.                                                                                                          |
-| `onPoll($callable)`                                      | **Generic**  | Handles any incoming poll.                                                                                                                                                        |
-| `onPollAnswer($callable)`                                | **Generic**  | Handles any incoming poll answer.                                                                                                                                                 |
-| `onMyChatMember($callable)`                              | **Generic**  | Handles any chat member when updated.                                                                                                                                             |
-| `onChatMember($callable)`                                | **Generic**  | Handles any chat member in other chats when updated.                                                                                                                              |
-| `onChatJoinRequest($callable)`                           | **Generic**  | Handles any chat join request.                                                                                                                                                    |
-| `onForumTopicCreated`                                    | **Generic**  | Handles any forum topic created.                                                                                                                                                  |
-| `onForumTopicClosed`                                     | **Generic**  | Handles any forum topic closed.                                                                                                                                                   |
-| `onForumTopicReopened`                                   | **Generic**  | Handles any forum topic reopened.                                                                                                                                                 |
-| `onException($callable)`                                 | **Special**  | This handler will be called whenever the handling of an update throws an exception, if undefined the exception will not be caught.<br/>Check the next paragraph for more details. |
-| `onApiError($callable)`                                  | **Special**  | This handler will be called every time a call to Telegram's api fails, if undefined the exception will not be caught.<br/>Check the next paragraph for more details.              |
-| `fallback($callable)`                                    | **Special**  | This handler if defined will be called if no handler, specific or generic, has been found for the current update.                                                                 |
-| `fallbackOn(string $type, $callable)`                    | **Special**  | This handler has the same behavior as the previous one, but allows you to put a filter on the type of updates it can handle.                                                      |
+### Update Handlers
+
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onMessage($callable)</code><br/>
+    Handles any incoming message.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-SPECIFIC-blue"/>&nbsp;
+    <code>onMessageType(string $type, $callable)</code><br/>
+    Handles messages defined by type.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onEditedMessage($callable)</code><br/>
+    Handles any incoming edited message.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onChannelPost($callable)</code><br/>
+    Handles any message posted in a channel where the bot is administrator.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onEditedChannelPost($callable)</code><br/>
+    Handles any message edited in a channel where the bot is administrator.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onInlineQuery($callable)</code><br/>
+    Handles any incoming inline query.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onChosenInlineResult($callable)</code><br/>
+    Handles any incoming chosen inline result.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onCallbackQuery($callable)</code><br/>
+    Handles any incoming callback query.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-SPECIFIC-blue"/>&nbsp;
+    <code>onCallbackQueryData(string $pattern, $callable)</code><br/>
+    Handles callback query with a specific pattern, similar to `onText`.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onShippingQuery($callable)</code><br/>
+    Handles any incoming shipping query.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onPreCheckoutQuery($callable)</code><br/>
+    Handles any incoming pre checkout query.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-SPECIFIC-blue"/>&nbsp;
+    <code>onPreCheckoutQueryPayload(string $pattern, $callable)</code><br/>
+    Handles any incoming pre checkout query with a specific payload pattern.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onPoll($callable)</code>&nbsp;
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-DEPRECATED%20in%203.9.0-red"/><br/>
+    Handles any incoming poll.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onUpdatePoll($callable)</code><br/>
+    Handles any incoming poll.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onPollAnswer($callable)</code><br/>
+    Handles any incoming poll answer.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onMyChatMember($callable)</code><br/>
+    Handles any chat member when updated.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onChatMember($callable)</code><br/>
+    Handles any chat member in other chats when updated.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onChatJoinRequest($callable)</code><br/>
+    Handles any chat join request.
+</div>
+
+### Message Handlers
+
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-SPECIFIC-blue"/>&nbsp;
+    <code>onText(string $pattern, $callable)</code><br/>
+    Handles text messages that match the given pattern (regex or parameters).
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-SPECIFIC-blue"/>&nbsp;
+    <code>onCommand(string $command, $callable)</code><br/>
+    Handles text messages that begin with `/`.<br/>Automatically parses commands like `cmd@botname`.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onAnimation($callable)</code><br/>
+    Handles animation messages
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onAudio($callable)</code><br/>
+    Handles audio messages.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onDocument($callable)</code><br/>
+    Handles document messages.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onPhoto($callable)</code><br/>
+    Handles photo messages.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onSticker($callable)</code><br/>
+    Handles sticker messages.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onVideo($callable)</code><br/>
+    Handles video messages.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onVideoNote($callable)</code><br/>
+    Handles video_note messages.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onVoice($callable)</code><br/>
+    Handles voice messages.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onContact($callable)</code><br/>
+    Handles contact messages.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onDice($callable)</code><br/>
+    Handles dice messages.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onGame($callable)</code><br/>
+    Handles game messages.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onMessagePoll($callable)</code><br/>
+    Handles poll messages.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onVenue($callable)</code><br/>
+    Handles venue messages.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onLocation($callable)</code><br/>
+    Handles location messages.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onNewChatMembers($callable)</code><br/>
+    Handles new_chat_members messages.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onLeftChatMember($callable)</code><br/>
+    Handles left_chat_member messages.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onNewChatTitle($callable)</code><br/>
+    Handles new_chat_title messages.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onNewChatPhoto($callable)</code><br/>
+    Handles new_chat_photo messages.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onDeleteChatPhoto($callable)</code><br/>
+    Handles delete_chat_photo messages.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onGroupChatCreated($callable)</code><br/>
+    Handles group_chat_created messages.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onSupergroupChatCreated($callable)</code><br/>
+    Handles supergroup_chat_created messages.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onChannelChatCreated($callable)</code><br/>
+    Handles channel_chat_created messages.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onMessageAutoDeleteTimerChanged($callable)</code><br/>
+    Handles message_auto_delete_timer_changed messages.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onMigrateToChatId($callable)</code><br/>
+    Handles migrate_to_chat_id messages.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onMigrateFromChatId($callable)</code><br/>
+    Handles migrate_from_chat_id messages.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onPinnedMessage($callable)</code><br/>
+    Handles pinned_message messages.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onInvoice($callable)</code><br/>
+    Handles invoice messages.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onSuccessfulPayment($callable)</code><br/>
+    Handles successful_payment messages.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-SPECIFIC-blue"/>&nbsp;
+    <code>onSuccessfulPaymentPayload(string $pattern, $callable)</code><br/>
+    Handles successful_payment messages with a specific payload pattern.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onConnectedWebsite($callable)</code><br/>
+    Handles connected_website messages.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onPassportData($callable)</code><br/>
+    Handles any incoming passport data messages.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onProximityAlertTriggered($callable)</code><br/>
+    Handles proximity_alert_triggered messages.
+</div>
+
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onForumTopicCreated($callable)</code><br/>
+    Handles any forum topic created.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onForumTopicClosed($callable)</code><br/>
+    Handles any forum topic closed.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onForumTopicReopened($callable)</code><br/>
+    Handles any forum topic reopened.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onVideoChatScheduled($callable)</code><br/>
+    Handles video_chat_scheduled messages.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onVideoChatStarted($callable)</code><br/>
+    Handles video_chat_started messages.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onVideoChatEnded($callable)</code><br/>
+    Handles video_chat_ended messages.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onVideoChatParticipantsInvited($callable)</code><br/>
+    Handles video_chat_participants_invited messages.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onWebAppData($callable)</code><br/>
+    Handles web_app_data messages.
+</div>
+
+### Special Handlers
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-SPECIAL-yellow"/>&nbsp;
+    <code>fallback($callable)</code><br/>
+    This handler if defined will be called if no handler, specific or generic, has been found for the current update.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-SPECIAL-yellow"/>&nbsp;
+    <code>fallbackOn(string $type, $callable)</code><br/>
+    This handler has the same behavior as the previous one, but allows you to put a filter on the type of updates it can handle.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-SPECIAL-yellow"/>&nbsp;
+    <code>fallbackOn(string $type, $callable)</code><br/>
+    This handler has the same behavior as the previous one, but allows you to put a filter on the type of updates it can handle.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-SPECIAL-yellow"/>&nbsp;
+    <code>onException($callable)</code><br/>
+    This handler will be called whenever the handling of an update throws an exception, if undefined the exception will not be caught.<br/>Check the next paragraph for more details.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-SPECIAL-yellow"/>&nbsp;
+    <code>onApiError($callable)</code><br/>
+    This handler will be called every time a call to Telegram's api fails, if undefined the exception will not be caught.<br/>Check the next paragraph for more details.
+</div>
 
 ## Specific & Special Handlers
 
