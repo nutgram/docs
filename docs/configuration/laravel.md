@@ -88,7 +88,7 @@ The framework automatically register some useful commands in your Laravel applic
 - `nutgram:hook:set {url}`
     - Set the bot webhook
 - `nutgram:register-commands`
-    - Register the bot commands, see [automatically-register-bot-commands](../usage/handlers.md#automatically-register-bot-commands)
+    - Register the bot commands, see [automatically-register-bot-commands](../usage/handlers#automatically-register-bot-commands)
 - `nutgram:run`
     - Start the bot in long polling mode. Useful in development mode.
 - `nutgram:make:command {name}`
