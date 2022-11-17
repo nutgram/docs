@@ -1,6 +1,5 @@
----
-sidebar_position: 3
----
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # Handlers
 
@@ -346,6 +345,9 @@ $bot->run();
 
 The same concept of the `onException`, but for outgoing requests:
 
+<Tabs>
+<TabItem value="chat_not_found" label="Chat not found" default>
+
 ```php
 use SergiX44\Nutgram\Nutgram;
 use SergiX44\Nutgram\Telegram\Exceptions\TelegramException;
@@ -357,12 +359,46 @@ $bot->onMessage(function (Nutgram $bot) {
 });
 
 $bot->onApiError(function (Nutgram $bot, TelegramException $exception) {
-    echo $exception->getMessage(); // TelegramException: ...
+    echo $exception->getMessage(); // Bad Request: chat not found
+    echo $exception->getCode(); // 400
     error_log($exception);
 });
 
 $bot->run();
 ```
+
+</TabItem>
+<TabItem value="too_many_requests" label="Too many requests">
+
+```php
+use SergiX44\Nutgram\Nutgram;
+use SergiX44\Nutgram\Telegram\Exceptions\TelegramException;
+
+$bot = new Nutgram($_ENV['TOKEN']);
+
+$bot->onMessage(function (Nutgram $bot) {
+    foreach(range(1,200) as $i){
+        $bot->sendMessage('Too many calls!');
+    }
+});
+
+$bot->onApiError(function (Nutgram $bot, TelegramException $exception) {
+    echo $exception->getMessage(); // Too Many Requests: retry after 14
+    echo $exception->getCode(); // 429
+    echo $exception->getParameters(); // ['retry_after' => 14]
+    echo $exception->getParameter('retry_after'); // 14
+    echo $exception->hasParameter('retry_after'); // true
+    error_log($exception);
+});
+
+$bot->run();
+```
+
+</TabItem>
+</Tabs>
+
+
+
 
 Like the `onException`, the handler support a regex matching the text returned by the telegram api:
 
