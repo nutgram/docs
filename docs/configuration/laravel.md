@@ -104,6 +104,20 @@ The framework automatically register some useful commands in your Laravel applic
 - `nutgram:logout {--d|drop-pending-updates}`
   - Log out from the cloud Bot API server
 
+## Log channel
+Nutgram provides a channel to log any data you want to a Telegram chat. 
+To use it, you need to create the `telegram` channel inside the `config/logger.php` file:
+
+```php
+// config/logger.php
+
+'telegram' => [
+    'driver' => 'custom',
+    'via' => \SergiX44\Nutgram\Laravel\Log\NutgramLogger::class,
+    'level' => 'debug',
+    'chat_id' => env('NUTGRAM_LOG_CHAT_ID'), // any chat_id where bot can write messages
+]
+```
 
 ## Handlers definition
 
