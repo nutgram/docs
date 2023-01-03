@@ -109,8 +109,6 @@ Nutgram provides a channel to log any data you want to a Telegram chat.
 To use it, you need to create the `telegram` channel inside the `config/logger.php` file:
 
 ```php
-// config/logger.php
-
 'telegram' => [
     'driver' => 'custom',
     'via' => \SergiX44\Nutgram\Laravel\Log\NutgramLogger::class,
@@ -118,6 +116,15 @@ To use it, you need to create the `telegram` channel inside the `config/logger.p
     'chat_id' => env('NUTGRAM_LOG_CHAT_ID'), // any chat_id where bot can write messages
 ]
 ```
+
+Now, you can log any data to the chat using the `telegram` channel:
+
+```php
+Log::channel('telegram')->info('Hello world!', ['xyz' => 123]);
+```
+
+#### Output:
+![logger](https://i.imgur.com/Gph2XmO.png)
 
 ## Handlers definition
 
