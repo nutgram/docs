@@ -370,6 +370,7 @@ Here a full list of all the handler that listens to specific type of updates:
 ## Specific & Special Handlers
 
 ### `onCommand`
+For the implicit style see the [`registerCommand`](#registercommand) section.
 
 It's possible to handle to specific commands, also with named parameters:
 
@@ -419,6 +420,63 @@ $bot->registerMyCommands();
 And the result will be:
 
 ![commands](https://i.imgur.com/65ofrw7.png)
+
+### `registerCommand`
+
+A different and clean way to register commands implicitly.
+
+
+```php
+// 1. create a command class like "StartCommand.php":
+
+namespace App\Telegram\Commands;
+
+use SergiX44\Nutgram\Handlers\Type\Command;
+use SergiX44\Nutgram\Nutgram;
+
+class StartCommand extends Command
+{
+    protected string $command = 'start';
+
+    protected ?string $description = 'A lovely start command';
+
+    public function handle(Nutgram $bot): void
+    {
+        $bot->sendMessage('Hello there!');
+    }
+}
+
+// 2. Register StartCommand
+
+$bot->registerCommand(StartCommand::class);
+
+```
+
+You can also explicitly set a command as hidden overriding the `isHidden` method adding your logic:
+
+```php
+namespace App\Telegram\Commands;
+
+use SergiX44\Nutgram\Handlers\Type\Command;
+use SergiX44\Nutgram\Nutgram;
+
+class HiddenCommand extends Command
+{
+    protected string $command = 'hidden';
+
+    protected ?string $description = 'A super secret command';
+
+    public function handle(Nutgram $bot): void
+    {
+        $bot->sendMessage('Shhh!');
+    }
+
+    public function isHidden(): bool
+    {
+        return true:
+    }
+}
+```
 
 ### `onText`
 
