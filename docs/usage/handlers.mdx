@@ -452,6 +452,32 @@ $bot->registerCommand(StartCommand::class);
 
 ```
 
+You can also explicitly set a command as hidden overriding the `isHidden` method, and add you logic:
+
+```php
+namespace App\Telegram\Commands;
+
+use SergiX44\Nutgram\Handlers\Type\Command;
+use SergiX44\Nutgram\Nutgram;
+
+class HiddenCommand extends Command
+{
+    protected string $command = 'hidden';
+
+    protected ?string $description = 'A super secret command';
+
+    public function handle(Nutgram $bot): void
+    {
+        $bot->sendMessage('Shhh!');
+    }
+
+    public function isHidden(): bool
+    {
+        return true:
+    }
+}
+```
+
 ### `onText`
 
 For text messages, is possible also put parameters to match a regex, or to match part of text:
