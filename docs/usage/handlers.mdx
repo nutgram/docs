@@ -543,15 +543,11 @@ $bot = new Nutgram($_ENV['TOKEN']);
 
 $bot->onCommand('start', function (Nutgram $bot) {
     $bot->sendMessage('Choose an option:', [
-        'reply_markup' => json_encode([
-            'inline_keyboard' => [
-                [
-                    ['text' => 'One', 'callback_data' => 'one'],
-                    ['text' => 'Two', 'callback_data' => 'two'],
-                    ['text' => 'Cancel', 'callback_data' => 'cancel'],
-                ],
-            ],
-        ])
+        'reply_markup' => InlineKeyboardMarkup::make()->addRow(
+            InlineKeyboardButton::make('One', callback_data: 'one'),
+            InlineKeyboardButton::make('Two', callback_data: 'two'),
+            InlineKeyboardButton::make('Cancel', callback_data: 'cancel'),
+        )
     ]);
 });
 
@@ -575,15 +571,11 @@ $bot = new Nutgram($_ENV['TOKEN']);
 
 $bot->onCommand('start', function (Nutgram $bot) {
     $bot->sendMessage('Choose an option:', [
-        'reply_markup' => json_encode([
-            'inline_keyboard' => [
-                [
-                    ['text' => 'One', 'callback_data' => 'number 1'],
-                    ['text' => 'Two', 'callback_data' => 'number 2'],
-                    ['text' => 'Cancel', 'callback_data' => 'cancel'],
-                ],
-            ],
-        ])
+        'reply_markup' => InlineKeyboardMarkup::make()->addRow(
+            InlineKeyboardButton::make('One', callback_data: 'number 1'),
+            InlineKeyboardButton::make('Two', callback_data: 'number 2'),
+            InlineKeyboardButton::make('Cancel', callback_data: 'cancel'),
+        )
     ]);
 });
 
