@@ -19,11 +19,15 @@ $bot->onCommand('start', function(Nutgram $bot){
 });
 
 $bot->onCallbackQueryData('type:a', function(Nutgram $bot){
-    $bot->answerCallbackQuery('You selected A');
+    $bot->answerCallbackQuery([
+        'text' => 'You selected A'
+    ]);
 });
 
 $bot->onCallbackQueryData('type:b', function(Nutgram $bot){
-    $bot->answerCallbackQuery('You selected B');
+    $bot->answerCallbackQuery([
+        'text' => 'You selected B'
+    ]);
 });
 ```
 
