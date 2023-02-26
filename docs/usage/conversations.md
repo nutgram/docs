@@ -319,3 +319,39 @@ $bot->onCommand('start', function (Nutgram $bot) {
 
 $bot->run();
 ```
+
+## Rehydrate a Conversation
+
+If you want to enable the rehydration of a conversation, you can use the `Conversation::refreshOnDeserialize()` method:
+
+```php
+
+use SergiX44\Nutgram\Conversations\Conversation;
+use SergiX44\Nutgram\Nutgram;
+
+class MyConversation extends Conversation 
+{
+    protected ?Message $message = null;
+
+    public function start(Nutgram $bot)
+    {
+        $this->message = $bot->sendMessage('This is the first step!');
+        $this->next('secondStep');
+    }
+
+    public function secondStep(Nutgram $bot)
+    {
+        // `$this->message` will be available here!
+        $bot->sendMessage('Bye!');
+        $this->end();
+    }
+}
+
+$bot = new Nutgram($_ENV['TOKEN']);
+
+Conversation::refreshOnDeserialize();
+
+$bot->onCommand('start', MyConversation::class);
+
+$bot->run();
+```
