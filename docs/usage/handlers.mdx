@@ -890,11 +890,38 @@ If you need to persist data on disk, be sure to choose an appropriate cache adap
 
 ### Available methods
 
-| Method                                                        | Return type                                                        |
-|---------------------------------------------------------------|--------------------------------------------------------------------|
-| `getGlobalData($key, $default = null)`                        | The data associated to the `$key`, if null `$default` is returned. |
-| `setGlobalData($key, $value, $ttl = null)`                    | `bool`                                                             |
-| `deleteGlobalData($key)`                                      | `bool`                                                             |
-| `getUserData($key, ?int $userId = null, $default = null)`     | The data associated to the `$key`, if null `$default` is returned. |
-| `setUserData($key, $value, ?int $userId = null, $ttl = null)` | `bool`                                                             |
-| `deleteUserData($key, ?int $userId = null)`                   | `bool`                                                             |
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GLOBALLY-brightgreen"/>&nbsp;
+    <code>getGlobalData($key, $default = null)</code><br/>
+    Returns the data associated to the <code>$key</code>, if null <code>$default</code> is returned.
+</div>
+
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GLOBALLY-brightgreen"/>&nbsp;
+    <code>setGlobalData($key, $value, DateInterval|int|null $ttl = null)</code><br/>
+    Returns <code>bool</code>
+</div>
+
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GLOBALLY-brightgreen"/>&nbsp;
+    <code>deleteGlobalData($key)</code><br/>
+    Returns <code>bool</code>
+</div>
+
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-PER--USER-blue"/>&nbsp;
+    <code>getUserData($key, ?int $userId = null, $default = null)</code><br/>
+    Returns the data associated to the <code>$key</code>, if null <code>$default</code> is returned.
+</div>
+
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-PER--USER-blue"/>&nbsp;
+    <code>setUserData($key, $value, ?int $userId = null, DateInterval|int|null $ttl = null)</code><br/>
+    Returns <code>bool</code>
+</div>
+
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-PER--USER-blue"/>&nbsp;
+    <code>deleteUserData($key, ?int $userId = null)</code><br/>
+    Returns <code>bool</code>
+</div>
