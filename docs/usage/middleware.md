@@ -244,6 +244,55 @@ $bot->onCommand('add_image', AddImageCommand::class)
 $bot->run();
 ```
 
+## Grouping
+
+You can group middlewares, using the `group` method:
+
+```php
+// before:
+$bot->onCommand('start', StartCommand::class);
+$bot->onCommand('help', HelpCommand::class);
+
+$bot->onCommand('mute', MuteCommand::class)->middleware(IsAdmin::class);
+$bot->onCommand('kick', KickCommand::class)->middleware(IsAdmin::class);
+$bot->onCommand('ban', BanCommand::class)->middleware(IsAdmin::class);
+$bot->onCommand('unban', UnbanCommand::class)->middleware(IsAdmin::class);
+
+// after:
+$bot->onCommand('start', StartCommand::class);
+$bot->onCommand('help', HelpCommand::class);
+
+$bot->group(IsAdmin::class, function (Nutgram $bot){
+    $bot->onCommand('mute', MuteCommand::class);
+    $bot->onCommand('kick', KickCommand::class);
+    $bot->onCommand('ban', BanCommand::class);
+    $bot->onCommand('unban', UnbanCommand::class);
+});
+```
+
+### How to use the group method
+
+```php
+// single middleware
+$bot->group(Middleware::class, function (Nutgram $bot){
+    // Your handlers here
+});
+
+// multiple middlewares
+$bot->group([Middleware1::class, Middleware2::class], function (Nutgram $bot){
+    // Your handlers here
+});
+
+// nested middlewares
+$bot->group(Middleware1::class, function (Nutgram $bot){
+    // Your handlers here
+
+    $bot->group(Middleware2::class, function (Nutgram $bot){
+        // Your handlers here
+    });
+});
+```
+
 ## Flow
 The global middlewares are executed in descending order.
 The handlers middlewares are executed in **ascending** order. 
@@ -253,14 +302,16 @@ use SergiX44\Nutgram\Nutgram;
 
 $bot = new Nutgram($_ENV['TOKEN']);
 
-// global middlewares
-$bot->middleware(MiddlewareA::class);           // 1°
-$bot->middleware(MiddlewareB::class);           // 2°
+$bot->middleware(MiddlewareA::class);    // 1°
+$bot->middleware(MiddlewareB::class);    // 2°
 
-// handlers
-$bot->onCommand('start', StartCommand::class)   // 5°
-    ->middleware(MiddlewareC::class)            // 4°
-    ->middleware(MiddlewareD::class);           // 3°
+$bot->group([MiddlewareC::class, MiddlewareD::class], function (Nutgram $bot){    // 3°, 4°
+    $bot->group(MiddlewareE::class, function (Nutgram $bot){    // 5°
+        $bot->onCommand('start', StartCommand::class)   // 8°
+             ->middleware(MiddlewareF::class)     // 7°
+             ->middleware(MiddlewareG::class);    // 6°
+    });
+});
 
 $bot->run();
 ```
@@ -270,7 +321,9 @@ In the example above, the sequence of the calls is
 ```mermaid
 graph LR
     MiddlewareA-->MiddlewareB
-    MiddlewareB-->MiddlewareD
-    MiddlewareD-->MiddlewareC
-    MiddlewareC-->StartCommand
+    MiddlewareB-->MiddlewareC
+    MiddlewareC-->MiddlewareD
+    MiddlewareD-->MiddlewareE
+    MiddlewareE-->MiddlewareG
+    MiddlewareG-->MiddlewareF
 ```
