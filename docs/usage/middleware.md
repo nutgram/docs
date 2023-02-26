@@ -205,6 +205,45 @@ $bot->onCommand('start {param}', MyCommand::class)
 $bot->run();
 ```
 
+### Parameters
+
+You can pass parameters to the middlewares, just using the class constructor:
+
+```php
+
+use SergiX44\Nutgram\Nutgram;
+use App\Telegram\Commands\AddChannelCommand;
+use App\Telegram\Commands\AddImageCommand;
+use App\Telegram\Middleware\CheckUserPermission;
+
+class CheckUserPermission 
+{
+    protected string $permission;
+    
+    public function __construct(string $permission)
+    {
+        $this->permission = $permission;
+    }
+    
+    public function __invoke(Nutgram $bot, $next): void
+    {
+        //check if user has permssion using $this->permission
+
+        $next($bot);
+    }
+}
+
+$bot = new Nutgram($_ENV['TOKEN']);
+
+$bot->onCommand('add_channel', AddChannelCommand::class)
+    ->middleware(new CheckUserPermission('can_add_channel'));
+
+$bot->onCommand('add_image', AddImageCommand::class)
+    ->middleware(new CheckUserPermission('can_add_image'));
+
+$bot->run();
+```
+
 ## Flow
 The global middlewares are executed in descending order.
 The handlers middlewares are executed in **ascending** order. 
