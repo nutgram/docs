@@ -32,6 +32,7 @@ const sidebars = {
                 'configuration/cache',
                 'configuration/logging',
                 'configuration/laravel',
+                'configuration/symfony',
             ],
         },
         {

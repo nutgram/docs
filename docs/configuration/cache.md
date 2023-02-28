@@ -16,9 +16,11 @@ Without configuring a cache adapter accordingly, feature like global or per-user
 ## Configuration
 
 :::tip
-If you are using Laravel, you can skip this section, since the service provider automatically inject the Laravel cache repository for you.
+If you are using Laravel or Symfony frameworks, you can skip this section, but take a look at the corresponding section
+for your framework:
 
-[Check out the Laravel integration page](laravel.md)
+- [Laravel](laravel.md#cache)
+- [Symfony](symfony.md#cache)
 :::
 
 To specify a different cache adapter, you need to pass the instance at the bot instantiation. The following example, we

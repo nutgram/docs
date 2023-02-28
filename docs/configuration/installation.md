@@ -1,5 +1,5 @@
 ---
-sidebar_position: 1
+sidebar_position: 4
 ---
 
 # Installation
@@ -11,6 +11,14 @@ You can install the package as usual via Composer:
 ```bash
 composer require nutgram/nutgram
 ```
+
+:::tip
+If you are using Laravel or Symfony frameworks, be sure to read their dedicated pages for a better
+development experience.
+
+- [Laravel](laravel.md)
+- [Symfony](symfony.md)
+:::
 
 ## Configuration
 
@@ -47,14 +55,15 @@ Here a list of all the options you can specify:
 
 - **type:** string
 - **default:** `null`
-- Useful when the bot is a group bot (with [Group Privacy](https://core.telegram.org/bots/features#privacy-mode) **disabled**) and you need to specify the bot name.
+- Useful when the bot is a group bot (with [Group Privacy](https://core.telegram.org/bots/features#privacy-mode) *
+  *disabled**) and you need to specify the bot name.
 
 ### `is_local`
 
 - **type:** boolean
 - **default:** `false`
 - Enable the local mode when used along a self-hosted Telegram Bot API server.<br/>
-_Nutgram will copy the file from your Telegram Bot API server instead downloading it._
+  _Nutgram will copy the file from your Telegram Bot API server instead downloading it._
 
 ### `local_path_transformer`
 
@@ -99,11 +108,12 @@ _Nutgram will copy the file from your Telegram Bot API server instead downloadin
 - **type:** boolean
 - **default:** `false`
 - Split long text message to multiple messages.<br/>
-This is useful when you want to send a message longer than the maximum length allowed by Telegram.<br/>
-Available only with the `sendMessage` method. (It will returns an array of Message)<br/>
-Optional `reply_markup` parameter will be sent on last message.
+  This is useful when you want to send a message longer than the maximum length allowed by Telegram.<br/>
+  Available only with the `sendMessage` method. (It will returns an array of Message)<br/>
+  Optional `reply_markup` parameter will be sent on last message.
 
-### `logger` 
+### `logger`
+
 - **type:** `Psr\Log\LoggerInterface`
 - **default:** `Psr\Log\NullLogger`
 - The logger used to log debug http requests.<br/>
@@ -113,10 +123,12 @@ Optional `reply_markup` parameter will be sent on last message.
 
 To enable IDE autocompletion, you can install the following plugin on your IDE:
 
-
 ### Plugin
+
 - Jetbrains [deep-assoc-completion](https://plugins.jetbrains.com/plugin/9927-deep-assoc-completion)
-- Visual Studio Code [deep-assoc-completion-vscode](https://marketplace.visualstudio.com/items?itemName=klesun.deep-assoc-completion-vscode)
+- Visual Studio
+  Code [deep-assoc-completion-vscode](https://marketplace.visualstudio.com/items?itemName=klesun.deep-assoc-completion-vscode)
 
 ### Preview
+
 ![IDE autocompletion](https://i.imgur.com/mnsLRsZ.gif)
