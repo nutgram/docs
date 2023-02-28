@@ -80,3 +80,11 @@ It empties all the internal caches.
 ### `getRequestHistory()`
 
 Returns an associative array with the request generated  by the bot, and the mocked response.
+
+### `setCommonUser(User $user)`
+
+Sets a common user that will be used in all the mocked updates.
+
+### `setCommonChat(Chat $chat)`
+
+Sets a common chat that will be used in all the mocked updates.

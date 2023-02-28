@@ -1,8 +1,8 @@
 ---
-sidebar_position: 3
+sidebar_position: 4
 ---
 
-# Laravel Integration
+# Laravel
 
 If you are using the Laravel framework, much of the setup is handled automatically for you. First, you should install
 the package via composer as usual (see [the installation page](installation.md#composer))
@@ -104,8 +104,14 @@ The framework automatically register some useful commands in your Laravel applic
 - `nutgram:logout {--d|drop-pending-updates}`
   - Log out from the cloud Bot API server
 
-## Log channel
-Nutgram provides a channel to log any data you want to a Telegram chat. 
+# Cache
+
+The cache adapter gets automatically configured by Laravel; make sure to configure the appropriate driver inside your
+`config/cache.php` and `.env` file.
+
+## Logging
+
+The framework provides a channel to log any data you want to a Telegram chat. 
 To use it, you need to create the `telegram` channel inside the `config/logger.php` file:
 
 ```php

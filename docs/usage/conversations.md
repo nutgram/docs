@@ -319,3 +319,110 @@ $bot->onCommand('start', function (Nutgram $bot) {
 
 $bot->run();
 ```
+
+## Advanced
+
+### Define attribute serialization behaviour
+
+By default, any attribute in you conversation call that is set as `private` will not be serialised, so it will not get
+carried to the next conversation step:
+
+```php
+
+use SergiX44\Nutgram\Conversations\Conversation;
+use SergiX44\Nutgram\Nutgram;
+
+class MyConversation extends Conversation 
+{
+    private ?Message $message = null;
+
+    public function start(Nutgram $bot)
+    {
+        $this->message = $bot->sendMessage('This is the first step!');
+        $this->next('secondStep');
+    }
+
+    public function secondStep(Nutgram $bot)
+    {
+        // `$this->message` will be null
+    }
+    
+}
+
+```
+
+This is especially useful when you are dealing with object that are not serializable, such closures and anything
+related to it.
+
+However, is possible to override this behaviour by defining the `getSerializableAttributes`:
+```php
+
+use SergiX44\Nutgram\Conversations\Conversation;
+use SergiX44\Nutgram\Nutgram;
+
+class MyConversation extends Conversation 
+{
+    private ?Message $message = null;
+
+    protected function getSerializableAttributes(): array
+    {
+        return [
+            'message' => $this->message,
+        ];
+    }
+    
+    public function start(Nutgram $bot)
+    {
+        $this->message = $bot->sendMessage('This is the first step!');
+        $this->next('secondStep');
+    }
+
+    public function secondStep(Nutgram $bot)
+    {
+        // `$this->message` is available!
+    }
+    
+}
+
+```
+
+### Refreshing deserialized conversations
+
+This is useful when you are leveraging on some kind IoC container (for example by using the Laravel or Symfony packages)
+to inject services inside your conversation, that are not serializable.
+
+The framework can refresh and re-inject automatically those instances automatically when a conversation is deserialized;
+You can activate this feature by calling the static method `Conversation::refreshOnDeserialize()`.
+
+```php
+
+use SergiX44\Nutgram\Conversations\Conversation;
+use SergiX44\Nutgram\Nutgram;
+
+class MyConversation extends Conversation 
+{
+    private \MyService $service;
+    
+    public function __construct(\MyService $service) { // called when the conversation is deserialized
+        $this->service = $service;
+    }
+
+    public function start(Nutgram $bot)
+    {
+        // $this->service is available
+    }
+
+    public function secondStep(Nutgram $bot)
+    {
+        // $this->service is also available!
+    }
+}
+
+$bot = new Nutgram($_ENV['TOKEN']);
+
+Conversation::refreshOnDeserialize();
+
+$bot->onCommand('start', MyConversation::class);
+
+$bot->run();
+```

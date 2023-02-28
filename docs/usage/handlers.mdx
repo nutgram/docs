@@ -366,6 +366,16 @@ Here a full list of all the handler that listens to specific type of updates:
     <code>onApiError($callable)</code><br/>
     This handler will be called every time a call to Telegram's api fails, if undefined the exception will not be caught.<br/>Check the next paragraph for more details.
 </div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-SPECIAL-yellow"/>&nbsp;
+    <code>beforeApiRequest($callable)</code><br/>
+    This handler will be called before every call to Telegram's api, if undefined the call will be made without any modification.<br/>Check the next paragraph for more details.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-SPECIAL-yellow"/>&nbsp;
+    <code>afterApiRequest($callable)</code><br/>
+    This handler will be called after every call to Telegram's api, if undefined the call will be made without any modification.<br/>Check the next paragraph for more details.
+</div>
 
 ## Specific & Special Handlers
 
@@ -778,6 +788,50 @@ $bot->onApiError('user(.*)deactivated', function (Nutgram $bot, TelegramExceptio
 $bot->run();
 ```
 
+### `beforeApiRequest`
+
+This handler, if defined, will be called before every outgoing request, passing the `$request` as second argument:
+
+```php
+use SergiX44\Nutgram\Nutgram;
+
+$bot = new Nutgram($_ENV['TOKEN']);
+
+$bot->beforeApiRequest(function (Nutgram $bot, array $request) {
+    // print a value from the request
+    echo $request['json']['text'];
+
+    // modify the request
+    $request['json']['text'] = 'Modified!';
+
+    return $request;
+});
+
+$bot->run();
+```
+
+### `afterApiRequest`
+
+This handler, if defined, will be called after every outgoing request, passing the `$response` as second argument:
+
+```php
+use SergiX44\Nutgram\Nutgram;
+
+$bot = new Nutgram($_ENV['TOKEN']);
+
+$bot->afterApiRequest(function (Nutgram $bot, object $response) {
+    // print a value from the response
+    echo $response->result->text;
+
+    // modify the response
+    $response->result->text = 'Modified!';
+
+    return $response;
+});
+
+$bot->run();
+```
+
 ## OOP
 
 So far you have seen handlers defined only as closures. But the framework, any definition that accepts a `$callable`, also
@@ -890,11 +944,38 @@ If you need to persist data on disk, be sure to choose an appropriate cache adap
 
 ### Available methods
 
-| Method                                                        | Return type                                                        |
-|---------------------------------------------------------------|--------------------------------------------------------------------|
-| `getGlobalData($key, $default = null)`                        | The data associated to the `$key`, if null `$default` is returned. |
-| `setGlobalData($key, $value, $ttl = null)`                    | `bool`                                                             |
-| `deleteGlobalData($key)`                                      | `bool`                                                             |
-| `getUserData($key, ?int $userId = null, $default = null)`     | The data associated to the `$key`, if null `$default` is returned. |
-| `setUserData($key, $value, ?int $userId = null, $ttl = null)` | `bool`                                                             |
-| `deleteUserData($key, ?int $userId = null)`                   | `bool`                                                             |
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GLOBALLY-brightgreen"/>&nbsp;
+    <code>getGlobalData($key, $default = null)</code><br/>
+    Returns the data associated to the <code>$key</code>, if null <code>$default</code> is returned.
+</div>
+
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GLOBALLY-brightgreen"/>&nbsp;
+    <code>setGlobalData($key, $value, DateInterval|int|null $ttl = null)</code><br/>
+    Returns <code>bool</code>
+</div>
+
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GLOBALLY-brightgreen"/>&nbsp;
+    <code>deleteGlobalData($key)</code><br/>
+    Returns <code>bool</code>
+</div>
+
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-PER--USER-blue"/>&nbsp;
+    <code>getUserData($key, ?int $userId = null, $default = null)</code><br/>
+    Returns the data associated to the <code>$key</code>, if null <code>$default</code> is returned.
+</div>
+
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-PER--USER-blue"/>&nbsp;
+    <code>setUserData($key, $value, ?int $userId = null, DateInterval|int|null $ttl = null)</code><br/>
+    Returns <code>bool</code>
+</div>
+
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-PER--USER-blue"/>&nbsp;
+    <code>deleteUserData($key, ?int $userId = null)</code><br/>
+    Returns <code>bool</code>
+</div>
