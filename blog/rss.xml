@@ -4,10 +4,23 @@
         <title>Nutgram Blog</title>
         <link>https://nutgram.dev/blog</link>
         <description>Nutgram Blog</description>
-        <lastBuildDate>Sun, 06 Mar 2022 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Tue, 28 Feb 2023 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <language>en</language>
+        <item>
+            <title><![CDATA[Nutgram 🤝 Symfony]]></title>
+            <link>https://nutgram.dev/blog/symfony-support</link>
+            <guid>symfony-support</guid>
+            <pubDate>Tue, 28 Feb 2023 00:00:00 GMT</pubDate>
+            <description><![CDATA[We are excited to announce that a new bundle is now available for developers using Symfony with Nutgram! 🥳 The bundle]]></description>
+            <content:encoded><![CDATA[<p>We are excited to announce that a new bundle is now available for developers using Symfony with Nutgram! 🥳 The bundle
+provides seamless integration with Symfony and unlocks new features and
+functionality for developers to create even more powerful and customizable bots. We believe this addition will enhance
+the development experience for our community and look forward to seeing what our users will create with this new tool.</p><p><a href="/blog/docs/configuration/symfony">Check out the new documentation page 🗄</a></p>]]></content:encoded>
+            <category>nutgram</category>
+            <category>symfony</category>
+        </item>
         <item>
             <title><![CDATA[Hello World!]]></title>
             <link>https://nutgram.dev/blog/hello-world</link>

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunknutgram_docs=self.webpackChunknutgram_docs||[]).push([[9701],{77272:function(e){e.exports=JSON.parse('{"title":"Usage","slug":"/category/usage","permalink":"/docs/category/usage","navigation":{"previous":{"title":"Symfony","permalink":"/docs/configuration/symfony"},"next":{"title":"Getting Updates","permalink":"/docs/usage/getting_updates"}}}')}}]);

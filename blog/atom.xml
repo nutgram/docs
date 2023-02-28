@@ -2,11 +2,28 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://nutgram.dev/blog</id>
     <title>Nutgram Blog</title>
-    <updated>2022-03-06T00:00:00.000Z</updated>
+    <updated>2023-02-28T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://nutgram.dev/blog"/>
     <subtitle>Nutgram Blog</subtitle>
     <icon>https://nutgram.dev/img/favicon.ico</icon>
+    <entry>
+        <title type="html"><![CDATA[Nutgram 🤝 Symfony]]></title>
+        <id>symfony-support</id>
+        <link href="https://nutgram.dev/blog/symfony-support"/>
+        <updated>2023-02-28T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[We are excited to announce that a new bundle is now available for developers using Symfony with Nutgram! 🥳 The bundle]]></summary>
+        <content type="html"><![CDATA[<p>We are excited to announce that a new bundle is now available for developers using Symfony with Nutgram! 🥳 The bundle
+provides seamless integration with Symfony and unlocks new features and
+functionality for developers to create even more powerful and customizable bots. We believe this addition will enhance
+the development experience for our community and look forward to seeing what our users will create with this new tool.</p><p><a href="/blog/docs/configuration/symfony">Check out the new documentation page 🗄</a></p>]]></content>
+        <author>
+            <name>Sergio Brighenti</name>
+            <uri>https://github.com/sergix44</uri>
+        </author>
+        <category label="nutgram" term="nutgram"/>
+        <category label="symfony" term="symfony"/>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Hello World!]]></title>
         <id>hello-world</id>
