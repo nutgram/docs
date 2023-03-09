@@ -165,15 +165,17 @@ namespace App\Controller;
 
 use SergiX44\Nutgram\Nutgram;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class FrontController extends AbstractController
 {
     #[Route('/hook', name: 'app_webhook')]
-    public function hook(Nutgram $bot): void
+    public function hook(Nutgram $bot): Response
     {
         $bot->run();
+        
+        return new Response();
     }
 }
 ```
