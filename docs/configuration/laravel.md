@@ -112,7 +112,7 @@ The cache adapter gets automatically configured by Laravel; make sure to configu
 ## Logging
 
 The framework provides a channel to log any data you want to a Telegram chat. 
-To use it, you need to create the `telegram` channel inside the `config/logger.php` file:
+To use it, you need to create the `telegram` channel inside the `config/logging.php` file:
 
 ```php
 'telegram' => [
