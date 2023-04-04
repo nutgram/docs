@@ -832,6 +832,83 @@ $bot->afterApiRequest(function (Nutgram $bot, object $response) {
 $bot->run();
 ```
 
+## Handlers Priority
+
+:::caution
+
+If you declare <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-SPECIFIC-blue"/> handlers, 
+they will block the execution of <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/> handlers.<br/>
+**Please keep this in mind when using Nutgram.**
+
+:::
+
+Some examples to clarify this:
+
+<Tabs>
+<TabItem value="text" label="Text" default>
+
+```php
+// Input text: something
+
+// Specific handler: ✅ it will be executed!
+$bot->onText('something', SomethingHandler::class);
+
+// Generic handler: ❌ it will not be executed!
+$bot->onMessageType(MessageTypes::TEXT, MessageTypeTextHandler::class);
+
+// Generic handler: ❌ it will not be executed!
+$bot->onMessage(MessageHandler::class);
+```
+    
+</TabItem>
+
+<TabItem value="successful_payment" label="SuccessfulPayment">
+
+```php
+// Input payload: donation
+
+// Specific handler: ✅ it will be executed!
+$bot->onSuccessfulPaymentPayload('donation', DonationHandler::class);
+
+// Generic handler: ❌ it will not be executed!
+$bot->onSuccessfulPayment(SuccessfulPaymentHandler::class);
+```
+
+</TabItem>
+
+<TabItem value="callback_query" label="CallbackQuery">
+
+```php
+// Input payload: mydata
+
+// Specific handler: ✅ it will be executed!
+$bot->onCallbackQueryData('mydata', MyDataHandler::class);
+
+// Generic handler: ❌ it will not be executed!
+$bot->onCallbackQuery(CallbackQueryHandler::class);
+```
+
+</TabItem>
+
+<TabItem value="pre_checkout_query" label="PreCheckoutQuery">
+
+```php
+// Input payload: mydata
+
+// Specific handler: ✅ it will be executed!
+$bot->onPreCheckoutQueryPayload('mydata', MyDataHandler::class);
+
+// Generic handler: ❌ it will not be executed!
+$bot->onPreCheckoutQuery(PreCheckoutQueryHandler::class);
+```
+
+</TabItem>
+
+</Tabs>
+
+
+
+
 ## OOP
 
 So far you have seen handlers defined only as closures. But the framework, any definition that accepts a `$callable`, also
