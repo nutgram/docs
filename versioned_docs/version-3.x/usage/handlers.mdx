@@ -1,0 +1,1183 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Handlers
+
+## Concept
+
+The framework provides to you a nice API event-like to handling incoming updates:
+
+```php
+use SergiX44\Nutgram\Nutgram;
+
+$bot = new Nutgram($_ENV['TOKEN']);
+
+$bot->onMessage(function (Nutgram $bot) {
+    $bot->sendMessage('You sent a message!');
+});
+
+$bot->run();
+```
+
+Every `->on*` handler is called based on the update type defined
+in [Telegram's update object](https://core.telegram.org/bots/api#update), there are also some specific handlers, which
+may respond based on specific patterns or types of messages.
+
+As you can also see from the example above, some required parameters (like the `chat_id`) can be **omitted**, while the
+bot is in the context of managing an update, so those fields **are automatically extracted from the current update**.
+
+Of course, **you can override them at any time**, simply by specifying them in the `$opt` array.
+
+## Available Handlers
+
+Here a full list of all the handler that listens to specific type of updates:
+
+### Update Handlers
+
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onMessage($callable)</code><br/>
+    Handles any incoming message.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-SPECIFIC-blue"/>&nbsp;
+    <code>onMessageType(string $type, $callable)</code><br/>
+    Handles messages defined by type.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onEditedMessage($callable)</code><br/>
+    Handles any incoming edited message.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onChannelPost($callable)</code><br/>
+    Handles any message posted in a channel where the bot is administrator.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onEditedChannelPost($callable)</code><br/>
+    Handles any message edited in a channel where the bot is administrator.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onInlineQuery($callable)</code><br/>
+    Handles any incoming inline query.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onChosenInlineResult($callable)</code><br/>
+    Handles any incoming chosen inline result.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onCallbackQuery($callable)</code><br/>
+    Handles any incoming callback query.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-SPECIFIC-blue"/>&nbsp;
+    <code>onCallbackQueryData(string $pattern, $callable)</code><br/>
+    Handles callback query with a specific pattern, similar to `onText`.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onShippingQuery($callable)</code><br/>
+    Handles any incoming shipping query.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onPreCheckoutQuery($callable)</code><br/>
+    Handles any incoming pre checkout query.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-SPECIFIC-blue"/>&nbsp;
+    <code>onPreCheckoutQueryPayload(string $pattern, $callable)</code><br/>
+    Handles any incoming pre checkout query with a specific payload pattern.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onPoll($callable)</code>&nbsp;
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-DEPRECATED%20in%203.9.0-red"/><br/>
+    Handles any incoming poll.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onUpdatePoll($callable)</code><br/>
+    Handles any incoming poll.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onPollAnswer($callable)</code><br/>
+    Handles any incoming poll answer.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onMyChatMember($callable)</code><br/>
+    Handles any chat member when updated.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onChatMember($callable)</code><br/>
+    Handles any chat member in other chats when updated.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onChatJoinRequest($callable)</code><br/>
+    Handles any chat join request.
+</div>
+
+### Message Handlers
+
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-SPECIFIC-blue"/>&nbsp;
+    <code>onText(string $pattern, $callable)</code><br/>
+    Handles text messages that match the given pattern (regex or parameters).
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-SPECIFIC-blue"/>&nbsp;
+    <code>onCommand(string $command, $callable)</code><br/>
+    Handles text messages that begin with `/`.<br/>Automatically parses commands like `cmd@botname`.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onAnimation($callable)</code><br/>
+    Handles animation messages
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onAudio($callable)</code><br/>
+    Handles audio messages.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onDocument($callable)</code><br/>
+    Handles document messages.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onPhoto($callable)</code><br/>
+    Handles photo messages.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onSticker($callable)</code><br/>
+    Handles sticker messages.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onVideo($callable)</code><br/>
+    Handles video messages.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onVideoNote($callable)</code><br/>
+    Handles video_note messages.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onVoice($callable)</code><br/>
+    Handles voice messages.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onContact($callable)</code><br/>
+    Handles contact messages.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onDice($callable)</code><br/>
+    Handles dice messages.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onGame($callable)</code><br/>
+    Handles game messages.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onMessagePoll($callable)</code><br/>
+    Handles poll messages.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onVenue($callable)</code><br/>
+    Handles venue messages.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onLocation($callable)</code><br/>
+    Handles location messages.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onNewChatMembers($callable)</code><br/>
+    Handles new_chat_members messages.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onLeftChatMember($callable)</code><br/>
+    Handles left_chat_member messages.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onNewChatTitle($callable)</code><br/>
+    Handles new_chat_title messages.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onNewChatPhoto($callable)</code><br/>
+    Handles new_chat_photo messages.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onDeleteChatPhoto($callable)</code><br/>
+    Handles delete_chat_photo messages.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onGroupChatCreated($callable)</code><br/>
+    Handles group_chat_created messages.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onSupergroupChatCreated($callable)</code><br/>
+    Handles supergroup_chat_created messages.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onChannelChatCreated($callable)</code><br/>
+    Handles channel_chat_created messages.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onMessageAutoDeleteTimerChanged($callable)</code><br/>
+    Handles message_auto_delete_timer_changed messages.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onMigrateToChatId($callable)</code><br/>
+    Handles migrate_to_chat_id messages.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onMigrateFromChatId($callable)</code><br/>
+    Handles migrate_from_chat_id messages.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onPinnedMessage($callable)</code><br/>
+    Handles pinned_message messages.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onInvoice($callable)</code><br/>
+    Handles invoice messages.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onSuccessfulPayment($callable)</code><br/>
+    Handles successful_payment messages.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-SPECIFIC-blue"/>&nbsp;
+    <code>onSuccessfulPaymentPayload(string $pattern, $callable)</code><br/>
+    Handles successful_payment messages with a specific payload pattern.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onConnectedWebsite($callable)</code><br/>
+    Handles connected_website messages.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onPassportData($callable)</code><br/>
+    Handles any incoming passport data messages.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onProximityAlertTriggered($callable)</code><br/>
+    Handles proximity_alert_triggered messages.
+</div>
+
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onForumTopicCreated($callable)</code><br/>
+    Handles any forum topic created.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onForumTopicClosed($callable)</code><br/>
+    Handles any forum topic closed.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onForumTopicReopened($callable)</code><br/>
+    Handles any forum topic reopened.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onVideoChatScheduled($callable)</code><br/>
+    Handles video_chat_scheduled messages.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onVideoChatStarted($callable)</code><br/>
+    Handles video_chat_started messages.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onVideoChatEnded($callable)</code><br/>
+    Handles video_chat_ended messages.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onVideoChatParticipantsInvited($callable)</code><br/>
+    Handles video_chat_participants_invited messages.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onWebAppData($callable)</code><br/>
+    Handles web_app_data messages.
+</div>
+
+### Special Handlers
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-SPECIAL-yellow"/>&nbsp;
+    <code>fallback($callable)</code><br/>
+    This handler if defined will be called if no handler, specific or generic, has been found for the current update.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-SPECIAL-yellow"/>&nbsp;
+    <code>fallbackOn(string $type, $callable)</code><br/>
+    This handler has the same behavior as the previous one, but allows you to put a filter on the type of updates it can handle.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-SPECIAL-yellow"/>&nbsp;
+    <code>fallbackOn(string $type, $callable)</code><br/>
+    This handler has the same behavior as the previous one, but allows you to put a filter on the type of updates it can handle.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-SPECIAL-yellow"/>&nbsp;
+    <code>onException($callable)</code><br/>
+    This handler will be called whenever the handling of an update throws an exception, if undefined the exception will not be caught.<br/>Check the next paragraph for more details.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-SPECIAL-yellow"/>&nbsp;
+    <code>onApiError($callable)</code><br/>
+    This handler will be called every time a call to Telegram's api fails, if undefined the exception will not be caught.<br/>Check the next paragraph for more details.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-SPECIAL-yellow"/>&nbsp;
+    <code>beforeApiRequest($callable)</code><br/>
+    This handler will be called before every call to Telegram's api, if undefined the call will be made without any modification.<br/>Check the next paragraph for more details.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-SPECIAL-yellow"/>&nbsp;
+    <code>afterApiRequest($callable)</code><br/>
+    This handler will be called after every call to Telegram's api, if undefined the call will be made without any modification.<br/>Check the next paragraph for more details.
+</div>
+
+## Specific & Special Handlers
+
+### `onCommand`
+For the implicit style see the [`registerCommand`](#registercommand) section.
+
+It's possible to handle to specific commands, also with named parameters:
+
+```php
+use SergiX44\Nutgram\Nutgram;
+
+$bot = new Nutgram($_ENV['TOKEN']);
+
+// Called when a message contains the command "/start someParameter"
+$bot->onCommand('start {parameter}', function (Nutgram $bot, $parameter) {
+    $bot->sendMessage("The parameter is {$parameter}");
+});
+
+// Called on command "/help"
+$bot->onCommand('help', function (Nutgram $bot) {
+    $bot->sendMessage('Help me!');
+});
+
+$bot->run();
+```
+
+### `registerCommand`
+
+A different and clean way to register commands implicitly.
+
+
+```php
+// 1. create a command class like "StartCommand.php":
+
+namespace App\Telegram\Commands;
+
+use SergiX44\Nutgram\Handlers\Type\Command;
+use SergiX44\Nutgram\Nutgram;
+
+class StartCommand extends Command
+{
+    protected string $command = 'start';
+
+    protected ?string $description = 'A lovely start command';
+
+    public function handle(Nutgram $bot): void
+    {
+        $bot->sendMessage('Hello there!');
+    }
+}
+
+// 2. Register StartCommand inside Nutgram
+
+$bot->registerCommand(StartCommand::class);
+
+```
+
+### `onText`
+
+For text messages, is possible also put parameters to match a regex, or to match part of text:
+
+```php
+use SergiX44\Nutgram\Nutgram;
+
+$bot = new Nutgram($_ENV['TOKEN']);
+
+// ex. called when a message contains "My name is Mario"
+$bot->onText('My name is {name}', function (Nutgram $bot, $name) {
+    $bot->sendMessage("Hi {$name}");
+});
+
+// ex. called when a message contains "I want 6 pizzas"
+$bot->onText('I want ([0-9]+) pizzas', function (Nutgram $bot, $n) {
+    $bot->sendMessage("You will get {$n} pizzas!");
+});
+
+$bot->onText('I want ([0-9]+) portions of (pizza|cake)', function (Nutgram $bot, $amount, $dish) {
+    $bot->sendMessage("You will get {$amount} portions of {$dish}!");
+});
+
+$bot->run();
+```
+
+### `onMessageType`
+
+It's like the `onMessage` handler, but you can specify to which type of message you should handle:
+
+```php
+use SergiX44\Nutgram\Nutgram;
+use SergiX44\Nutgram\Telegram\Attributes\MessageTypes;
+
+$bot = new Nutgram($_ENV['TOKEN']);
+
+// Called only when you send a photo
+$bot->onMessageType(MessageTypes::PHOTO, function (Nutgram $bot) {
+    $photos = $bot->message()->photo;
+    $bot->sendMessage('Nice pic!');
+});
+
+// Called only when you send an audio file
+$bot->onMessageType(MessageTypes::AUDIO, function (Nutgram $bot) {
+    $audio = $bot->message()->audio;
+    $bot->sendMessage('I love this song!');
+});
+
+$bot->run();
+```
+
+You can see all the constants, in
+the [MessageTypes::class](https://github.com/nutgram/nutgram/blob/master/src/Telegram/Attributes/MessageTypes.php).
+
+### `onCallbackQueryData`
+
+It's like the `onText` handler, but you can specify to which `data` contained in CallbackQuery to handle:
+
+```php
+use SergiX44\Nutgram\Nutgram;
+
+$bot = new Nutgram($_ENV['TOKEN']);
+
+$bot->onCommand('start', function (Nutgram $bot) {
+    $bot->sendMessage('Choose an option:', [
+        'reply_markup' => InlineKeyboardMarkup::make()->addRow(
+            InlineKeyboardButton::make('One', callback_data: 'one'),
+            InlineKeyboardButton::make('Two', callback_data: 'two'),
+            InlineKeyboardButton::make('Cancel', callback_data: 'cancel'),
+        )
+    ]);
+});
+
+$bot->onCallbackQueryData('one|two', function (Nutgram $bot) {
+    $bot->sendMessage('Nice!');
+});
+
+$bot->onCallbackQueryData('cancel', function (Nutgram $bot) {
+    $bot->sendMessage('Canceled!');
+});
+
+$bot->run();
+```
+
+The same thing also applies for custom parameters:
+
+```php
+use SergiX44\Nutgram\Nutgram;
+
+$bot = new Nutgram($_ENV['TOKEN']);
+
+$bot->onCommand('start', function (Nutgram $bot) {
+    $bot->sendMessage('Choose an option:', [
+        'reply_markup' => InlineKeyboardMarkup::make()->addRow(
+            InlineKeyboardButton::make('One', callback_data: 'number 1'),
+            InlineKeyboardButton::make('Two', callback_data: 'number 2'),
+            InlineKeyboardButton::make('Cancel', callback_data: 'cancel'),
+        )
+    ]);
+});
+
+$bot->onCallbackQueryData('number {param}', function (Nutgram $bot, $param) {
+    $bot->sendMessage($param); // 1 or 2
+});
+
+$bot->onCallbackQueryData('cancel', function (Nutgram $bot) {
+    $bot->sendMessage('Canceled!');
+});
+
+$bot->run();
+```
+
+### `fallback`
+
+This handler, if defined, will be called every time an `Update` will not match any other defined handler:
+
+```php
+use SergiX44\Nutgram\Nutgram;
+
+$bot = new Nutgram($_ENV['TOKEN']);
+
+// But the user send something else than /start
+$bot->onCommand('start', function (Nutgram $bot) {
+    $bot->sendMessage('Started!');
+});
+
+$bot->fallback(function (Nutgram $bot) {
+    $bot->sendMessage('Sorry, I don\'t understand.');
+});
+
+$bot->run();
+```
+
+### `fallbackOn`
+
+This has the same behaviour of the `fallback`, but allow you to define handlers based on the `Update` type:
+
+```php
+use SergiX44\Nutgram\Nutgram;
+use SergiX44\Nutgram\Telegram\Attributes\UpdateTypes;
+
+$bot = new Nutgram($_ENV['TOKEN']);
+
+// define some handlers ...
+
+// Called only for unmatched callback queries
+$bot->fallbackOn(UpdateTypes::CALLBACK_QUERY, function (Nutgram $bot) {
+    $bot->answerCallbackQuery();
+    $bot->editMessageReplyMarkup([/* ... */]);
+});
+
+// Called only for unmatched messages
+$bot->fallbackOn(UpdateTypes::MESSAGE, function (Nutgram $bot) {
+    $bot->sendMessage('Sorry, I don\'t understand.');
+});
+
+$bot->run();
+```
+
+You can see all the constants, in
+the [UpdateTypes::class](https://github.com/nutgram/nutgram/blob/master/src/Telegram/Attributes/UpdateTypes.php).
+
+### `onException`
+
+This handler, if defined, will be called if something on your other handlers goes wrong, passing the `$exception` as
+second argument:
+
+```php
+use SergiX44\Nutgram\Nutgram;
+
+$bot = new Nutgram($_ENV['TOKEN']);
+
+// define some handlers ...
+
+// and exception is thrown...
+$bot->onMessage(function (Nutgram $bot) {
+    // do stuff
+    throw new Exception('Oh no!');
+});
+
+// ... and passed to the exception handler
+$bot->onException(function (Nutgram $bot, \Throwable $exception) {
+    echo $exception->getMessage(); // Oh no!
+    error_log($exception);
+    $bot->sendMessage('Whoops!');
+});
+
+$bot->run();
+```
+
+The `onException` handler supports also different callbacks based on the exception instance:
+
+```php
+use SergiX44\Nutgram\Nutgram;
+
+$bot = new Nutgram($_ENV['TOKEN']);
+
+// and exception is thrown...
+$bot->onMessage(function (Nutgram $bot) {
+    if (random_int(0, 1)) {    
+        throw new InvalidArgumentException();
+    }
+    throw new Exception('Oh no!');
+});
+
+$bot->onException(InvalidArgumentException::class, function (Nutgram $bot, InvalidArgumentException $exception) {
+    //
+});
+
+$bot->onException(Exception::class, function (Nutgram $bot, Exception $exception) {
+    //
+});
+
+$bot->run();
+```
+
+
+### `onApiError`
+
+The same concept of the `onException`, but for outgoing requests:
+
+<Tabs>
+<TabItem value="chat_not_found" label="Chat not found" default>
+
+```php
+use SergiX44\Nutgram\Nutgram;
+use SergiX44\Nutgram\Telegram\Exceptions\TelegramException;
+
+$bot = new Nutgram($_ENV['TOKEN']);
+
+$bot->onMessage(function (Nutgram $bot) {
+    $bot->sendMessage('Invalid call!', ['chat_id' => null]);
+});
+
+$bot->onApiError(function (Nutgram $bot, TelegramException $exception) {
+    echo $exception->getMessage(); // Bad Request: chat not found
+    echo $exception->getCode(); // 400
+    error_log($exception);
+});
+
+$bot->run();
+```
+
+</TabItem>
+<TabItem value="too_many_requests" label="Too many requests">
+
+```php
+use SergiX44\Nutgram\Nutgram;
+use SergiX44\Nutgram\Telegram\Exceptions\TelegramException;
+
+$bot = new Nutgram($_ENV['TOKEN']);
+
+$bot->onMessage(function (Nutgram $bot) {
+    foreach(range(1,200) as $i){
+        $bot->sendMessage('Too many calls!');
+    }
+});
+
+$bot->onApiError(function (Nutgram $bot, TelegramException $exception) {
+    echo $exception->getMessage(); // Too Many Requests: retry after 14
+    echo $exception->getCode(); // 429
+    echo $exception->getParameters(); // ['retry_after' => 14]
+    echo $exception->getParameter('retry_after'); // 14
+    echo $exception->hasParameter('retry_after'); // true
+    error_log($exception);
+});
+
+$bot->run();
+```
+
+</TabItem>
+</Tabs>
+
+
+
+
+Like the `onException`, the handler support a regex matching the text returned by the telegram api:
+
+```php
+use SergiX44\Nutgram\Nutgram;
+use SergiX44\Nutgram\Telegram\Exceptions\TelegramException;
+
+$bot = new Nutgram($_ENV['TOKEN']);
+
+$bot->onMessage(function (Nutgram $bot) {
+    $bot->sendMessage('Invalid call!', ['chat_id' => null]);
+});
+
+$bot->onApiError('chat not found', function (Nutgram $bot, TelegramException $exception) {
+    //
+});
+
+
+$bot->onApiError('user(.*)deactivated', function (Nutgram $bot, TelegramException $exception) {
+    //
+});
+
+$bot->run();
+```
+
+### `beforeApiRequest`
+
+This handler, if defined, will be called before every outgoing request, passing the `$request` as second argument:
+
+```php
+use SergiX44\Nutgram\Nutgram;
+
+$bot = new Nutgram($_ENV['TOKEN']);
+
+$bot->beforeApiRequest(function (Nutgram $bot, array $request) {
+    // print a value from the request
+    echo $request['json']['text'];
+
+    // modify the request
+    $request['json']['text'] = 'Modified!';
+
+    return $request;
+});
+
+$bot->run();
+```
+
+### `afterApiRequest`
+
+This handler, if defined, will be called after every outgoing request, passing the `$response` as second argument:
+
+```php
+use SergiX44\Nutgram\Nutgram;
+
+$bot = new Nutgram($_ENV['TOKEN']);
+
+$bot->afterApiRequest(function (Nutgram $bot, object $response) {
+    // print a value from the response
+    echo $response->result->text;
+
+    // modify the response
+    $response->result->text = 'Modified!';
+
+    return $response;
+});
+
+$bot->run();
+```
+
+## Handlers Priority
+
+:::caution
+
+If you declare <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-SPECIFIC-blue"/> handlers, 
+they will block the execution of <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/> handlers.<br/>
+**Please keep this in mind when using Nutgram.**
+
+:::
+
+Some examples to clarify this:
+
+<Tabs>
+<TabItem value="text" label="Text" default>
+
+```php
+// Input text: something
+
+// Specific handler: ✅ it will be executed!
+$bot->onText('something', SomethingHandler::class);
+
+// Generic handler: ❌ it will not be executed!
+$bot->onMessageType(MessageTypes::TEXT, MessageTypeTextHandler::class);
+
+// Generic handler: ❌ it will not be executed!
+$bot->onMessage(MessageHandler::class);
+```
+    
+</TabItem>
+
+<TabItem value="successful_payment" label="SuccessfulPayment">
+
+```php
+// Input payload: donation
+
+// Specific handler: ✅ it will be executed!
+$bot->onSuccessfulPaymentPayload('donation', DonationHandler::class);
+
+// Generic handler: ❌ it will not be executed!
+$bot->onSuccessfulPayment(SuccessfulPaymentHandler::class);
+```
+
+</TabItem>
+
+<TabItem value="callback_query" label="CallbackQuery">
+
+```php
+// Input payload: mydata
+
+// Specific handler: ✅ it will be executed!
+$bot->onCallbackQueryData('mydata', MyDataHandler::class);
+
+// Generic handler: ❌ it will not be executed!
+$bot->onCallbackQuery(CallbackQueryHandler::class);
+```
+
+</TabItem>
+
+<TabItem value="pre_checkout_query" label="PreCheckoutQuery">
+
+```php
+// Input payload: mydata
+
+// Specific handler: ✅ it will be executed!
+$bot->onPreCheckoutQueryPayload('mydata', MyDataHandler::class);
+
+// Generic handler: ❌ it will not be executed!
+$bot->onPreCheckoutQuery(PreCheckoutQueryHandler::class);
+```
+
+</TabItem>
+
+</Tabs>
+
+## Automatically register bot commands
+
+The framework can also automatically set the bot commands for you, if you configure the **description** on it:
+
+<Tabs>
+<TabItem value="onCommand-handler" label="onCommand Handler" default>
+
+```php
+use SergiX44\Nutgram\Nutgram;
+
+$bot = new Nutgram($_ENV['TOKEN']);
+
+// Called on command "/start"
+// It's possible to set a description for each command
+// this WILL be automatically registered
+$bot->onCommand('start', function (Nutgram $bot) {
+    return $bot->sendMessage('Hello, world!');
+})->description('The start command!');
+
+// Called on command "/secret"
+// this WILL NOT be automatically registered
+$bot->onCommand('secret', function (Nutgram $bot) {
+    return $bot->sendMessage('Shhh');
+});
+```
+
+</TabItem>
+
+<TabItem value="command-class" label="Command Class">
+
+```php
+// 1. create a command class like "StartCommand.php":
+
+namespace App\Telegram\Commands;
+
+use SergiX44\Nutgram\Handlers\Type\Command;
+use SergiX44\Nutgram\Nutgram;
+
+class StartCommand extends Command
+{
+    // Called on command "/start"
+    protected string $command = 'start';
+
+    // It's possible to set a description for the current command
+    // this WILL be automatically registered
+    protected ?string $description = 'A lovely start command';
+
+    public function handle(Nutgram $bot): void
+    {
+        $bot->sendMessage('Hello there!');
+    }
+}
+
+// 2. Register StartCommand inside Nutgram
+
+$bot->registerCommand(StartCommand::class);
+```
+
+You can also explicitly set a command as hidden overriding the `isHidden` method adding your logic:
+
+```php
+namespace App\Telegram\Commands;
+
+use SergiX44\Nutgram\Handlers\Type\Command;
+use SergiX44\Nutgram\Nutgram;
+
+class HiddenCommand extends Command
+{
+    protected string $command = 'hidden';
+
+    protected ?string $description = 'A super secret command';
+
+    public function handle(Nutgram $bot): void
+    {
+        $bot->sendMessage('Shhh!');
+    }
+
+    public function isHidden(): bool
+    {
+        return true;
+    }
+}
+```
+
+</TabItem>
+</Tabs>
+
+### Scope support
+[Command Scopes](https://core.telegram.org/bots/features#command-scopes) allows for more granular control over which users or groups can see specific commands in the bot.
+
+However, the support for `language_code` in command scope **is not supported**.<br/>
+If the `language_code` support is required, commands must be manually set using the `setMyCommands` method.
+
+#### How to set a scope
+
+<Tabs>
+<TabItem value="onCommand-handler" label="onCommand Handler" default>
+
+Just use the `scope` method:
+
+```php
+//single scope
+$bot
+    ->onCommand('start',  StartCommand::class)
+    ->description('Start command')
+    ->scope(new BotCommandScopeAllPrivateChats);
+
+// multiple scope (multiple calls)
+$bot
+    ->onCommand('start',  StartCommand::class)
+    ->description('Start command')
+    ->scope(new BotCommandScopeAllPrivateChats)
+    ->scope(new BotCommandScopeAllGroupChats);
+
+// multiple scope (as array)
+$bot
+    ->onCommand('start',  StartCommand::class)
+    ->description('Start command')
+    ->scope([
+        new BotCommandScopeAllPrivateChats,
+        new BotCommandScopeAllGroupChats,
+    ]);
+```
+
+</TabItem>
+
+<TabItem value="command-class" label="Command Class">
+
+Just override the `scopes` method:
+
+```php
+class StartCommand extends Command
+{
+    protected string $command = 'start';
+    protected ?string $description = 'Start command';
+
+    public function scopes(): array
+    {
+        return [
+            new BotCommandScopeAllPrivateChats,
+        ];
+    }
+
+    public function handle(Nutgram $bot): void
+    {
+        $bot->sendMessage('Hello there!');
+    }
+}
+```
+
+</TabItem>
+</Tabs>
+
+#### Available scopes
+- `new BotCommandScopeDefault();`
+- `new BotCommandScopeAllChatAdministrators();`
+- `new BotCommandScopeAllGroupChats();`
+- `new BotCommandScopeAllPrivateChats();`
+- `new BotCommandScopeChat(chat_id: 123);`
+- `new BotCommandScopeChatAdministrators(chat_id: 123);`
+- `new BotCommandScopeChatMember(chat_id: 123, user_id: 987);`
+
+For a description of each scope, please refer to the [official documentation](https://core.telegram.org/bots/api#botcommandscope) page.
+
+
+### Registering commands
+
+To register the commands, you can use the `registerMyCommands` method, which will automatically call the `setMyCommands` method:
+
+```php
+$bot->registerMyCommands();
+```
+And the result will be:
+
+![commands](https://i.imgur.com/65ofrw7.png)
+
+:::caution
+
+Please do not use the `registerMyCommands` method in the same file where you register your bot handlers when using the [**Webhook**](/docs/usage/getting_updates#webhook) running mode,
+because the bot will register your commands on every webhook call, causing a lot of useless requests. Just call the method manually or after a deploy.
+
+:::
+
+## OOP
+
+So far you have seen handlers defined only as closures. But the framework, any definition that accepts a `$callable`, also
+accepts a class-method definition, or invokable classes, like this:
+
+```php
+use SergiX44\Nutgram\Nutgram;
+
+class MyCommand {
+
+    public function __invoke(Nutgram $bot, $param)
+    {
+      //do stuff
+    }
+}
+```
+
+```php
+use SergiX44\Nutgram\Nutgram;
+
+$bot = new Nutgram($_ENV['TOKEN']);
+
+// all of those are valid definitions:
+$bot->onCommand('start {param}', MyCommand::class); // with __invoke
+$bot->onCommand('start1 {param}', [MyCommand::class, 'handle']); // class-method
+$bot->onCommand('start2 {param}', [$instance, 'handle']); // instance-method
+
+$bot->run();
+```
+
+## Update Helpers
+
+When dealing with updates, sometimes you may need to access data that is nested in the update structure, which can be
+tedious and produce *a lot* of boilerplate, since the same objects can often be nested in other objects, depending on
+the type of update. For this reason, the framework provides a number of **support methods to quickly access the most
+used data, no matter the update type**, like this:
+
+```php
+use SergiX44\Nutgram\Nutgram;
+
+$bot = new Nutgram($_ENV['TOKEN']);
+
+$bot->onCommand('help', function (Nutgram $bot) {
+    // Get the Message object
+    $bot->message();
+
+    // Access the Chat object
+    $bot->chat();
+});
+
+$bot->onCommand('my_chat', function (Nutgram $bot) {
+    $bot->sendMessage('Your chat id is ' . $bot->chatId());
+});
+
+$bot->run();
+```
+
+### Available helpers
+
+| Method                 | Return type           | Description                                                                   |
+|------------------------|-----------------------|-------------------------------------------------------------------------------|
+| `update()`             | `?Update`             | The current `Update` object.                                                  |
+| `chatId()`             | `?int`                | The current `chat_id` if available, `null` otherwise.                         |
+| `chat()`               | `?Chat`               | The current `Chat` if available, `null` otherwise.                            |
+| `userId()`             | `?int`                | The current `from`.`id` if available, `null` otherwise.                       |
+| `user()`               | `?User`               | The current `User` (`from` Telegram's object) if available, `null` otherwise. |
+| `messageId()`          | `?int`                | The current `message`.`message_id` if available, `null` otherwise.            |
+| `message()`            | `?Message`            | The current `Message` if available, `null` otherwise.                         |
+| `isCallbackQuery()`    | `bool`                | If the current update contains a `callback_query`.                            |
+| `callbackQuery()`      | `?CallbackQuery`      | The current `CallbackQuery` if available, `null` otherwise.                   |
+| `isInlineQuery()`      | `bool`                | If the current update contains an `inline_query`.                             |
+| `inlineQuery()`        | `?InlineQuery`        | The current `InlineQuery` if available, `null` otherwise.                     |
+| `chosenInlineResult()` | `?ChosenInlineResult` | The current `ChosenInlineResult` if available, `null` otherwise.              |
+| `shippingQuery()`      | `?ShippingQuery`      | The current `ShippingQuery` if available, `null` otherwise.                   |
+| `isPreCheckoutQuery()` | `bool`                | If the current update contains a `pre_checkout_query`.                        |
+| `preCheckoutQuery()`   | `?PreCheckoutQuery`   | The current `PreCheckoutQuery` if available, `null` otherwise.                |
+| `poll()`               | `?Poll`               | The current `Poll` if available, `null` otherwise.                            |
+| `pollAnswer()`         | `?PollAnswer`         | The current `PollAnswer` if available, `null` otherwise.                      |
+| `isMyChatMember()`     | `bool`                | If the current `ChatMemberUpdated` is in the `my_chat_member`.                |
+| `chatMember()`         | `?ChatMemberUpdated`  | The current `ChatMemberUpdated` if available, `null` otherwise.               |
+
+## Persisting data
+
+The framework gives you the ability to store data based on the update context: you can store data as **globally**
+or **per-user**:
+
+```php
+use SergiX44\Nutgram\Nutgram;
+
+$bot = new Nutgram($_ENV['TOKEN']);
+
+$bot->setGlobalData('mykey', 'Hi!');
+$bot->setUserData('mykey', 'Ciao!', $userId);
+
+$value = $bot->getGlobalData('mykey'); // Hi!
+$value = $bot->getUserData('mykey', $userId); // Ciao!
+
+// when used inside a context, the $userId can be omitted.
+$bot->onCommand('help', function (Nutgram $bot) {
+    $bot->setUserData('mykey', 'called help!');
+    $value = $bot->getUserData('mykey'); // called help!
+});
+
+$bot->run();
+```
+
+:::tip
+If you need to persist data on disk, be sure to choose an appropriate cache adapter!
+:::
+
+### Available methods
+
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GLOBALLY-brightgreen"/>&nbsp;
+    <code>getGlobalData($key, $default = null)</code><br/>
+    Returns the data associated to the <code>$key</code>, if null <code>$default</code> is returned.
+</div>
+
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GLOBALLY-brightgreen"/>&nbsp;
+    <code>setGlobalData($key, $value, DateInterval|int|null $ttl = null)</code><br/>
+    Returns <code>bool</code>
+</div>
+
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GLOBALLY-brightgreen"/>&nbsp;
+    <code>deleteGlobalData($key)</code><br/>
+    Returns <code>bool</code>
+</div>
+
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-PER--USER-blue"/>&nbsp;
+    <code>getUserData($key, ?int $userId = null, $default = null)</code><br/>
+    Returns the data associated to the <code>$key</code>, if null <code>$default</code> is returned.
+</div>
+
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-PER--USER-blue"/>&nbsp;
+    <code>setUserData($key, $value, ?int $userId = null, DateInterval|int|null $ttl = null)</code><br/>
+    Returns <code>bool</code>
+</div>
+
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-PER--USER-blue"/>&nbsp;
+    <code>deleteUserData($key, ?int $userId = null)</code><br/>
+    Returns <code>bool</code>
+</div>
