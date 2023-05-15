@@ -17,12 +17,12 @@ const sidebars = {
     docs: [
         {
             type: 'doc',
-            label: 'Introduction',
+            label: '📜 Introduction',
             id: 'introduction'
         },
         {
             type: 'category',
-            label: 'Getting Started',
+            label: '🏁 Getting Started',
             link: {
                 type: 'generated-index',
             },
@@ -37,7 +37,7 @@ const sidebars = {
         },
         {
             type: 'category',
-            label: 'Usage',
+            label: '✍ Usage',
             link: {
                 type: 'generated-index',
             },
@@ -56,7 +56,7 @@ const sidebars = {
         },
         {
             type: 'category',
-            label: 'Testing',
+            label: '⚗️ Testing',
             link: {
                 type: 'generated-index',
             },
@@ -70,7 +70,7 @@ const sidebars = {
         },
         {
             type: 'category',
-            label: 'Upgrading',
+            label: '⏫ Upgrading',
             link: {
                 type: 'generated-index',
             },

@@ -59,9 +59,9 @@ const config = {
             type: 'doc',
             docId: 'introduction',
             position: 'left',
-            label: 'Documentation',
+            label: '📖 Documentation',
           },
-          {to: '/blog', label: 'Blog', position: 'left'},
+          {to: '/blog', label: '📝 Blog', position: 'left'},
           {
             type: 'docsVersionDropdown',
             position: 'right',

@@ -2,7 +2,7 @@
 sidebar_position: 4
 ---
 
-# Laravel
+# 💻 Laravel
 
 If you are using the Laravel framework, much of the setup is handled automatically for you. First, you should install
 the package via composer as usual (see [the installation page](installation.md#composer))

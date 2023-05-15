@@ -1,4 +1,4 @@
-# Bulk Messenger
+# 📤 Bulk Messenger
 
 :::caution
 

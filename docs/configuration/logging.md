@@ -2,7 +2,7 @@
 sidebar_position: 3
 ---
 
-# Logging
+# 📰 Logging
 
 Nutgram accepts as a logger system any adapter that implements the PSR-3 `LoggerInterface` interface.
 
