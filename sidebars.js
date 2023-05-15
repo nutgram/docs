@@ -76,6 +76,7 @@ const sidebars = {
             },
             collapsed: false,
             items: [
+                'upgrading/from-3.x-to-4.x',
                 'upgrading/from-2.x-to-3.x',
                 'upgrading/from-1.x-to-2.x',
             ],
