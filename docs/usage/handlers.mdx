@@ -508,10 +508,12 @@ $bot->onCommand('start', function (Nutgram $bot) {
 
 $bot->onCallbackQueryData('one|two', function (Nutgram $bot) {
     $bot->sendMessage('Nice!');
+    $bot->answerCallbackQuery();
 });
 
 $bot->onCallbackQueryData('cancel', function (Nutgram $bot) {
     $bot->sendMessage('Canceled!');
+    $bot->answerCallbackQuery();
 });
 
 $bot->run();
@@ -536,10 +538,12 @@ $bot->onCommand('start', function (Nutgram $bot) {
 
 $bot->onCallbackQueryData('number {param}', function (Nutgram $bot, $param) {
     $bot->sendMessage($param); // 1 or 2
+    $bot->answerCallbackQuery();
 });
 
 $bot->onCallbackQueryData('cancel', function (Nutgram $bot) {
     $bot->sendMessage('Canceled!');
+    $bot->answerCallbackQuery();
 });
 
 $bot->run();
