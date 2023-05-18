@@ -2,7 +2,7 @@
 sidebar_position: 4
 ---
 
-# 💻 Laravel
+# Laravel
 
 Instead of installing the base `nutgram/nutgram` base package, you have to install the package version:
 

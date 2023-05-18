@@ -1,5 +1,5 @@
 
-# 🔃 From 2.x to 3.x
+# From 2.x to 3.x
 
 The breaking changes contained in the 3.x version are all following the release 6.0 of the Telegram bot API.
 

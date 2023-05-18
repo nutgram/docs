@@ -2,7 +2,7 @@
 sidebar_position: 1
 ---
 
-# ⤵ Getting Updates
+# Getting Updates
 
 Currently, the framework mainly supports two different methods to process updates: `Polling` and `Webhook` mode.
 

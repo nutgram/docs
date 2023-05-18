@@ -1,5 +1,5 @@
 
-# 🔃 From 1.x to 2.x
+# From 1.x to 2.x
 
 The update to the version 2.x contains only one breaking change.
 

@@ -2,7 +2,7 @@
 sidebar_position: 2
 ---
 
-# 💾 Cache
+# Cache
 
 Nutgram accepts as a cache system any adapter that implements the PSR-16 `CacheInterface` interface.
 

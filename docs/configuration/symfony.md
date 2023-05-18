@@ -2,7 +2,7 @@
 sidebar_position: 5
 ---
 
-# 💻 Symfony
+# Symfony
 
 Instead of installing the base `nutgram/nutgram` base package, you have to install the bundle version:
 

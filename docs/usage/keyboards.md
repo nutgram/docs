@@ -1,4 +1,4 @@
-# ⌨ Keyboards
+# Keyboards
 
 Nutgram provides a better way to create keyboards.
 

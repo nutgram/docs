@@ -2,7 +2,7 @@
 sidebar_position: 2
 ---
 
-# ⤴ Sending Requests
+# Sending Requests
 
 The framework creates a 1:1 mapping of the methods Telegram provides that are directly accessible from the main
 instance. The only difference is in the parameters that telegram marks as *Optional*: these are specifiable via the last

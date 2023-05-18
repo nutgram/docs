@@ -2,7 +2,7 @@
 sidebar_position: 6
 ---
 
-# 🎛 Inline Menu
+# Inline Menu
 
 The `InlineMenu` class extends [Conversation](conversations.md) and help you to provide an easy interface to
 create inline menu messages in your bot.

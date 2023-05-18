@@ -1,4 +1,4 @@
-# 🎚 Extend
+# Extend
 
 The framework provides multiple ways to extends its functionalities.
 

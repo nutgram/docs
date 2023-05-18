@@ -2,7 +2,7 @@
 sidebar_position: 5
 ---
 
-# 📬 Conversations
+# Conversations
 
 :::warning
 If you are using the `Webhook` update mode, you need a persistent cache adapter to use this feature!
