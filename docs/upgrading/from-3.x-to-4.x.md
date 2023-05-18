@@ -61,8 +61,7 @@ The names of the enums are now in **singular** form.
 
 > Likelihood Of Impact: High
 
-The constructor of the `Nutgram` class now accepts the `Configuration` class as the second parameter. 
-However, it is still possible to use the static method `fromArray` to continue using an array.
+The constructor of the `Nutgram` class now accepts the `Configuration` class as the second parameter.
 
 ```diff
 - $bot = new Nutgram('TOKEN', [
@@ -71,13 +70,9 @@ However, it is still possible to use the static method `fromArray` to continue u
 + $bot = new Nutgram('TOKEN', new Configuration(
 +     clientTimeout: 5
 + ));
-OR
-+ $bot = new Nutgram('TOKEN', Configuration::fromArray([
-+     'timeout' => 5
-+ );
 ```
 
-### splitLongMessages option
+### split_long_messages option
 
 > Likelihood Of Impact: Medium
 
