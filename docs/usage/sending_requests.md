@@ -19,11 +19,17 @@ $bot = new Nutgram($_ENV['TOKEN']);
 
 // Send a message to a specific user
 /** @var Message $message */
-$message = $bot->sendMessage('Hi!', ['chat_id' => 111222333]);
+$message = $bot->sendMessage(
+    text: 'Hi!',
+    chat_id: 111222333
+);
 
 // Send a message to a channel
 /** @var Message $message */
-$message = $bot->sendMessage('Hi channel!', ['chat_id' => '@mychannel']);
+$message = $bot->sendMessage(
+    text: 'Hi channel!',
+    chat_id: '@mychannel'
+);
 ```
 
 ## Uploading media
@@ -44,7 +50,10 @@ $bot = new Nutgram($_ENV['TOKEN']);
 $photo = fopen('image.png', 'r+'); // open the file
 
 /** @var Message $message */
-$message = $bot->sendPhoto($photo, ['chat_id' => 111222333]); // pass the resource
+$message = $bot->sendPhoto(
+    photo: $photo, // pass the resource
+    chat_id: 111222333
+); 
 
 fclose($photo); // close the file
 
@@ -53,7 +62,10 @@ fclose($photo); // close the file
 $video = fopen('funnyvideo.mp4', 'r+'); // open the file
 
 /** @var Message $message */
-$message = $bot->sendPhoto($video, ['chat_id' => 111222333]);
+$message = $bot->sendPhoto(
+    video: $video,
+    chat_id: 111222333
+);
 
 fclose($video); // close the file
 
@@ -62,7 +74,10 @@ fclose($video); // close the file
 $fileId = $bot->message()->sticker->file_id;
 
 /** @var Message $message */
-$message = $bot->sendSticker($fileId, ['chat_id' => 111222333]);
+$message = $bot->sendSticker(
+    sticker: $fileId,
+    chat_id: 111222333
+);
 ```
 
 ## Downloading media
@@ -102,18 +117,19 @@ $bot = new Nutgram($_ENV['TOKEN']);
 
 // Send a message formatting in markdown
 /** @var Message $message */
-$message = $bot->sendMessage('*Hi!*', [
-    'chat_id' => 111222333,
-    'parse_mode' => ParseMode::MARKDOWN,
-]);
+$message = $bot->sendMessage(
+    text: '*Hi!*',
+    chat_id: 111222333,
+    parse_mode: ParseMode::MARKDOWN,
+);
 
 // Send a message formatting in html
 /** @var Message $message */
-$message = $bot->sendMessage('<i>Hi!</i>', [
-    'chat_id' => 111222333,
-    'parse_mode' => ParseMode::HTML,
-]);
-
+$message = $bot->sendMessage(
+    text: '<i>Hi!</i>',
+    chat_id: 111222333,
+    parse_mode: ParseMode::HTML,
+);
 ```
 
 ## Available methods

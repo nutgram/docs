@@ -191,9 +191,10 @@ $this
 ```php
 $bot->onText('foo', function (Nutgram $bot) {
     $file = fopen('image.jpg', 'r');
-    $bot->sendDocument(InputFile::make(file, 'name.jpg'), [
-        'caption' => 'my caption',
-        'parse_mode' => ParseMode::HTML,
+    $bot->sendDocument(
+        document: InputFile::make(file, 'name.jpg'),
+        caption: 'my caption',
+        parse_mode: ParseMode::HTML,
     ]);
     fclose($file);
 });

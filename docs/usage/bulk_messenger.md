@@ -13,8 +13,8 @@ Bulk Messenger is a tool that lets you automatically send Telegram Messages to a
 - `using(callable $action)` - Executes the given action with the current instance of the Bulk Messenger.<br/>
   Default:
   ```php
-  function (Nutgram $bot, int $chatId) {
-      $bot->sendMessage($this->text, array_merge($this->opt, ['chat_id' => $chatId]));
+  function (Nutgram $bot, int|string $chatId): void {
+      $bot->sendMessage(...[...$this->opt, 'chat_id' => $chatId, 'text' => $this->text]);
   };
   ```
 - `setChats(array $chats)` - Sets the chats to send the message to.<br/>
@@ -64,14 +64,14 @@ $bot->run();
 // in scripts
 $bot->getBulkMessenger()
     ->setChats($chats)
-    ->using(fn (Nutgram $bot, int $chatId) => $bot->sendDocument($document, ['chat_id' => $chatId]))
+    ->using(fn (Nutgram $bot, int $chatId) => $bot->sendDocument(document: $document, chat_id: $chatId))
     ->startSync();
 
 // inside handlers (polling)
 $bot->onCommand('start', function (Nutgram $bot) use ($document, $chats) {
     $bot->getBulkMessenger()
         ->setChats($chats)
-        ->using(fn (Nutgram $bot, int $chatId) => $bot->sendDocument($document, ['chat_id' => $chatId]))
+        ->using(fn (Nutgram $bot, int $chatId) => $bot->sendDocument(document: $document, chat_id: $chatId))
         ->startAsync();
 });
 $bot->run();

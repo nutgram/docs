@@ -9,13 +9,14 @@ Here is an example:
 
 ```php
 $bot->onCommand('start', function(Nutgram $bot){
-    $bot->sendMessage('Welcome!', [
-        'reply_markup' => InlineKeyboardMarkup::make()
+    $bot->sendMessage(
+        text: 'Welcome!',
+        reply_markup: InlineKeyboardMarkup::make()
             ->addRow(
                 InlineKeyboardButton::make('A', callback_data: 'type:a'), 
                 InlineKeyboardButton::make('B', callback_data: 'type:b')
             )
-    ]);
+    );
 });
 
 $bot->onCallbackQueryData('type:a', function(Nutgram $bot){
@@ -42,12 +43,13 @@ Here is an example:
 
 ```php
 $bot->onCommand('start', function(Nutgram $bot){
-    $bot->sendMessage('Welcome!', [
-        'reply_markup' => ReplyKeyboardMarkup::make()->addRow(
+    $bot->sendMessage(
+        text: 'Welcome!',
+        reply_markup: ReplyKeyboardMarkup::make()->addRow(
             KeyboardButton::make('Give me food!'),
             KeyboardButton::make('Give me animal!'),
         )
-    ]);
+    );
 });
 
 $bot->onText('Give me food!', function (Nutgram $bot) {
@@ -80,9 +82,10 @@ To remove the reply keyboard, you can use the `ReplyKeyboardRemove` class:
 
 ```php
 $bot->onCommand('cancel', function (Nutgram $bot) {
-    $bot->sendMessage('Removing keyboard...', [
-        'reply_markup' => ReplyKeyboardRemove::make(true),
-    ])?->delete();
+    $bot->sendMessage(
+        text: 'Removing keyboard...',
+        reply_markup: ReplyKeyboardRemove::make(true),
+    )?->delete();
 });
 ```
 
@@ -93,12 +96,13 @@ Here is an example:
 
 ```php
 $bot->onCommand('start', function(Nutgram $bot){
-    $bot->sendMessage('Welcome!', [
-        'reply_markup' => ForceReply::make(
+    $bot->sendMessage(
+        text: 'Welcome!',
+        reply_markup: ForceReply::make(
             force_reply: true,
             input_field_placeholder: 'Type something',
             selective: true,
         ),
-    ]);
+    );
 });
 ```
