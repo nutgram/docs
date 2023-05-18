@@ -26,8 +26,9 @@ Useful when used with Polling running mode.
 ```php
 use SergiX44\Nutgram\Nutgram;
 use SergiX44\Nutgram\Logger\ConsoleLogger;
+use SergiX44\Nutgram\Configuration;
 
-$bot = new Nutgram('TOKEN', [
-    'logger' => ConsoleLogger::class
-]);
+$bot = new Nutgram('TOKEN', new Configuration(
+    logger: ConsoleLogger::class
+);
 ```
