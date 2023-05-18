@@ -4,8 +4,14 @@ sidebar_position: 4
 
 # 💻 Laravel
 
-If you are using the Laravel framework, much of the setup is handled automatically for you. First, you should install
-the package via composer as usual (see [the installation page](installation.md#composer))
+Instead of installing the base `nutgram/nutgram` base package, you have to install the package version:
+
+```bash
+composer require nutgram/laravel
+
+# remove the base package if you have installed it:
+# composer remove nutgram/nutgram
+```
 
 In you `.env` file, you should only define the `TELEGRAM_TOKEN` var, that's it!
 
