@@ -255,7 +255,7 @@ In the bot's code, you can use the array returned by the method to access the ha
 
 Use case:
 ```php
-$bot = new Nutgram('TOKEN');
+$bot = new Nutgram($_ENV['TOKEN']);
 
 $bot->group(CheckUserMiddleware::class, function(Nutgram $bot){
     $bot->onCallbackQueryData('user/([0-9]+)/show', [UserController::class, 'show']);
