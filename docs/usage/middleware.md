@@ -244,6 +244,86 @@ $bot->onCommand('add_image', AddImageCommand::class)
 $bot->run();
 ```
 
+## Get current handlers parameters
+Nutgram provides the `currentParameters` method allowing you to obtain the parameters of the target handlers.
+You can use this method in any context of the code, not just within middleware.
+
+The `currentParameters` method returns an `array` containing the parameters of the target handlers.
+In the bot's code, you can use the array returned by the method to access the handler's parameters and use them in your own code.
+
+### Example usage
+
+Use case:
+```php
+$bot = new Nutgram('TOKEN');
+
+$bot->group(CheckUserMiddleware::class, function(Nutgram $bot){
+    $bot->onCallbackQueryData('user/([0-9]+)/show', [UserController::class, 'show']);
+    $bot->onCallbackQueryData('user/([0-9]+)/edit', [UserController::class, 'edit']);
+    $bot->onCallbackQueryData('user/([0-9]+)/delete', [UserController::class, 'delete']);
+});
+
+$bot->run();
+```
+
+Without the `currentParameters` method, you would have to write the following code:
+```php
+class CheckUserMiddleware
+{
+    public function __invoke(Nutgram $bot, $next)
+    {
+        preg_match('/user\/([0-9]+)\/.*/', $bot->callbackQuery()->data, $matches);
+        $id = $matches[1];
+        //TODO: check user by $id
+        $next($bot);
+    }
+}
+```
+
+With the `currentParameters` method, you can write the following code:
+```php
+class CheckUserMiddleware
+{
+    public function __invoke(Nutgram $bot, $next)
+    {
+        [$id] = $bot->currentParameters();
+        //TODO: check user by $id
+        $next($bot);
+    }
+}
+```
+
+### Warning
+The `currentParameters` method returns an array containing **all parameters of all resolved
+handlers** in the current update context.
+This behavior can lead to unexpected results in some cases, so be sure to use the method carefully
+and be aware of the parameters of your handlers.
+
+Example:
+```php
+// CheckUserMiddleware.php
+class CheckUserMiddleware
+{
+    public function __invoke(Nutgram $bot, $next)
+    {
+        $parameters = $bot->currentParameters();
+        //$parameters[0] = 'your-value'; <= for onCallbackQueryData('user/([0-9]+)/show')
+        //$parameters[1] = 'your-value'; <= for onCallbackQueryData('user/([0-9]+)/.*')
+        $next($bot);
+    }
+}
+
+// bot.php
+$bot = new Nutgram('TOKEN');
+
+$bot->group(CheckUserMiddleware::class, function(Nutgram $bot){
+    $bot->onCallbackQueryData('user/([0-9]+)/show', [UserController::class, 'show']);
+    $bot->onCallbackQueryData('user/([0-9]+)/.*', [UserController::class, 'edit']);
+});
+
+$bot->run();
+```
+
 ## Grouping
 
 You can group middlewares, using the `group` method:
