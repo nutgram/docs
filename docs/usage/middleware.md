@@ -294,9 +294,10 @@ class CheckUserMiddleware
 ```
 
 ### Warning
-The `currentParameters` method returns an array containing **all parameters of all resolved handlers**.
+The `currentParameters` method returns an array containing **all parameters of all resolved 
+handlers** in the current update context.
 This behavior can lead to unexpected results in some cases, so be sure to use the method carefully 
-and be aware of the parameters of the resolved handlers.
+and be aware of the parameters of your handlers.
 
 Example:
 ```php
