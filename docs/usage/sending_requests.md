@@ -136,3 +136,17 @@ $message = $bot->sendMessage(
 
 ## Available methods
 See the [Telegram Bot API](https://core.telegram.org/bots/api#available-methods) for the available native methods.
+
+## Chunked methods
+Nutgram helps manage character limits by splitting messages into smaller ones,
+making it easier to stay within the limits set by platforms or media.
+Chunking methods allow users to transmit longer messages without exceeding the maximum character limits.
+
+Available chunked methods:
+- sendChunkedMessage
+- sendChunkedPhoto
+- sendChunkedAudio
+- sendChunkedDocument
+- sendChunkedVideo
+- sendChunkedAnimation
+- sendChunkedVoice
