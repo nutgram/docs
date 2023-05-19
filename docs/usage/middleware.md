@@ -342,35 +342,38 @@ $bot->onCommand('unban', UnbanCommand::class)->middleware(IsAdmin::class);
 $bot->onCommand('start', StartCommand::class);
 $bot->onCommand('help', HelpCommand::class);
 
-$bot->group(IsAdmin::class, function (Nutgram $bot){
+$bot->group(function (Nutgram $bot){
     $bot->onCommand('mute', MuteCommand::class);
     $bot->onCommand('kick', KickCommand::class);
     $bot->onCommand('ban', BanCommand::class);
     $bot->onCommand('unban', UnbanCommand::class);
-});
+})->middleware(IsAdmin::class);
 ```
 
 ### How to use the group method
 
 ```php
 // single middleware
-$bot->group(Middleware::class, function (Nutgram $bot){
+$bot->group(function (Nutgram $bot){
     // Your handlers here
-});
+})->middleware(Middleware::class);
 
 // multiple middlewares
-$bot->group([Middleware1::class, Middleware2::class], function (Nutgram $bot){
+$bot->group(function (Nutgram $bot){
     // Your handlers here
-});
+})
+->middleware(Middleware1::class)
+->middleware(Middleware2::class);
 
 // nested middlewares
-$bot->group(Middleware1::class, function (Nutgram $bot){
+$bot->group(function (Nutgram $bot){
     // Your handlers here
 
-    $bot->group(Middleware2::class, function (Nutgram $bot){
+    $bot->group(function (Nutgram $bot){
         // Your handlers here
-    });
-});
+    })->middleware(Middleware2::class);
+    
+})->middleware(Middleware1::class);
 ```
 
 ## Flow
@@ -380,18 +383,20 @@ The handlers middlewares are executed in **ascending** order.
 ```php
 use SergiX44\Nutgram\Nutgram;
 
-$bot = new Nutgram($_ENV['TOKEN']);
+$bot = new Nutgram('TOKEN');
 
-$bot->middleware(MiddlewareA::class);    // 1°
-$bot->middleware(MiddlewareB::class);    // 2°
+$bot->middleware(MiddlewareA::class);                   // 1°
+$bot->middleware(MiddlewareB::class);                   // 2°
 
-$bot->group([MiddlewareC::class, MiddlewareD::class], function (Nutgram $bot){    // 3°, 4°
-    $bot->group(MiddlewareE::class, function (Nutgram $bot){    // 5°
+$bot->group(function (Nutgram $bot) {
+    $bot->group(function (Nutgram $bot) {
         $bot->onCommand('start', StartCommand::class)   // 8°
-             ->middleware(MiddlewareF::class)     // 7°
-             ->middleware(MiddlewareG::class);    // 6°
-    });
-});
+             ->middleware(MiddlewareF::class)           // 7°
+             ->middleware(MiddlewareG::class);          // 6°
+    })->middleware(MiddlewareE::class);                 // 5°
+})
+->middleware(MiddlewareC::class)                        // 3°
+->middleware(MiddlewareD::class);                       // 4°
 
 $bot->run();
 ```
