@@ -71,7 +71,7 @@ $bot->run();
 
 ## Passing data
 
-It's possible to pass data between middlewares, using the method `setData` and `getData` on the bot instance, for
+It's possible to pass data between middlewares, using the method `set` and `get` on the bot instance, for
 example, to automatically retrieve data from a database, perform checks, and so on:
 
 ```php
@@ -82,19 +82,19 @@ $bot = new Nutgram($_ENV['TOKEN']);
 // retrieve the user
 $bot->middleware(function (Nutgram $bot, $next) {
     $user = get_current_user_from_db($bot->userId());
-    $bot->setData('user', $user);
+    $bot->set('user', $user);
     $next($bot);
 });
 
 
 $bot->onCommand('admin', function (Nutgram $bot) {
 
-    $user = $bot->getData('user');
+    $user = $bot->get('user');
     $bot->sendMessage("Hi admin $user->name!");
     
 })->middleware(function (Nutgram $bot, $next) {
 
-    $user = $bot->getData('user'); // retrieve the user we have set in the global middleware
+    $user = $bot->get('user'); // retrieve the user we have set in the global middleware
     if ($user->isAdmin) { // if the user is an admin, continue the chain
         $next($bot);
     }
@@ -102,7 +102,7 @@ $bot->onCommand('admin', function (Nutgram $bot) {
 });
 
 $bot->onCommand('user', function (Nutgram $bot) {
-    $user = $bot->getData('user');
+    $user = $bot->get('user');
     $bot->sendMessage("Hi user $user->name!");
 });
 
