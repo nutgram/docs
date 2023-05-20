@@ -376,7 +376,7 @@ $bot->onCommand('start', function (Nutgram $bot) {
     //
 })->description('Start command');
 
-$bot->group(function (Nutgram $bot) use (&$test) {
+$bot->group(function (Nutgram $bot) {
     $bot->onCommand('private', function (Nutgram $bot) { 
         //
     })->description('A command visible just in a private chat');    
