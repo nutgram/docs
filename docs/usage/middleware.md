@@ -10,7 +10,8 @@ repeated logic, or perform checks before executing a message handler.
 
 The best explanation comes from the Laravel documentation:
 
-> It's best to envision middleware as a series of "layers" HTTP requests must pass through before they hit your application. Each layer can examine the request and even reject it entirely.
+> It's best to envision middleware as a series of "layers" HTTP requests must pass through before they hit your
+> application. Each layer can examine the request and even reject it entirely.
 
 Where you can replace the HTTP requests with an incoming update from Telegram.
 
@@ -245,15 +246,18 @@ $bot->run();
 ```
 
 ## Get current handlers parameters
+
 Nutgram provides the `currentParameters` method allowing you to obtain the parameters of the target handlers.
 You can use this method in any context of the code, not just within middleware.
 
 The `currentParameters` method returns an `array` containing the parameters of the target handlers.
-In the bot's code, you can use the array returned by the method to access the handler's parameters and use them in your own code.
+In the bot's code, you can use the array returned by the method to access the handler's parameters and use them in your
+own code.
 
 ### Example usage
 
 Use case:
+
 ```php
 $bot = new Nutgram('TOKEN');
 
@@ -267,6 +271,7 @@ $bot->run();
 ```
 
 Without the `currentParameters` method, you would have to write the following code:
+
 ```php
 class CheckUserMiddleware
 {
@@ -281,6 +286,7 @@ class CheckUserMiddleware
 ```
 
 With the `currentParameters` method, you can write the following code:
+
 ```php
 class CheckUserMiddleware
 {
@@ -294,12 +300,14 @@ class CheckUserMiddleware
 ```
 
 ### Warning
+
 The `currentParameters` method returns an array containing **all parameters of all resolved
 handlers** in the current update context.
 This behavior can lead to unexpected results in some cases, so be sure to use the method carefully
 and be aware of the parameters of your handlers.
 
 Example:
+
 ```php
 // CheckUserMiddleware.php
 class CheckUserMiddleware
@@ -350,7 +358,9 @@ $bot->group(function (Nutgram $bot){
 })->middleware(IsAdmin::class);
 ```
 
-### How to use the group method
+### Nesting groups
+
+It's also possible to create nested groups
 
 ```php
 // single middleware
@@ -376,9 +386,42 @@ $bot->group(function (Nutgram $bot){
 })->middleware(Middleware1::class);
 ```
 
+### Scope
+
+The `scope()` method allows you to define the visibility of commands within a specific chat context.
+
+In the provided code snippet, `scope(new BotCommandScopeAllPrivateChats())`
+restricts the grouped commands to be visible only in private chat conversations with individual users.
+
+```php
+use SergiX44\Nutgram\Nutgram;
+use SergiX44\Nutgram\Telegram\Types\Command\BotCommandScopeAllPrivateChats;
+
+$bot = new Nutgram($_ENV['TOKEN']);
+
+$bot->onCommand('start', function (Nutgram $bot) {
+    //
+})->description('Start command');
+
+$bot->group(function (Nutgram $bot) use (&$test) {
+    $bot->onCommand('private', function (Nutgram $bot) { 
+        //
+    })->description('A command visible just in a private chat');    
+    
+    $bot->onCommand('private2', function (Nutgram $bot) { 
+        //
+    })->description('Another command visible just in a private chat');
+})->scope(new BotCommandScopeAllPrivateChats());
+
+$bot->run();
+```
+
+For all the available scopes, checkout the [Telegram official doc](https://core.telegram.org/bots/api#botcommandscope).
+
 ## Flow
+
 The global middlewares are executed in descending order.
-The handlers middlewares are executed in **ascending** order. 
+The handlers middlewares are executed in **ascending** order.
 
 ```php
 use SergiX44\Nutgram\Nutgram;
