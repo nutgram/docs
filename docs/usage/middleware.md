@@ -245,27 +245,24 @@ $bot->onCommand('add_image', AddImageCommand::class)
 $bot->run();
 ```
 
-## Get current handlers parameters
+## Retrieve handler parameters
 
-Nutgram provides the `currentParameters` method allowing you to obtain the parameters of the target handlers.
+The framework provides the `currentParameters` method allowing you to obtain the parameters of the target handlers.
 You can use this method in any context of the code, not just within middleware.
 
 The `currentParameters` method returns an `array` containing the parameters of the target handlers.
-In the bot's code, you can use the array returned by the method to access the handler's parameters and use them in your
-own code.
-
-### Example usage
+In your code, you can use the array returned by the method to access the handler's parameters.
 
 Use case:
 
 ```php
 $bot = new Nutgram('TOKEN');
 
-$bot->group(CheckUserMiddleware::class, function(Nutgram $bot){
+$bot->group(function(Nutgram $bot){
     $bot->onCallbackQueryData('user/([0-9]+)/show', [UserController::class, 'show']);
     $bot->onCallbackQueryData('user/([0-9]+)/edit', [UserController::class, 'edit']);
     $bot->onCallbackQueryData('user/([0-9]+)/delete', [UserController::class, 'delete']);
-});
+})->middleware(CheckUserMiddleware::class);
 
 $bot->run();
 ```
@@ -279,7 +276,7 @@ class CheckUserMiddleware
     {
         preg_match('/user\/([0-9]+)\/.*/', $bot->callbackQuery()->data, $matches);
         $id = $matches[1];
-        //TODO: check user by $id
+        // check user by $id
         $next($bot);
     }
 }
@@ -293,13 +290,14 @@ class CheckUserMiddleware
     public function __invoke(Nutgram $bot, $next)
     {
         [$id] = $bot->currentParameters();
-        //TODO: check user by $id
+        // check user by $id
         $next($bot);
     }
 }
 ```
 
-### Warning
+:::caution
+
 
 The `currentParameters` method returns an array containing **all parameters of all resolved
 handlers** in the current update context.
@@ -315,8 +313,8 @@ class CheckUserMiddleware
     public function __invoke(Nutgram $bot, $next)
     {
         $parameters = $bot->currentParameters();
-        //$parameters[0] = 'your-value'; <= for onCallbackQueryData('user/([0-9]+)/show')
-        //$parameters[1] = 'your-value'; <= for onCallbackQueryData('user/([0-9]+)/.*')
+        // $parameters[0] = 'your-value'; <= for onCallbackQueryData('user/([0-9]+)/show')
+        // $parameters[1] = 'your-value'; <= for onCallbackQueryData('user/([0-9]+)/.*')
         $next($bot);
     }
 }
@@ -331,6 +329,7 @@ $bot->group(CheckUserMiddleware::class, function(Nutgram $bot){
 
 $bot->run();
 ```
+:::
 
 ## Groups
 
