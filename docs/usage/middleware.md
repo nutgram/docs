@@ -332,7 +332,9 @@ $bot->group(CheckUserMiddleware::class, function(Nutgram $bot){
 $bot->run();
 ```
 
-## Grouping
+## Groups
+
+### Middleware
 
 You can group middlewares, using the `group` method:
 
@@ -356,34 +358,6 @@ $bot->group(function (Nutgram $bot){
     $bot->onCommand('ban', BanCommand::class);
     $bot->onCommand('unban', UnbanCommand::class);
 })->middleware(IsAdmin::class);
-```
-
-### Nesting groups
-
-It's also possible to create nested groups
-
-```php
-// single middleware
-$bot->group(function (Nutgram $bot){
-    // Your handlers here
-})->middleware(Middleware::class);
-
-// multiple middlewares
-$bot->group(function (Nutgram $bot){
-    // Your handlers here
-})
-->middleware(Middleware1::class)
-->middleware(Middleware2::class);
-
-// nested middlewares
-$bot->group(function (Nutgram $bot){
-    // Your handlers here
-
-    $bot->group(function (Nutgram $bot){
-        // Your handlers here
-    })->middleware(Middleware2::class);
-    
-})->middleware(Middleware1::class);
 ```
 
 ### Scope
@@ -417,6 +391,34 @@ $bot->run();
 ```
 
 For all the available scopes, checkout the [Telegram official doc](https://core.telegram.org/bots/api#botcommandscope).
+
+### Nesting groups
+
+It's also possible to create nested groups
+
+```php
+// single middleware
+$bot->group(function (Nutgram $bot){
+    // Your handlers here
+})->middleware(Middleware::class);
+
+// multiple middlewares
+$bot->group(function (Nutgram $bot){
+    // Your handlers here
+})
+->middleware(Middleware1::class)
+->middleware(Middleware2::class);
+
+// nested middlewares
+$bot->group(function (Nutgram $bot){
+    // Your handlers here
+
+    $bot->group(function (Nutgram $bot){
+        // Your handlers here
+    })->scope(/* */)->middleware(Middleware2::class);
+    
+})->middleware(Middleware1::class)->scope(/* */);
+```
 
 ## Flow
 
