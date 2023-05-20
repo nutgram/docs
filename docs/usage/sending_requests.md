@@ -42,8 +42,8 @@ descriptor to the right method, and the framework will take care of how uploadin
 If you already have the Telegram `file_id`, you can simply specify it.
 
 ```php
-
 use SergiX44\Nutgram\Nutgram;
+use SergiX44\Nutgram\Telegram\Types\Internal\InputFile;
 use SergiX44\Nutgram\Telegram\Types\Message\Message;
 
 $bot = new Nutgram($_ENV['TOKEN']);
@@ -53,23 +53,19 @@ $photo = fopen('image.png', 'r+'); // open the file
 
 /** @var Message $message */
 $message = $bot->sendPhoto(
-    photo: $photo, // pass the resource
+    photo: InputFile::make($photo), // create the input file
     chat_id: 111222333
-); 
-
-fclose($photo); // close the file
+);
 
 
 // Send a video to a specific user ***********************************************
 $video = fopen('funnyvideo.mp4', 'r+'); // open the file
 
 /** @var Message $message */
-$message = $bot->sendPhoto(
-    video: $video,
+$message = $bot->sendVideo(
+    video: InputFile::make($video),
     chat_id: 111222333
 );
-
-fclose($video); // close the file
 
 
 // send a sticker via file_id ****************************************************
