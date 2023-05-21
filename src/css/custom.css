@@ -4,6 +4,15 @@
  * work well for content-centric websites.
  */
 
+@font-face {
+  font-family: 'Nature Beauty Personal Use';
+  src: url('../../static/font/NatureBeautyPersonalUse.woff2') format('woff2'),
+  url('../../static/font/NatureBeautyPersonalUse.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* You can override the default Infima variables here. */
 :root {
   --ifm-color-primary: #2bb3d1;
@@ -42,4 +51,22 @@
 
 nav.navbar{
   backdrop-filter: saturate(1.8) blur(8px);
+}
+
+.hero__title{
+  color: #fff0;
+  font-family: 'Nature Beauty Personal Use';
+  font-size: 6.5rem;
+  background-image: linear-gradient(180deg,#fff 0%,#d5c1a9);
+  background-clip: text;
+  font-weight: normal;
+  margin-bottom: 15px;
+  padding-bottom: 30px;
+  margin-top: 15px;
+}
+
+.navbar__brand .navbar__title{
+  font-family: 'Nature Beauty Personal Use';
+  font-weight: normal;
+  overflow: initial;
 }
