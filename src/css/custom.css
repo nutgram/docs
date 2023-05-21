@@ -14,6 +14,7 @@
   --ifm-color-primary-lighter: #48bfd9;
   --ifm-color-primary-lightest: #68cae0;
   --ifm-code-font-size: 95%;
+  --ifm-navbar-background-color: rgba(255, 255, 255, 0.5);
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
@@ -25,6 +26,7 @@
   --ifm-color-primary-light: #60cde5;
   --ifm-color-primary-lighter: #6dd1e7;
   --ifm-color-primary-lightest: #93dded;
+  --ifm-navbar-background-color: rgba(36, 37, 38, 0.5);
 }
 
 .docusaurus-highlight-code-line {
@@ -36,4 +38,8 @@
 
 [data-theme='dark'] .docusaurus-highlight-code-line {
   background-color: rgba(0, 0, 0, 0.3);
+}
+
+nav.navbar{
+  backdrop-filter: saturate(1.8) blur(8px);
 }
