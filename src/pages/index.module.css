@@ -6,9 +6,9 @@
 .heroBanner {
     padding: 4rem 0;
     text-align: center;
-    position: relative;
+    /*position: relative;*/
     overflow: hidden;
-    background-color: #3988e1;
+    background-color: var(--hero-background)
 }
 
 @media screen and (max-width: 996px) {
@@ -44,4 +44,17 @@
     padding-top: 20px;
     padding-bottom: 30px;
     filter: drop-shadow(4px 4px 2px #333);
+}
+
+.heroBackground{
+    background: conic-gradient(from 180deg at 50% 50%,#039be5 0deg,#0b83bd 180deg,#ffdfb8 1turn);
+    border-radius: 100%;
+    filter: blur(75px);
+    height: 500px;
+    mix-blend-mode: normal;
+    opacity: .2;
+    position: absolute;
+    width: 100%;
+    will-change: filter;
+    z-index: 0;
 }
