@@ -76,7 +76,12 @@ In the `config/nutgram.php` file, you will find something like that:
 ```
 
 The second `config` array, is basically any configuration option, already
-explained [here](installation.md#configuration).
+explained [here](installation.md#configuration).<br/>
+
+:::caution
+However, please remember to convert the keys to **snake_case**.<br/>
+Additionally, any keys starting with `polling` should be divided into a sub-array.
+:::
 
 The third `routes`, set if the service provider should load the handlers form the folder `routes/telegram.php`, by
 default is `true`.
