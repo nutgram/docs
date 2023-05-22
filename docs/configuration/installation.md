@@ -56,8 +56,9 @@ Here a list of all the options you can specify:
 
 - **type:** string
 - **default:** `null`
-- Useful when the bot is a group bot (with [Group Privacy](https://core.telegram.org/bots/features#privacy-mode) *
-  *disabled**) and you need to specify the bot name.
+- Useful when the bot is a group bot 
+  (with [Group Privacy](https://core.telegram.org/bots/features#privacy-mode) **disabled**) 
+  and you need to specify the bot name.
 
 ### `isLocal`
 
