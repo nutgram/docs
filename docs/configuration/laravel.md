@@ -212,6 +212,29 @@ and remember to register it on you http routes:
 Route::post('/webhook', 'FrontController');
 ```
 
+## Facade support
+
+Nutgram provides a Facade to access the bot instance anywhere in your application.
+
+You can use it like this:
+
+```php
+use SergiX44\Nutgram\Facades\Telegram;
+
+Telegram::sendMessage('Hello, world!');
+```
+
+You can use the Facade in your `telegram.php` routes file too:
+
+```php
+use SergiX44\Nutgram\Facades\Telegram;
+
+Telegram::onCommand('start', function () {
+    return Telegram::sendMessage('Hello, world!');
+});
+```
+
+
 ## Testing
 
 Inside unit tests, you can automatically retrieve the `fake` instance with all your handlers and middleware loaded, 
