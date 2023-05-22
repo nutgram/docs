@@ -51,12 +51,14 @@
     background-color: rgba(0, 0, 0, 0.3);
 }
 
-nav.navbar {
-    backdrop-filter: saturate(1.8) blur(8px);
-}
-
 .navbar__brand .navbar__title {
     font-family: 'Nature Beauty', serif;
     font-weight: normal;
     overflow: initial;
+}
+
+@media screen and (min-width: 996px){
+    nav.navbar {
+        backdrop-filter: saturate(1.8) blur(8px);
+    }
 }
