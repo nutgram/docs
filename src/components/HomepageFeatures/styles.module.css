@@ -10,3 +10,15 @@
   width: 120px;
   margin-bottom: 25px;
 }
+
+
+.featureListTitle {
+  font-family: 'Nature Beauty', serif;
+  font-weight: normal;
+  font-size: 1.6rem;
+  filter: drop-shadow(1px 1px 1px #333);
+}
+
+.featureListLogo {
+  filter: drop-shadow(4px 4px 2px #333);
+}

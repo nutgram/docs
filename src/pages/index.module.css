@@ -4,27 +4,57 @@
  */
 
 .heroBanner {
-  padding: 4rem 0;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-  background-color: #3988e1;
+    padding: 4rem 0;
+    text-align: center;
+    /*position: relative;*/
+    overflow: hidden;
+    background-color: var(--hero-background)
 }
 
 @media screen and (max-width: 996px) {
-  .heroBanner {
-    padding: 2rem;
-  }
+    .heroBanner {
+        padding: 2rem;
+    }
 }
 
 .buttons {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .tagline {
-  font-style: italic;
-  font-size: 1.25rem;
-  color:white !important;
+    font-style: italic;
+    font-size: 1.25rem;
+    color: white !important;
+    filter: drop-shadow(1px 1px 1px #333);
+}
+
+.logo {
+    filter: drop-shadow(4px 4px 2px #333);
+}
+
+.title {
+    color: #fff0;
+    font-family: 'Nature Beauty', serif;
+    font-size: 6.5rem;
+    background-image: linear-gradient(180deg, rgba(255, 255, 255, 1) 0%, rgba(232, 230, 230, 1) 53%, rgba(231, 192, 165, 1) 59%, rgba(209, 134, 82, 1) 100%);
+    background-clip: text;
+    font-weight: normal;
+    padding-top: 20px;
+    padding-bottom: 30px;
+    filter: drop-shadow(4px 4px 2px #333);
+}
+
+.heroBackground{
+    background: conic-gradient(from 180deg at 50% 50%,#039be5 0deg,#0b83bd 180deg,#ffdfb8 1turn);
+    border-radius: 100%;
+    filter: blur(75px);
+    height: 500px;
+    mix-blend-mode: normal;
+    opacity: .2;
+    position: absolute;
+    width: 100%;
+    will-change: filter;
+    z-index: 0;
 }

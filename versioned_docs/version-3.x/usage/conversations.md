@@ -99,12 +99,11 @@ class AskIceCreamConversation extends Conversation {
 
     public function askCupSize(Nutgram $bot)
     {
-        $bot->sendMessage(
-            text: 'How big should be you ice cream cup?', 
-            reply_markup: InlineKeyboardMarkup::make()
+        $bot->sendMessage('How big should be you ice cream cup?', [
+            'reply_markup' => InlineKeyboardMarkup::make()
                 ->addRow(InlineKeyboardButton::make('Small', callback_data: 'S'), InlineKeyboardButton::make('Medium', callback_data: 'M'))
                 ->addRow(InlineKeyboardButton::make('Big', callback_data: 'L'), InlineKeyboardButton::make('Super Big', callback_data: 'XL')),
-        );
+        ]);
         $this->next('askFlavors');
     }
 

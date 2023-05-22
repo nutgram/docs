@@ -12,4 +12,4 @@ provides seamless integration with Symfony and unlocks new features and
 functionality for developers to create even more powerful and customizable bots. We believe this addition will enhance
 the development experience for our community and look forward to seeing what our users will create with this new tool.
 
-[Check out the new documentation page 🗄](docs/configuration/symfony)
+[Check out the new documentation page 🗄](/docs/configuration/symfony)

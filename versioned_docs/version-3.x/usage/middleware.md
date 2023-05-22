@@ -10,8 +10,7 @@ repeated logic, or perform checks before executing a message handler.
 
 The best explanation comes from the Laravel documentation:
 
-> It's best to envision middleware as a series of "layers" HTTP requests must pass through before they hit your
-> application. Each layer can examine the request and even reject it entirely.
+> It's best to envision middleware as a series of "layers" HTTP requests must pass through before they hit your application. Each layer can examine the request and even reject it entirely.
 
 Where you can replace the HTTP requests with an incoming update from Telegram.
 
@@ -72,7 +71,7 @@ $bot->run();
 
 ## Passing data
 
-It's possible to pass data between middlewares, using the method `set` and `get` on the bot instance, for
+It's possible to pass data between middlewares, using the method `setData` and `getData` on the bot instance, for
 example, to automatically retrieve data from a database, perform checks, and so on:
 
 ```php
@@ -83,19 +82,19 @@ $bot = new Nutgram($_ENV['TOKEN']);
 // retrieve the user
 $bot->middleware(function (Nutgram $bot, $next) {
     $user = get_current_user_from_db($bot->userId());
-    $bot->set('user', $user);
+    $bot->setData('user', $user);
     $next($bot);
 });
 
 
 $bot->onCommand('admin', function (Nutgram $bot) {
 
-    $user = $bot->get('user');
+    $user = $bot->getData('user');
     $bot->sendMessage("Hi admin $user->name!");
     
 })->middleware(function (Nutgram $bot, $next) {
 
-    $user = $bot->get('user'); // retrieve the user we have set in the global middleware
+    $user = $bot->getData('user'); // retrieve the user we have set in the global middleware
     if ($user->isAdmin) { // if the user is an admin, continue the chain
         $next($bot);
     }
@@ -103,7 +102,7 @@ $bot->onCommand('admin', function (Nutgram $bot) {
 });
 
 $bot->onCommand('user', function (Nutgram $bot) {
-    $user = $bot->get('user');
+    $user = $bot->getData('user');
     $bot->sendMessage("Hi user $user->name!");
 });
 
@@ -245,30 +244,29 @@ $bot->onCommand('add_image', AddImageCommand::class)
 $bot->run();
 ```
 
-## Retrieve handler parameters
-
-The framework provides the `currentParameters` method allowing you to obtain the parameters of the target handlers.
+## Get current handlers parameters
+Nutgram provides the `currentParameters` method allowing you to obtain the parameters of the target handlers.
 You can use this method in any context of the code, not just within middleware.
 
 The `currentParameters` method returns an `array` containing the parameters of the target handlers.
-In your code, you can use the array returned by the method to access the handler's parameters.
+In the bot's code, you can use the array returned by the method to access the handler's parameters and use them in your own code.
+
+### Example usage
 
 Use case:
-
 ```php
 $bot = new Nutgram('TOKEN');
 
-$bot->group(function(Nutgram $bot){
+$bot->group(CheckUserMiddleware::class, function(Nutgram $bot){
     $bot->onCallbackQueryData('user/([0-9]+)/show', [UserController::class, 'show']);
     $bot->onCallbackQueryData('user/([0-9]+)/edit', [UserController::class, 'edit']);
     $bot->onCallbackQueryData('user/([0-9]+)/delete', [UserController::class, 'delete']);
-})->middleware(CheckUserMiddleware::class);
+});
 
 $bot->run();
 ```
 
 Without the `currentParameters` method, you would have to write the following code:
-
 ```php
 class CheckUserMiddleware
 {
@@ -276,36 +274,32 @@ class CheckUserMiddleware
     {
         preg_match('/user\/([0-9]+)\/.*/', $bot->callbackQuery()->data, $matches);
         $id = $matches[1];
-        // check user by $id
+        //TODO: check user by $id
         $next($bot);
     }
 }
 ```
 
 With the `currentParameters` method, you can write the following code:
-
 ```php
 class CheckUserMiddleware
 {
     public function __invoke(Nutgram $bot, $next)
     {
         [$id] = $bot->currentParameters();
-        // check user by $id
+        //TODO: check user by $id
         $next($bot);
     }
 }
 ```
 
-:::caution
-
-
+### Warning
 The `currentParameters` method returns an array containing **all parameters of all resolved
 handlers** in the current update context.
 This behavior can lead to unexpected results in some cases, so be sure to use the method carefully
 and be aware of the parameters of your handlers.
 
 Example:
-
 ```php
 // CheckUserMiddleware.php
 class CheckUserMiddleware
@@ -313,8 +307,8 @@ class CheckUserMiddleware
     public function __invoke(Nutgram $bot, $next)
     {
         $parameters = $bot->currentParameters();
-        // $parameters[0] = 'your-value'; <= for onCallbackQueryData('user/([0-9]+)/show')
-        // $parameters[1] = 'your-value'; <= for onCallbackQueryData('user/([0-9]+)/.*')
+        //$parameters[0] = 'your-value'; <= for onCallbackQueryData('user/([0-9]+)/show')
+        //$parameters[1] = 'your-value'; <= for onCallbackQueryData('user/([0-9]+)/.*')
         $next($bot);
     }
 }
@@ -329,11 +323,8 @@ $bot->group(CheckUserMiddleware::class, function(Nutgram $bot){
 
 $bot->run();
 ```
-:::
 
-## Groups
-
-### Middleware
+## Grouping
 
 You can group middlewares, using the `group` method:
 
@@ -351,96 +342,56 @@ $bot->onCommand('unban', UnbanCommand::class)->middleware(IsAdmin::class);
 $bot->onCommand('start', StartCommand::class);
 $bot->onCommand('help', HelpCommand::class);
 
-$bot->group(function (Nutgram $bot){
+$bot->group(IsAdmin::class, function (Nutgram $bot){
     $bot->onCommand('mute', MuteCommand::class);
     $bot->onCommand('kick', KickCommand::class);
     $bot->onCommand('ban', BanCommand::class);
     $bot->onCommand('unban', UnbanCommand::class);
-})->middleware(IsAdmin::class);
+});
 ```
 
-### Scope
-
-The `scope()` method allows you to define the visibility of commands within a specific chat context.
-
-In the provided code snippet, `scope(new BotCommandScopeAllPrivateChats())`
-restricts the grouped commands to be visible only in private chat conversations with individual users.
-
-```php
-use SergiX44\Nutgram\Nutgram;
-use SergiX44\Nutgram\Telegram\Types\Command\BotCommandScopeAllPrivateChats;
-
-$bot = new Nutgram($_ENV['TOKEN']);
-
-$bot->onCommand('start', function (Nutgram $bot) {
-    //
-})->description('Start command');
-
-$bot->group(function (Nutgram $bot) {
-    $bot->onCommand('private', function (Nutgram $bot) { 
-        //
-    })->description('A command visible just in a private chat');    
-    
-    $bot->onCommand('private2', function (Nutgram $bot) { 
-        //
-    })->description('Another command visible just in a private chat');
-})->scope(new BotCommandScopeAllPrivateChats());
-
-$bot->run();
-```
-
-For all the available scopes, checkout the [Telegram official doc](https://core.telegram.org/bots/api#botcommandscope).
-
-### Nesting groups
-
-It's also possible to create nested groups
+### How to use the group method
 
 ```php
 // single middleware
-$bot->group(function (Nutgram $bot){
+$bot->group(Middleware::class, function (Nutgram $bot){
     // Your handlers here
-})->middleware(Middleware::class);
+});
 
 // multiple middlewares
-$bot->group(function (Nutgram $bot){
+$bot->group([Middleware1::class, Middleware2::class], function (Nutgram $bot){
     // Your handlers here
-})
-->middleware(Middleware1::class)
-->middleware(Middleware2::class);
+});
 
 // nested middlewares
-$bot->group(function (Nutgram $bot){
+$bot->group(Middleware1::class, function (Nutgram $bot){
     // Your handlers here
 
-    $bot->group(function (Nutgram $bot){
+    $bot->group(Middleware2::class, function (Nutgram $bot){
         // Your handlers here
-    })->scope(/* */)->middleware(Middleware2::class);
-    
-})->middleware(Middleware1::class)->scope(/* */);
+    });
+});
 ```
 
 ## Flow
-
 The global middlewares are executed in descending order.
-The handlers middlewares are executed in **ascending** order.
+The handlers middlewares are executed in **ascending** order. 
 
 ```php
 use SergiX44\Nutgram\Nutgram;
 
-$bot = new Nutgram('TOKEN');
+$bot = new Nutgram($_ENV['TOKEN']);
 
-$bot->middleware(MiddlewareA::class);                   // 1°
-$bot->middleware(MiddlewareB::class);                   // 2°
+$bot->middleware(MiddlewareA::class);    // 1°
+$bot->middleware(MiddlewareB::class);    // 2°
 
-$bot->group(function (Nutgram $bot) {
-    $bot->group(function (Nutgram $bot) {
+$bot->group([MiddlewareC::class, MiddlewareD::class], function (Nutgram $bot){    // 3°, 4°
+    $bot->group(MiddlewareE::class, function (Nutgram $bot){    // 5°
         $bot->onCommand('start', StartCommand::class)   // 8°
-             ->middleware(MiddlewareF::class)           // 7°
-             ->middleware(MiddlewareG::class);          // 6°
-    })->middleware(MiddlewareE::class);                 // 5°
-})
-->middleware(MiddlewareC::class)                        // 3°
-->middleware(MiddlewareD::class);                       // 4°
+             ->middleware(MiddlewareF::class)     // 7°
+             ->middleware(MiddlewareG::class);    // 6°
+    });
+});
 
 $bot->run();
 ```

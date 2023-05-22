@@ -4,36 +4,59 @@
  * work well for content-centric websites.
  */
 
+@font-face {
+    font-family: 'Nature Beauty';
+    src: url('../../static/font/NatureBeauty.woff2') format('woff2'),
+    url('../../static/font/NatureBeauty.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
 /* You can override the default Infima variables here. */
 :root {
-  --ifm-color-primary: #2bb3d1;
-  --ifm-color-primary-dark: #27a1bc;
-  --ifm-color-primary-darker: #2598b2;
-  --ifm-color-primary-darkest: #1e7d92;
-  --ifm-color-primary-light: #3ebcd7;
-  --ifm-color-primary-lighter: #48bfd9;
-  --ifm-color-primary-lightest: #68cae0;
-  --ifm-code-font-size: 95%;
+    --ifm-color-primary: #2bb3d1;
+    --ifm-color-primary-dark: #27a1bc;
+    --ifm-color-primary-darker: #2598b2;
+    --ifm-color-primary-darkest: #1e7d92;
+    --ifm-color-primary-light: #3ebcd7;
+    --ifm-color-primary-lighter: #48bfd9;
+    --ifm-color-primary-lightest: #68cae0;
+    --ifm-code-font-size: 95%;
+    --ifm-navbar-background-color: rgba(255, 255, 255, 0.5);
+    --hero-background: #3988e1;
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
 [data-theme='dark'] {
-  --ifm-color-primary: #47c5e1;
-  --ifm-color-primary-dark: #2ebddd;
-  --ifm-color-primary-darker: #23b7d8;
-  --ifm-color-primary-darkest: #1d97b2;
-  --ifm-color-primary-light: #60cde5;
-  --ifm-color-primary-lighter: #6dd1e7;
-  --ifm-color-primary-lightest: #93dded;
+    --ifm-color-primary: #47c5e1;
+    --ifm-color-primary-dark: #2ebddd;
+    --ifm-color-primary-darker: #23b7d8;
+    --ifm-color-primary-darkest: #1d97b2;
+    --ifm-color-primary-light: #60cde5;
+    --ifm-color-primary-lighter: #6dd1e7;
+    --ifm-color-primary-lightest: #93dded;
+    --ifm-navbar-background-color: rgba(36, 37, 38, 0.5);
+    --hero-background: none;
 }
 
 .docusaurus-highlight-code-line {
-  background-color: rgba(0, 0, 0, 0.1);
-  display: block;
-  margin: 0 calc(-1 * var(--ifm-pre-padding));
-  padding: 0 var(--ifm-pre-padding);
+    background-color: rgba(0, 0, 0, 0.1);
+    display: block;
+    margin: 0 calc(-1 * var(--ifm-pre-padding));
+    padding: 0 var(--ifm-pre-padding);
 }
 
 [data-theme='dark'] .docusaurus-highlight-code-line {
-  background-color: rgba(0, 0, 0, 0.3);
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+nav.navbar {
+    backdrop-filter: saturate(1.8) blur(8px);
+}
+
+.navbar__brand .navbar__title {
+    font-family: 'Nature Beauty', serif;
+    font-weight: normal;
+    overflow: initial;
 }

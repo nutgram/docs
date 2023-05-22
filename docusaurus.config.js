@@ -25,10 +25,10 @@ const config = {
           remarkPlugins: [require('mdx-mermaid')],
           sidebarPath: require.resolve('./sidebars.js'),
           editUrl: 'https://github.com/nutgram/docs/tree/master',
-          lastVersion: 'current',
+          lastVersion: '3.x',
           versions: {
             current: {
-              label: '3.x',
+              label: '4.x',
               // path: '.',
             },
           },
@@ -59,9 +59,9 @@ const config = {
             type: 'doc',
             docId: 'introduction',
             position: 'left',
-            label: 'Documentation',
+            label: '📖 Documentation',
           },
-          {to: '/blog', label: 'Blog', position: 'left'},
+          {to: '/blog', label: '📝 Blog', position: 'left'},
           {
             type: 'docsVersionDropdown',
             position: 'right',

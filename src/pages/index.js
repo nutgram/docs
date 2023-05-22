@@ -9,15 +9,16 @@ import HomepageFeatures from '@site/src/components/HomepageFeatures';
 function HomepageHeader() {
     const {siteConfig} = useDocusaurusContext();
     return (
-        <header className={clsx('hero hero--primary', styles.heroBanner)}>
+        <header className={clsx('hero', styles.heroBanner)}>
             <div className="container">
-                <img src="/img/logo.svg" width={500}/>
+                <img className={styles.logo} src="/img/logo-raw.svg" width={360} alt="Nutgram Logo" />
+                <h1 className={clsx('hero__title', styles.title)}>{siteConfig.title}</h1>
                 <p className={clsx('hero__subtitle', styles.tagline)}>{siteConfig.tagline}</p>
                 <div className={styles.buttons}>
                     <Link
                         className="button button--secondary button--lg"
                         to="/docs/introduction">
-                        Getting Started
+                        🚀 Get Started
                     </Link>
                     <iframe
                         style={{overflow: 'hidden', 'marginLeft': '25px'}}
@@ -38,6 +39,7 @@ export default function Home() {
         <Layout
             title="Welcome"
             description={`${siteConfig.tagline}`}>
+            <span className={styles.heroBackground}></span>
             <HomepageHeader/>
             <main>
                 <HomepageFeatures/>

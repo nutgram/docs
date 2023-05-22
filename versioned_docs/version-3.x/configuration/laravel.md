@@ -4,14 +4,8 @@ sidebar_position: 4
 
 # Laravel
 
-Instead of installing the base `nutgram/nutgram` base package, you have to install the package version:
-
-```bash
-composer require nutgram/laravel
-
-# remove the base package if you have installed it:
-# composer remove nutgram/nutgram
-```
+If you are using the Laravel framework, much of the setup is handled automatically for you. First, you should install
+the package via composer as usual (see [the installation page](installation.md#composer))
 
 In you `.env` file, you should only define the `TELEGRAM_TOKEN` var, that's it!
 
@@ -76,12 +70,7 @@ In the `config/nutgram.php` file, you will find something like that:
 ```
 
 The second `config` array, is basically any configuration option, already
-explained [here](installation.md#configuration).<br/>
-
-:::caution
-However, please remember to convert the keys to **snake_case**.<br/>
-Additionally, any keys starting with `polling` should be divided into a sub-array.
-:::
+explained [here](installation.md#configuration).
 
 The third `routes`, set if the service provider should load the handlers form the folder `routes/telegram.php`, by
 default is `true`.
@@ -216,29 +205,6 @@ and remember to register it on you http routes:
 
 Route::post('/webhook', 'FrontController');
 ```
-
-## Facade support
-
-Nutgram provides a Facade to access the bot instance anywhere in your application.
-
-You can use it like this:
-
-```php
-use SergiX44\Nutgram\Facades\Telegram;
-
-Telegram::sendMessage('Hello, world!');
-```
-
-You can use the Facade in your `telegram.php` routes file too:
-
-```php
-use SergiX44\Nutgram\Facades\Telegram;
-
-Telegram::onCommand('start', function () {
-    return Telegram::sendMessage('Hello, world!');
-});
-```
-
 
 ## Testing
 

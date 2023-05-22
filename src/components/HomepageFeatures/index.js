@@ -5,7 +5,7 @@ import styles from './styles.module.css';
 const FeatureList = [
     {
         title: 'Blazing Fast',
-        Svg: require('@site/static/img/rocket.svg').default,
+        Svg: require('@site/static/img/fast.svg').default,
         description: (
             <>
                 Focusing to keep the framework overhead as low as possible, what's worse than a slow chatbot?
@@ -13,17 +13,8 @@ const FeatureList = [
         ),
     },
     {
-        title: 'Easy to Use',
-        Svg: require('@site/static/img/items.svg').default,
-        description: (
-            <>
-                Built on top of Guzzle, scales from a proof of concept to the most complex flows, without losing your mind.
-            </>
-        ),
-    },
-    {
         title: 'Production Ready',
-        Svg: require('@site/static/img/tasks.svg').default,
+        Svg: require('@site/static/img/production.svg').default,
         description: (
             <>
                 Already battle-tested on high traffic chatbots, provides a good number of integrations and testing
@@ -32,11 +23,38 @@ const FeatureList = [
         ),
     },
     {
-        title: 'Batteries Included',
-        Svg: require('@site/static/img/battery.svg').default,
+        title: 'Conversations',
+        Svg: require('@site/static/img/conversations.svg').default,
         description: (
             <>
-                Provides a nice integration with Laravel and integrates with PHPUnit.
+                Nutgram provides a simple and powerful way to manage conversations, allowing you to build complex chatbots with ease.
+            </>
+        ),
+    },
+    {
+        title: 'Framework Support',
+        Svg: require('@site/static/img/frameworks.svg').default,
+        description: (
+            <>
+                Provides a nice integration with Laravel and Symfony, allowing you to use Nutgram in your favorite framework.
+            </>
+        ),
+    },
+    {
+        title: 'Extensible',
+        Svg: require('@site/static/img/extensible.svg').default,
+        description: (
+            <>
+                Nutgram is built with extensibility in mind, you can easily extend it with your own features.
+            </>
+        ),
+    },
+    {
+        title: 'Testing',
+        Svg: require('@site/static/img/testing.svg').default,
+        description: (
+            <>
+                Test your chatbots with ease! Nutgram comes with a testing suite that makes testing a breeze.
             </>
         ),
     },
@@ -44,12 +62,12 @@ const FeatureList = [
 
 function Feature({Svg, title, description}) {
     return (
-        <div className={clsx('col col--3')}>
-            <div className="text--center">
+        <div className={clsx('col col--4')} style={{marginBottom: 15}}>
+            <div className={styles.featureListLogo + " text--center"}>
                 <Svg className={styles.featureSvg} role="img"/>
             </div>
             <div className="text--center padding-horiz--md">
-                <h3>{title}</h3>
+                <h3 className={styles.featureListTitle}>{title}</h3>
                 <p>{description}</p>
             </div>
         </div>

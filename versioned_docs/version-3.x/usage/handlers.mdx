@@ -96,6 +96,12 @@ Here a full list of all the handler that listens to specific type of updates:
 </div>
 <div class="margin-bottom--md">
     <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onPoll($callable)</code>&nbsp;
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-DEPRECATED%20in%203.9.0-red"/><br/>
+    Handles any incoming poll.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
     <code>onUpdatePoll($callable)</code><br/>
     Handles any incoming poll.
 </div>
@@ -491,14 +497,13 @@ use SergiX44\Nutgram\Nutgram;
 $bot = new Nutgram($_ENV['TOKEN']);
 
 $bot->onCommand('start', function (Nutgram $bot) {
-    $bot->sendMessage(
-        text: 'Choose an option:',
-        reply_markup: InlineKeyboardMarkup::make()->addRow(
+    $bot->sendMessage('Choose an option:', [
+        'reply_markup' => InlineKeyboardMarkup::make()->addRow(
             InlineKeyboardButton::make('One', callback_data: 'one'),
             InlineKeyboardButton::make('Two', callback_data: 'two'),
             InlineKeyboardButton::make('Cancel', callback_data: 'cancel'),
         )
-    );
+    ]);
 });
 
 $bot->onCallbackQueryData('one|two', function (Nutgram $bot) {
@@ -522,14 +527,13 @@ use SergiX44\Nutgram\Nutgram;
 $bot = new Nutgram($_ENV['TOKEN']);
 
 $bot->onCommand('start', function (Nutgram $bot) {
-    $bot->sendMessage(
-        text: 'Choose an option:',
-        reply_markup: InlineKeyboardMarkup::make()->addRow(
+    $bot->sendMessage('Choose an option:', [
+        'reply_markup' => InlineKeyboardMarkup::make()->addRow(
             InlineKeyboardButton::make('One', callback_data: 'number 1'),
             InlineKeyboardButton::make('Two', callback_data: 'number 2'),
             InlineKeyboardButton::make('Cancel', callback_data: 'cancel'),
         )
-    );
+    ]);
 });
 
 $bot->onCallbackQueryData('number {param}', function (Nutgram $bot, $param) {
@@ -664,10 +668,7 @@ use SergiX44\Nutgram\Telegram\Exceptions\TelegramException;
 $bot = new Nutgram($_ENV['TOKEN']);
 
 $bot->onMessage(function (Nutgram $bot) {
-    $bot->sendMessage(
-        text: 'Invalid call!',
-        chat_id: null,
-    );
+    $bot->sendMessage('Invalid call!', ['chat_id' => null]);
 });
 
 $bot->onApiError(function (Nutgram $bot, TelegramException $exception) {
@@ -721,10 +722,7 @@ use SergiX44\Nutgram\Telegram\Exceptions\TelegramException;
 $bot = new Nutgram($_ENV['TOKEN']);
 
 $bot->onMessage(function (Nutgram $bot) {
-    $bot->sendMessage(
-        text: 'Invalid call!',
-        chat_id: null,
-    );
+    $bot->sendMessage('Invalid call!', ['chat_id' => null]);
 });
 
 $bot->onApiError('chat not found', function (Nutgram $bot, TelegramException $exception) {
