@@ -4,7 +4,7 @@ sidebar_position: 1
 ---
 
 <p align="center">
-  <img src="/img/logo-white-border.svg" width="400px"/>
+  <img src="/img/logo-intro.png" width="400px"/>
 
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/nutgram/nutgram.svg?style=flat-square)](https://packagist.org/packages/nutgram/nutgram)
