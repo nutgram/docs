@@ -60,9 +60,10 @@ nav.navbar{
   background-image: linear-gradient(180deg,#fff 0%,#d5c1a9);
   background-clip: text;
   font-weight: normal;
-  margin-bottom: 15px;
-  padding-bottom: 30px;
   margin-top: 15px;
+  margin-bottom: 15px;
+  padding-top: 20px;
+  padding-bottom: 30px;
 }
 
 .navbar__brand .navbar__title{
