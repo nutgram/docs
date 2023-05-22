@@ -5,9 +5,9 @@
  */
 
 @font-face {
-  font-family: 'Nature Beauty Personal Use';
-  src: url('../../static/font/NatureBeautyPersonalUse.woff2') format('woff2'),
-  url('../../static/font/NatureBeautyPersonalUse.woff') format('woff');
+  font-family: 'Nature Beauty';
+  src: url('../../static/font/NatureBeauty.woff2') format('woff2'),
+  url('../../static/font/NatureBeauty.woff') format('woff');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -55,19 +55,17 @@ nav.navbar{
 
 .hero__title{
   color: #fff0;
-  font-family: 'Nature Beauty Personal Use';
+  font-family: 'Nature Beauty', serif;
   font-size: 6.5rem;
-  background-image: linear-gradient(180deg,#fff 0%,#d5c1a9);
+  background-image: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(232,230,230,1) 53%, rgba(231,192,165,1) 59%, rgba(209,134,82,1) 100%);
   background-clip: text;
   font-weight: normal;
-  margin-top: 15px;
-  margin-bottom: 15px;
   padding-top: 20px;
   padding-bottom: 30px;
 }
 
 .navbar__brand .navbar__title{
-  font-family: 'Nature Beauty Personal Use';
+  font-family: 'Nature Beauty', serif;
   font-weight: normal;
   overflow: initial;
 }
