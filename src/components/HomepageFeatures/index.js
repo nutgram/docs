@@ -63,11 +63,11 @@ const FeatureList = [
 function Feature({Svg, title, description}) {
     return (
         <div className={clsx('col col--4')} style={{marginBottom: 15}}>
-            <div className="text--center">
+            <div className={styles.featureListLogo + " text--center"}>
                 <Svg className={styles.featureSvg} role="img"/>
             </div>
             <div className="text--center padding-horiz--md">
-                <h3 style={{fontFamily:'Nature Beauty', fontWeight: 'normal', fontSize: 1.60+'rem'}}>{title}</h3>
+                <h3 className={styles.featureListTitle}>{title}</h3>
                 <p>{description}</p>
             </div>
         </div>
