@@ -247,10 +247,10 @@ $bot->run();
 
 ## Retrieve handler parameters
 
-The framework provides the `currentParameters` method allowing you to obtain the parameters of the target handlers.
+The framework provides the `currentParameters` method allowing you to obtain the parameters of the target handler.
 You can use this method in any context of the code, not just within middleware.
 
-The `currentParameters` method returns an `array` containing the parameters of the target handlers.
+The `currentParameters` method returns an `array` containing the parameters of the target handler.
 In your code, you can use the array returned by the method to access the handler's parameters.
 
 Use case:
@@ -295,41 +295,6 @@ class CheckUserMiddleware
     }
 }
 ```
-
-:::caution
-
-
-The `currentParameters` method returns an array containing **all parameters of all resolved
-handlers** in the current update context.
-This behavior can lead to unexpected results in some cases, so be sure to use the method carefully
-and be aware of the parameters of your handlers.
-
-Example:
-
-```php
-// CheckUserMiddleware.php
-class CheckUserMiddleware
-{
-    public function __invoke(Nutgram $bot, $next)
-    {
-        $parameters = $bot->currentParameters();
-        // $parameters[0] = 'your-value'; <= for onCallbackQueryData('user/([0-9]+)/show')
-        // $parameters[1] = 'your-value'; <= for onCallbackQueryData('user/([0-9]+)/.*')
-        $next($bot);
-    }
-}
-
-// bot.php
-$bot = new Nutgram('TOKEN');
-
-$bot->group(CheckUserMiddleware::class, function(Nutgram $bot){
-    $bot->onCallbackQueryData('user/([0-9]+)/show', [UserController::class, 'show']);
-    $bot->onCallbackQueryData('user/([0-9]+)/.*', [UserController::class, 'edit']);
-});
-
-$bot->run();
-```
-:::
 
 ## Groups
 
