@@ -25,7 +25,7 @@ const config = {
           remarkPlugins: [require('mdx-mermaid')],
           sidebarPath: require.resolve('./sidebars.js'),
           editUrl: 'https://github.com/nutgram/docs/tree/master',
-          lastVersion: '4.x',
+          lastVersion: 'current',
           versions: {
             current: {
               label: '4.x',
