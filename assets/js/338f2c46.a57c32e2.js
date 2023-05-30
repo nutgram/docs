@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunknutgram_docs=self.webpackChunknutgram_docs||[]).push([[4372],{90849:function(a){a.exports=JSON.parse('{"label":"nutgram","permalink":"/blog/tags/nutgram","allTagsPath":"/blog/tags","count":1}')}}]);
