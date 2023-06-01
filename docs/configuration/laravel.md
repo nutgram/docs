@@ -224,7 +224,7 @@ Nutgram provides a Facade to access the bot instance anywhere in your applicatio
 You can use it like this:
 
 ```php
-use SergiX44\Nutgram\Facades\Telegram;
+use Nutgram\Laravel\Facades\Telegram;
 
 Telegram::sendMessage('Hello, world!');
 ```
@@ -232,7 +232,7 @@ Telegram::sendMessage('Hello, world!');
 You can use the Facade in your `telegram.php` routes file too:
 
 ```php
-use SergiX44\Nutgram\Facades\Telegram;
+use Nutgram\Laravel\Facades\Telegram;
 
 Telegram::onCommand('start', function () {
     Telegram::sendMessage('Hello, world!');
