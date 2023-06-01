@@ -128,7 +128,7 @@ To use it, you need to create the `telegram` channel inside the `config/logging.
 ```php
 'telegram' => [
     'driver' => 'custom',
-    'via' => \SergiX44\Nutgram\Laravel\Log\NutgramLogger::class,
+    'via' => \Nutgram\Laravel\Log\NutgramLogger::class,
     'level' => 'debug',
     'chat_id' => env('NUTGRAM_LOG_CHAT_ID'), // any chat_id where bot can write messages
 ]
