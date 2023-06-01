@@ -235,7 +235,7 @@ You can use the Facade in your `telegram.php` routes file too:
 use SergiX44\Nutgram\Facades\Telegram;
 
 Telegram::onCommand('start', function () {
-    return Telegram::sendMessage('Hello, world!');
+    Telegram::sendMessage('Hello, world!');
 });
 ```
 
