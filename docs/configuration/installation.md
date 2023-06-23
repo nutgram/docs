@@ -50,7 +50,8 @@ Here a list of all the options you can specify:
 
 - **type:** string
 - **default:** `'https://api.telegram.org'`
-- Useful if you need to change to a local API server.
+- Useful if you need to change to a local or different API server.
+- **WARNING:** If the server does not support HTTP/2, remember to disable `enableHttp2` in the configuration.
 
 ### `enableHttp2`
 
