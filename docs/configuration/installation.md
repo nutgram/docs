@@ -72,6 +72,7 @@ Here a list of all the options you can specify:
 - **default:** `false`
 - Enable the local mode when used along a self-hosted Telegram Bot API server.<br/>
   _Nutgram will copy the file from your Telegram Bot API server instead downloading it._
+- **WARNING:** If your local server does not support HTTP/2, remember to disable `enableHttp2` in the configuration.
 
 ### `localPathTransformer`
 
