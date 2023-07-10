@@ -296,7 +296,7 @@ class CheckUserMiddleware
 }
 ```
 
-## Tagging
+## Handlers Tagging
 Nutgram allows you to tag your handlers, so you can easily retrieve them later.
 
 ### Usage
