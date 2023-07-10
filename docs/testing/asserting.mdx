@@ -46,12 +46,13 @@ $bot->onText('foo', function (Nutgram $bot) {
             <div><code><a href="#assertcalled">assertCalled()</a></code></div>
             <div><code><a href="#assertreply">assertReply()</a></code></div>
             <div><code><a href="#assertreplymessage">assertReplyMessage()</a></code></div>
+            <div><code><a href="#assertreplytext">assertReplyText()</a></code></div>
         </div>
         <div class="col col--6">
-            <div><code><a href="#assertreplytext">assertReplyText()</a></code></div>
             <div><code><a href="#assertactiveconversation">assertActiveConversation()</a></code></div>
             <div><code><a href="#assertnoconversation">assertNoConversation()</a></code></div>
             <div><code><a href="#assertnoreply">assertNoReply()</a></code></div>
+            <div><code><a href="#assertsequence">assertSequence()</a></code></div>
         </div>
     </div>
 </div>
@@ -148,6 +149,16 @@ You must use the `willStartConversation()` method to use this assertion without 
 The `assertNoReply` asserts there is no reply.
 ```php
 ->assertNoReply();
+```
+
+### assertSequence
+The `assertSequence` asserts the given method names are called in the index history.
+```php
+->assertSequence(
+    fn (FakeNutgram $x) => $x->assertReplyText('foo'), // index: 0
+    fn (FakeNutgram $x) => $x->assertReplyText('bar'), // index: 1
+    fn (FakeNutgram $x) => $x->assertReplyText('baz'), // index: 2
+);
 ```
 
 ## Asserting files
