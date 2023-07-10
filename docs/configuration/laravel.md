@@ -46,7 +46,7 @@ class TelegramController extends Controller
 To expose the undelying configuration, you need to publish the configuration file:
 
 ```bash
-php artisan vendor:publish --provider="SergiX44\Nutgram\NutgramServiceProvider" --tag="nutgram"
+php artisan vendor:publish --provider="Nutgram\Laravel\NutgramServiceProvider" --tag="nutgram"
 ```
 
 In the `config/nutgram.php` file, you will find something like that:

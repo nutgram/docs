@@ -296,6 +296,46 @@ class CheckUserMiddleware
 }
 ```
 
+## Tagging
+Nutgram allows you to tag your handlers, so you can easily retrieve them later.
+
+### Usage
+
+<div class="row">
+    <div class="col col--6">
+        <div style={{marginBottom:10}}><code>tag(string $tag, mixed $value)</code><br/>Tag the current handler</div>
+        <div style={{marginBottom:10}}><code>tags(array $tags)</code><br/>Tag the current handler with multiple tags</div>
+        <div style={{marginBottom:10}}><code>getTag(string $tag, mixed $default = null)</code><br/>Get the tag of the current handler</div>
+        <div style={{marginBottom:10}}><code>getTags()</code><br/>Get the tags of the current handler</div>
+    </div>
+    <div class="col col--6">
+        <div style={{marginBottom:10}}><code>hasTag(string $tag)</code><br/>Check if the current handler has a tag</div>
+        <div style={{marginBottom:10}}><code>removeTag(string $tag)</code><br/>Remove a tag from the current handler</div>
+        <div style={{marginBottom:10}}><code>clearTags()</code><br/>Clear all tags from the current handler</div>
+    </div>
+</div>
+
+### Example
+
+```php
+$bot = new Nutgram('TOKEN');
+
+$bot->middleware(function (Nutgram $bot, $next) {
+    $currentResolvedHandler = $bot->currentResolvedHandler();
+
+    $myTag = $currentResolvedHandler->getTag('foo'); 
+    // on '/start' command this will return 'bar' value otherwise null
+
+    $next($bot);
+});
+
+$bot->onCommand('start', function (Nutgram $bot) {
+    $bot->sendMessage('Hello');
+})->tag('foo', 'bar');
+
+$bot->run();
+```
+
 ## Groups
 
 ### Middleware
@@ -383,6 +423,17 @@ $bot->group(function (Nutgram $bot){
     
 })->middleware(Middleware1::class)->scope(/* */);
 ```
+
+### Tagging
+
+You can tag groups as well
+
+```php
+$bot->group(function (Nutgram $bot){
+    // Your handlers here
+})->tag('foo', 'bar');
+```
+See [Tagging](#tagging) for more info.
 
 ## Flow
 

@@ -146,3 +146,48 @@ Available chunked methods:
 - sendChunkedVideo
 - sendChunkedAnimation
 - sendChunkedVoice
+
+## Reply directly to incoming updates
+Nutgram allows you to reply directly to incoming updates, without sending a new request to the Telegram API.
+This feature will use the second method of 
+[replying to a request](https://core.telegram.org/bots/faq#how-can-i-make-requests-in-response-to-updates), 
+which is to reply directly and give the method as JSON payload in the reply.
+
+### Warnings
+- You'll need **PHP-FPM** to use this feature.
+- This feature, if enabled, will be automatically used only **once per update**. 
+- You'll get `null` if you try to use the return type on a method that has been used with this feature. 
+- You'll **not get an exception** if you try to enable this feature on a method that has already been used with this feature
+  because the method may be called multiple times in the same update depending on the events that are triggered. 
+- This feature will be **not used** in multipart requests.
+
+### Flow
+```mermaid
+flowchart LR
+
+  F{"asResponse()\nenabled?"}
+  RD[Send another request]
+  E{PHP-FPM\nenv?}
+  RF[Reply directly]
+  RS{Direct response\nalready sent?}
+
+  F --> |No| RD
+  F --> |Yes| RS
+  RS --> |Yes| RD
+  RS --> |No| E
+  E --> |No| RD
+  E --> |Yes| RF
+```
+
+### Usage
+```php
+$bot = new Nutgram('token');
+
+$bot->onCommand('start', function(Nutgram $bot){
+    $bot->asResponse()->sendMessage('hello'); // This will reply directly and give the method as JSON payload in the reply
+    
+    $bot->sendMessage('world'); // This will reply sending a request to the Telegram API
+});
+
+$bot->run();
+```
