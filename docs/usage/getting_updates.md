@@ -44,7 +44,11 @@ $bot->run(); // start to listen to updates, until stopped
 ## Webhook
 
 This update mode is recommended for deploy your bot to production, but can be also used with [ngrok](https://ngrok.com) or [expose](https://beyondco.de/docs/expose/introduction) for
-development, the only difference is that it requires the webhook set manually.
+development, the only difference is that it requires the webhook set manually. To do so in Laravel you can use the `nutgram:hook:set` Artisan command:
+
+```
+php artisan nutgram:hook:set https://your-server-url/api/webhook
+```
 
 ```php
 use SergiX44\Nutgram\Nutgram;
