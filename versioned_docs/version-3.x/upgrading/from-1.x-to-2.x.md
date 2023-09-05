@@ -7,4 +7,4 @@ The update to the version 2.x contains only one breaking change.
 
 The Nutgram must be renamed:
 
-- `sergix44/nugram` to `nutgram/nutgram`
+- `sergix44/nutgram` to `nutgram/nutgram`
