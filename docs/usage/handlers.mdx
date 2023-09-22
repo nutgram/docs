@@ -347,11 +347,6 @@ Here a full list of all the handler that listens to specific type of updates:
 </div>
 <div class="margin-bottom--md">
     <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-SPECIAL-yellow"/>&nbsp;
-    <code>fallbackOn(string $type, $callable)</code><br/>
-    This handler has the same behavior as the previous one, but allows you to put a filter on the type of updates it can handle.
-</div>
-<div class="margin-bottom--md">
-    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-SPECIAL-yellow"/>&nbsp;
     <code>onException($callable)</code><br/>
     This handler will be called whenever the handling of an update throws an exception, if undefined the exception will not be caught.<br/>Check the next paragraph for more details.
 </div>
@@ -459,18 +454,18 @@ It's like the `onMessage` handler, but you can specify to which type of message 
 
 ```php
 use SergiX44\Nutgram\Nutgram;
-use SergiX44\Nutgram\Telegram\Attributes\MessageTypes;
+use SergiX44\Nutgram\Telegram\Properties\MessageType;
 
 $bot = new Nutgram($_ENV['TOKEN']);
 
 // Called only when you send a photo
-$bot->onMessageType(MessageTypes::PHOTO, function (Nutgram $bot) {
+$bot->onMessageType(MessageType::PHOTO, function (Nutgram $bot) {
     $photos = $bot->message()->photo;
     $bot->sendMessage('Nice pic!');
 });
 
 // Called only when you send an audio file
-$bot->onMessageType(MessageTypes::AUDIO, function (Nutgram $bot) {
+$bot->onMessageType(MessageType::AUDIO, function (Nutgram $bot) {
     $audio = $bot->message()->audio;
     $bot->sendMessage('I love this song!');
 });
@@ -479,7 +474,7 @@ $bot->run();
 ```
 
 You can see all the constants, in
-the [MessageTypes::class](https://github.com/nutgram/nutgram/blob/master/src/Telegram/Attributes/MessageTypes.php).
+the [MessageType::class](https://github.com/nutgram/nutgram/blob/master/src/Telegram/Properties/MessageType.php).
 
 ### `onCallbackQueryData`
 
@@ -572,20 +567,20 @@ This has the same behaviour of the `fallback`, but allow you to define handlers 
 
 ```php
 use SergiX44\Nutgram\Nutgram;
-use SergiX44\Nutgram\Telegram\Attributes\UpdateTypes;
+use SergiX44\Nutgram\Telegram\Properties\UpdateType;
 
 $bot = new Nutgram($_ENV['TOKEN']);
 
 // define some handlers ...
 
 // Called only for unmatched callback queries
-$bot->fallbackOn(UpdateTypes::CALLBACK_QUERY, function (Nutgram $bot) {
+$bot->fallbackOn(UpdateType::CALLBACK_QUERY, function (Nutgram $bot) {
     $bot->answerCallbackQuery();
     $bot->editMessageReplyMarkup([/* ... */]);
 });
 
 // Called only for unmatched messages
-$bot->fallbackOn(UpdateTypes::MESSAGE, function (Nutgram $bot) {
+$bot->fallbackOn(UpdateType::MESSAGE, function (Nutgram $bot) {
     $bot->sendMessage('Sorry, I don\'t understand.');
 });
 
@@ -593,7 +588,7 @@ $bot->run();
 ```
 
 You can see all the constants, in
-the [UpdateTypes::class](https://github.com/nutgram/nutgram/blob/master/src/Telegram/Attributes/UpdateTypes.php).
+the [UpdateType::class](https://github.com/nutgram/nutgram/blob/master/src/Telegram/Properties/UpdateType.php).
 
 ### `onException`
 
@@ -805,7 +800,7 @@ Some examples to clarify this:
 $bot->onText('something', SomethingHandler::class);
 
 // Generic handler: ❌ it will not be executed!
-$bot->onMessageType(MessageTypes::TEXT, MessageTypeTextHandler::class);
+$bot->onMessageType(MessageType::TEXT, MessageTypeTextHandler::class);
 
 // Generic handler: ❌ it will not be executed!
 $bot->onMessage(MessageHandler::class);
