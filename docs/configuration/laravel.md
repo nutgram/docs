@@ -217,6 +217,17 @@ and remember to register it on you http routes:
 Route::post('/webhook', 'FrontController');
 ```
 
+### Safe Mode
+The safe mode is enabled by default via the `safe_mode` option in the `config/nutgram.php` file.
+
+When enabled, the webhook mode will validate the incoming update using a secret token.
+
+:::caution
+
+Make sure to set the bot webhook via the `nutgram:hook:set` command! 
+
+:::
+
 ## Facade support
 
 Nutgram provides a Facade to access the bot instance anywhere in your application.

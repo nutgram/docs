@@ -162,6 +162,19 @@ $bot->onCommand('start', function (Nutgram $bot) {
 $bot->run();
 ```
 
+You can also start a conversation from server-side, without any user interaction:
+
+```php
+use SergiX44\Nutgram\StartConversation;
+
+StartConversation::begin($bot, $userID, $chatID);
+```
+
+:::caution
+Starting a conversation from server-side, will not give you a Telegram update, so you will not be able to use the
+`$bot->chatId()` and `$bot->userId()` methods, you need to pass them manually!
+:::
+
 ## Funnel Escaping
 
 By default, sends a message that match with a typed **specific** handler, the current conversation will be discarded, in

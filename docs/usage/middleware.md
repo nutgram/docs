@@ -433,7 +433,7 @@ $bot->group(function (Nutgram $bot){
     // Your handlers here
 })->tag('foo', 'bar');
 ```
-See [Tagging](#tagging) for more info.
+See [Tagging](#handlers-tagging) for more info.
 
 ## Flow
 
