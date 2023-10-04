@@ -52,6 +52,7 @@ const sidebars = {
                 'usage/inline_menu',
                 'usage/extend',
                 'usage/bulk_messenger',
+                'usage/web_validation',
             ],
         },
         {

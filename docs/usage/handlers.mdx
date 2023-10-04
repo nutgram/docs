@@ -65,9 +65,19 @@ Here a full list of all the handler that listens to specific type of updates:
     Handles any incoming inline query.
 </div>
 <div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-SPECIFIC-blue"/>&nbsp;
+    <code>onInlineQueryText(string $pattern, $callable)</code><br/>
+    Handles any incoming inline query with a specific pattern, similar to `onText`.
+</div>
+<div class="margin-bottom--md">
     <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
     <code>onChosenInlineResult($callable)</code><br/>
     Handles any incoming chosen inline result.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-SPECIFIC-blue"/>&nbsp;
+    <code>onChosenInlineResultQuery($callable)</code><br/>
+    Handles any incoming chosen inline result with a specific pattern, similar to `onText`.
 </div>
 <div class="margin-bottom--md">
     <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
@@ -391,6 +401,20 @@ $bot->onCommand('help', function (Nutgram $bot) {
 $bot->run();
 ```
 
+#### Named parameters constraints
+You may constrain the format of your named parameters using the `where` method on a handler.
+The `where` method accepts the name of the parameter and a regular expression defining how the parameter should be constrained:
+
+```php
+$bot->onCommand('hello {name}', HelloCommand::class)
+    ->where('name', '[A-Za-z]+');
+
+$bot->onCommand('hello {name} {age}', HelloCommand::class)
+    ->where(['name' => '[A-Za-z]+', 'age' => '[0-9]+']);
+```
+
+By default, parameters are constrained by the default regular expression `.*`.
+
 ### `registerCommand`
 
 A different and clean way to register commands implicitly.
@@ -704,9 +728,6 @@ $bot->run();
 </TabItem>
 </Tabs>
 
-
-
-
 Like the `onException`, the handler support a regex matching the text returned by the telegram api:
 
 ```php
@@ -733,6 +754,37 @@ $bot->onApiError('user(.*)deactivated', function (Nutgram $bot, TelegramExceptio
 
 $bot->run();
 ```
+
+#### Register API exceptions
+As alternative method, you can also able to register a user defined
+TelegramApiError class to throw when a specific error occurs:
+
+```php
+// exception file
+class UserDeactivatedException extends ApiException
+{
+    public static ?string $pattern = '.*deactivated.*';
+}
+
+// handlers file
+$bot->registerApiException(UserDeactivatedException::class);
+```
+
+As default, the `ApiException` class will throw when invoked, but you can also override this behaviour:
+
+```php
+class UserDeactivatedException extends ApiException
+{
+    public static ?string $pattern = '.*deactivated.*';
+
+    public function __invoke(Nutgram $bot, TelegramException $e)
+    {
+        // override this method to change the default behaviour:
+        throw new static($e->getMessage(), $e->getCode(), $e);
+    }
+}
+```
+
 
 ### `beforeApiRequest`
 
@@ -851,6 +903,27 @@ $bot->onPreCheckoutQuery(PreCheckoutQueryHandler::class);
 </TabItem>
 
 </Tabs>
+
+## Disable handler registration
+You can disable the registration of a specific handler, using the `unless` method:
+
+```php
+$donationEnabled = false;
+
+$bot->onCommand('donate', DonateConversation::class)->unless($donationEnabled);
+$bot->onCommand('start donate', DonateConversation::class)->unless($donationEnabled);
+$bot->onPreCheckoutQuery(PreCheckoutQueryHandler::class)->unless($donationEnabled);
+$bot->onSuccessfulPayment(SuccessfulPaymentHandler::class)->unless($donationEnabled);
+
+// or
+
+$bot->group(function(){
+    $bot->onCommand('donate', DonateConversation::class);
+    $bot->onCommand('start donate', DonateConversation::class);
+    $bot->onPreCheckoutQuery(PreCheckoutQueryHandler::class);
+    $bot->onSuccessfulPayment(SuccessfulPaymentHandler::class);
+})->unless($donationEnabled);
+```
 
 ## Automatically register bot commands
 

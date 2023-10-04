@@ -61,6 +61,33 @@ $bot->run(); // after this, the script continues execution
 After processing the current update, the script continues execution, **BUT** you shouldn't put long operations after the
 method anyway, as Telegram expects a response quickly.
 
+### Safe Mode
+Nutgram provides a safe mode for webhook, that will check if the request is coming from Telegram, and will skip the update if not.
+
+```php
+use SergiX44\Nutgram\Nutgram;
+
+$bot = new Nutgram($_ENV['TOKEN']);
+
+$webhook = new Webhook(secretToken: 'your-secret-token');
+$webhook->setSafeMode(true);
+
+$bot->setRunningMode($webhook);
+```
+
+:::caution
+
+Make sure to set the same secret token when [you set the webhook](https://core.telegram.org/bots/api#setwebhook) on Telegram, otherwise the update will be skipped.
+
+:::
+
+:::tip
+If you are using Laravel, you can skip this section, but take a look at the corresponding section:
+
+- [Laravel](configuration/laravel.md#safe-mode)
+
+:::
+
 ## Customization
 
 You can create your own running mode, if these do not satisfy you, in fact, you will just create a class that extends
