@@ -62,3 +62,13 @@
         backdrop-filter: saturate(1.8) blur(8px);
     }
 }
+
+@media screen and (max-width: 996px){
+    [data-theme='dark'] .navbar-sidebar{
+        --ifm-navbar-background-color: rgba(36, 37, 38, 0.95);
+    }
+
+    .navbar-sidebar{
+        --ifm-navbar-background-color: rgba(255, 255, 255, 0.95);
+    }
+}
