@@ -31,7 +31,7 @@ try {
 ```
 
 ## Mini App
-With Mini Apps developers can use JavaScript to create infinitely flexible interfaces 
+With [Mini Apps](https://core.telegram.org/bots/webapps) developers can use JavaScript to create infinitely flexible interfaces 
 that can be launched right inside Telegram — and can completely replace any website.
 
 Nutgram provides the `validateWebAppData` method to validate the data received from the Mini App.<br/>
