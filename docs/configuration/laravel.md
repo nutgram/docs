@@ -99,17 +99,19 @@ The framework automatically register some useful commands in your Laravel applic
 - `nutgram:hook:set {url}`
     - Set the bot webhook
 - `nutgram:register-commands`
-    - Register the bot commands, see [automatically-register-bot-commands](../usage/handlers#automatically-register-bot-commands)
+    - Register the bot commands, see [automatically register bot commands](../usage/handlers#automatically-register-bot-commands)
 - `nutgram:run`
     - Start the bot in long polling mode. Useful in development mode.
 - `nutgram:make:command {name}`
-  - Create a new command class 
+  - Create a new command class, see [Commands](../usage/handlers#registercommand)
 - `nutgram:make:conversation {name} {--menu}`
-  - Create a new conversation class
+  - Create a new conversation class, see [Conversations](../usage/conversations#creating-conversations)
 - `nutgram:make:handler {name}`
-  - Create a new handler class
+  - Create a new handler class, see [Handlers](../usage/handlers#oop)
 - `nutgram:make:middleware {name}`
-  - Create a new middleware class
+  - Create a new middleware class, see [Middleware](../usage/middleware#oop)
+- `nutgram:make:exception {name}`
+  - Create a new ApiException class, see [Register API exceptions](../usage/handlers#register-api-exceptions)
 - `nutgram:ide:generate`
   - Generate a file helping IDEs to autocomplete [mixins](#mixins) methods.
 - `nutgram:logout {--d|drop-pending-updates}`
@@ -122,7 +124,8 @@ The cache adapter gets automatically configured by Laravel; make sure to configu
 
 ## Logging
 
-The framework provides a channel to log any data you want to a Telegram chat. 
+### `telegram` channel
+The framework provides a channel to log any data you want to a Telegram chat.<br/>
 To use it, you need to create the `telegram` channel inside the `config/logging.php` file:
 
 ```php
@@ -142,6 +145,32 @@ Log::channel('telegram')->info('Hello world!', ['xyz' => 123]);
 
 #### Output:
 ![logger](https://i.imgur.com/Gph2XmO.png)
+
+### `nutgram` channel
+The framework provides a channel formatter to show the [Nutgram logs](../configuration/logging) in a more readable way in the console.<br/>
+To use it, you need to create the `nutgram` channel inside the `config/logging.php` file:
+
+```php
+'nutgram' => [
+    'driver' => 'monolog',
+    'level' => env('LOG_LEVEL', 'debug'),
+    'handler' => StreamHandler::class,
+    'formatter' => Nutgram\Laravel\Log\NutgramFormatter::class,
+    'with' => [
+        'stream' => 'php://stderr',
+    ],
+    'processors' => [PsrLogMessageProcessor::class],
+],
+```
+
+Then add the `nutgram` channel to the `TELEGRAM_LOG_CHANNEL` env var:
+
+```dotenv
+TELEGRAM_LOG_CHANNEL=nutgram
+```
+
+#### Output:
+![logger](https://i.imgur.com/SU7P8Ug.png)
 
 ## Handlers definition
 
@@ -249,6 +278,29 @@ Telegram::onCommand('start', function () {
     Telegram::sendMessage('Hello, world!');
 });
 ```
+
+## Middleware
+
+### ValidateWebAppData
+Nutgram provides a middleware to validate the data received from the [Mini App](https://core.telegram.org/bots/webapps).<br/>
+Just add the middleware to the route you want to protect:
+
+```php
+use Nutgram\Laravel\Middleware\ValidateWebAppData;
+
+Route::middleware(ValidateWebAppData::class)->group(function () {
+    // your routes here
+});
+``` 
+:::caution
+Remember to pass the `initData` parameter in order to validate the data, 
+see [Mini App](https://core.telegram.org/bots/webapps) for more info.
+:::
+
+:::tip
+To get the [`WebAppData`](https://github.com/nutgram/nutgram/blob/master/src/Telegram/Web/WebAppData.php) object
+inside your routes, you can use the `webAppData()` helper function.
+:::
 
 
 ## Testing
