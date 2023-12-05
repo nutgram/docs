@@ -200,7 +200,7 @@ class StartConversation extends Conversation
 $bot->onCommand('start {name}', StartConversation::class);
 ```
 
-#### Via the `begin` method:
+#### Via the `begin` method
 
 ```php
 $bot->onCommand('start', function (Nutgram $bot) {
