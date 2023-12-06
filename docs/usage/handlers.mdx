@@ -36,6 +36,11 @@ Here a full list of all the handler that listens to specific type of updates:
 
 <div class="margin-bottom--md">
     <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onUpdate($callable)</code><br/>
+    Handles any incoming update.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
     <code>onMessage($callable)</code><br/>
     Handles any incoming message.
 </div>
@@ -134,62 +139,62 @@ Here a full list of all the handler that listens to specific type of updates:
 
 <div class="margin-bottom--md">
     <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-SPECIFIC-blue"/>&nbsp;
-    <code>onText(string $pattern, $callable)</code><br/>
+    <code>onText(string $pattern, $callable, UpdateType $target = UpdateType::MESSAGE)</code><br/>
     Handles text messages that match the given pattern (regex or parameters).
 </div>
 <div class="margin-bottom--md">
     <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-SPECIFIC-blue"/>&nbsp;
-    <code>onCommand(string $command, $callable)</code><br/>
+    <code>onCommand(string $command, $callable, UpdateType $target = UpdateType::MESSAGE)</code><br/>
     Handles text messages that begin with `/`.<br/>Automatically parses commands like `cmd@botname`.
 </div>
 <div class="margin-bottom--md">
     <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
-    <code>onAnimation($callable)</code><br/>
+    <code>onAnimation($callable, UpdateType $target = UpdateType::MESSAGE)</code><br/>
     Handles animation messages
 </div>
 <div class="margin-bottom--md">
     <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
-    <code>onAudio($callable)</code><br/>
+    <code>onAudio($callable, UpdateType $target = UpdateType::MESSAGE)</code><br/>
     Handles audio messages.
 </div>
 <div class="margin-bottom--md">
     <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
-    <code>onDocument($callable)</code><br/>
+    <code>onDocument($callable, UpdateType $target = UpdateType::MESSAGE)</code><br/>
     Handles document messages.
 </div>
 <div class="margin-bottom--md">
     <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
-    <code>onPhoto($callable)</code><br/>
+    <code>onPhoto($callable, UpdateType $target = UpdateType::MESSAGE)</code><br/>
     Handles photo messages.
 </div>
 <div class="margin-bottom--md">
     <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
-    <code>onSticker($callable)</code><br/>
+    <code>onSticker($callable, UpdateType $target = UpdateType::MESSAGE)</code><br/>
     Handles sticker messages.
 </div>
 <div class="margin-bottom--md">
     <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
-    <code>onVideo($callable)</code><br/>
+    <code>onVideo($callable, UpdateType $target = UpdateType::MESSAGE)</code><br/>
     Handles video messages.
 </div>
 <div class="margin-bottom--md">
     <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
-    <code>onVideoNote($callable)</code><br/>
+    <code>onVideoNote($callable, UpdateType $target = UpdateType::MESSAGE)</code><br/>
     Handles video_note messages.
 </div>
 <div class="margin-bottom--md">
     <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
-    <code>onVoice($callable)</code><br/>
+    <code>onVoice($callable, UpdateType $target = UpdateType::MESSAGE)</code><br/>
     Handles voice messages.
 </div>
 <div class="margin-bottom--md">
     <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
-    <code>onContact($callable)</code><br/>
+    <code>onContact($callable, UpdateType $target = UpdateType::MESSAGE)</code><br/>
     Handles contact messages.
 </div>
 <div class="margin-bottom--md">
     <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
-    <code>onDice($callable)</code><br/>
+    <code>onDice($callable, UpdateType $target = UpdateType::MESSAGE)</code><br/>
     Handles dice messages.
 </div>
 <div class="margin-bottom--md">
@@ -199,42 +204,47 @@ Here a full list of all the handler that listens to specific type of updates:
 </div>
 <div class="margin-bottom--md">
     <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
-    <code>onMessagePoll($callable)</code><br/>
+    <code>onMessagePoll($callable, UpdateType $target = UpdateType::MESSAGE)</code><br/>
     Handles poll messages.
 </div>
 <div class="margin-bottom--md">
     <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
-    <code>onVenue($callable)</code><br/>
+    <code>onVenue($callable, UpdateType $target = UpdateType::MESSAGE)</code><br/>
     Handles venue messages.
 </div>
 <div class="margin-bottom--md">
     <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
-    <code>onLocation($callable)</code><br/>
+    <code>onLocation($callable, UpdateType $target = UpdateType::MESSAGE)</code><br/>
     Handles location messages.
 </div>
 <div class="margin-bottom--md">
     <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
-    <code>onNewChatMembers($callable)</code><br/>
+    <code>onStory($callable, UpdateType $target = UpdateType::MESSAGE)</code><br/>
+    Handles story messages.
+</div>
+<div class="margin-bottom--md">
+    <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
+    <code>onNewChatMembers($callable, UpdateType $target = UpdateType::MESSAGE)</code><br/>
     Handles new_chat_members messages.
 </div>
 <div class="margin-bottom--md">
     <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
-    <code>onLeftChatMember($callable)</code><br/>
+    <code>onLeftChatMember($callable, UpdateType $target = UpdateType::MESSAGE)</code><br/>
     Handles left_chat_member messages.
 </div>
 <div class="margin-bottom--md">
     <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
-    <code>onNewChatTitle($callable)</code><br/>
+    <code>onNewChatTitle($callable, UpdateType $target = UpdateType::MESSAGE)</code><br/>
     Handles new_chat_title messages.
 </div>
 <div class="margin-bottom--md">
     <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
-    <code>onNewChatPhoto($callable)</code><br/>
+    <code>onNewChatPhoto($callable, UpdateType $target = UpdateType::MESSAGE)</code><br/>
     Handles new_chat_photo messages.
 </div>
 <div class="margin-bottom--md">
     <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
-    <code>onDeleteChatPhoto($callable)</code><br/>
+    <code>onDeleteChatPhoto($callable, UpdateType $target = UpdateType::MESSAGE)</code><br/>
     Handles delete_chat_photo messages.
 </div>
 <div class="margin-bottom--md">
@@ -249,12 +259,12 @@ Here a full list of all the handler that listens to specific type of updates:
 </div>
 <div class="margin-bottom--md">
     <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
-    <code>onChannelChatCreated($callable)</code><br/>
+    <code>onChannelChatCreated($callable, UpdateType $target = UpdateType::MESSAGE)</code><br/>
     Handles channel_chat_created messages.
 </div>
 <div class="margin-bottom--md">
     <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
-    <code>onMessageAutoDeleteTimerChanged($callable)</code><br/>
+    <code>onMessageAutoDeleteTimerChanged($callable, UpdateType $target = UpdateType::MESSAGE)</code><br/>
     Handles message_auto_delete_timer_changed messages.
 </div>
 <div class="margin-bottom--md">
@@ -269,7 +279,7 @@ Here a full list of all the handler that listens to specific type of updates:
 </div>
 <div class="margin-bottom--md">
     <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
-    <code>onPinnedMessage($callable)</code><br/>
+    <code>onPinnedMessage($callable, UpdateType $target = UpdateType::MESSAGE)</code><br/>
     Handles pinned_message messages.
 </div>
 <div class="margin-bottom--md">
@@ -320,22 +330,22 @@ Here a full list of all the handler that listens to specific type of updates:
 </div>
 <div class="margin-bottom--md">
     <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
-    <code>onVideoChatScheduled($callable)</code><br/>
+    <code>onVideoChatScheduled($callable, UpdateType $target = UpdateType::MESSAGE)</code><br/>
     Handles video_chat_scheduled messages.
 </div>
 <div class="margin-bottom--md">
     <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
-    <code>onVideoChatStarted($callable)</code><br/>
+    <code>onVideoChatStarted($callable, UpdateType $target = UpdateType::MESSAGE)</code><br/>
     Handles video_chat_started messages.
 </div>
 <div class="margin-bottom--md">
     <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
-    <code>onVideoChatEnded($callable)</code><br/>
+    <code>onVideoChatEnded($callable, UpdateType $target = UpdateType::MESSAGE)</code><br/>
     Handles video_chat_ended messages.
 </div>
 <div class="margin-bottom--md">
     <img style={{verticalAlign: 'middle'}} src="https://img.shields.io/badge/-GENERIC-brightgreen"/>&nbsp;
-    <code>onVideoChatParticipantsInvited($callable)</code><br/>
+    <code>onVideoChatParticipantsInvited($callable, UpdateType $target = UpdateType::MESSAGE)</code><br/>
     Handles video_chat_participants_invited messages.
 </div>
 <div class="margin-bottom--md">

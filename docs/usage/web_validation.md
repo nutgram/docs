@@ -1,7 +1,3 @@
----
-sidebar_label: Web Validation 🆕
----
-
 # Web Validation
 
 Nutgram provides a simple way to validate the data received from a Login Widget or a Mini App.
