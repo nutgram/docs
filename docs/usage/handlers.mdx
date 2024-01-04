@@ -423,7 +423,52 @@ $bot->onCommand('hello {name} {age}', HelloCommand::class)
     ->where(['name' => '[A-Za-z]+', 'age' => '[0-9]+']);
 ```
 
+:::info
 By default, parameters are constrained by the default regular expression `.*`.
+:::
+
+Here is the list of the other available constraints:
+
+- `whereIn(string $parameter, array $values)`<br/>
+The parameter must be contained in the given array.
+
+```php
+$bot->onCommand('confirm {answer}', ConfirmCommand::class)
+    ->whereIn('answer', ['y','n']);
+```
+
+- `whereAlpha(string $parameter)`<br/>
+The parameter must be entirely alphabetic characters.
+
+```php
+$bot->onCommand('hello {name}', HelloCommand::class)
+    ->whereAlpha('name');
+```
+
+- `whereNumber(string $parameter)`<br/>
+The parameter must be entirely numeric characters.
+
+```php
+$bot->onCommand('age {age}', AgeCommand::class)
+    ->whereNumber('age');
+```
+
+- `whereAlphaNumeric(string $parameter)`<br/>
+The parameter must be entirely alpha-numeric characters.
+
+```php
+$bot->onCommand('hello {name}', HelloCommand::class)
+    ->whereAlphaNumeric('name');
+```
+
+You can also use the `where` methods in group method:
+
+```php
+$bot->group(function () use (Nutgram $bot) {
+    $bot->onCommand('create {name}', CreateCommand::class);
+    $bot->onCommand('delete {name}', DeleteCommand::class);
+})->whereAlpha('name');
+```
 
 ### `registerCommand`
 
