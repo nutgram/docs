@@ -169,13 +169,34 @@ You can also start a conversation from server-side, without any user interaction
 ```php
 use SergiX44\Nutgram\StartConversation;
 
-StartConversation::begin($bot, $userID, $chatID);
+StartConversation::begin(
+    bot: $bot, 
+    userId: $userID, 
+    chatId: $chatID
+);
 ```
 
 :::caution
 Starting a conversation from server-side, will not give you a Telegram update, so you will not be able to use the
 `$bot->chatId()` and `$bot->userId()` methods, you need to pass them manually!
 :::
+
+To get the chat id and user id inside a Conversation, you can use the `getChatId` and `getUserId` methods.
+
+```php
+class StartConversation extends Conversation
+{
+    public function start(Nutgram $bot)
+    {
+        $bot->sendMessage(
+            text: 'Hello!',
+            chat_id: $this->getChatId(),
+        );
+        
+        //[...]
+    }
+}
+```
 
 ### Passing parameters to a conversation
 
