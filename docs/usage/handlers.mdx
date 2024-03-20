@@ -850,12 +850,11 @@ use SergiX44\Nutgram\Nutgram;
 
 $bot = new Nutgram($_ENV['TOKEN']);
 
-$bot->beforeApiRequest(function (Nutgram $bot, array $request) {
-    // print a value from the request
-    echo $request['json']['text'];
-
-    // modify the request
-    $request['json']['text'] = 'Modified!';
+$bot->beforeApiRequest(function (Nutgram $bot, array $request, string $endpoint) {
+    // modify the outgoing request changing the text of the message if the endpoint is sendMessage
+    if($endpoint === 'sendMessage'){
+        $request['json']['text'] = 'Modified!';
+    }
 
     return $request;
 });
@@ -1067,11 +1066,99 @@ class HiddenCommand extends Command
 </TabItem>
 </Tabs>
 
+### Language code support
+Nutgram also supports the ability to set the language code for each command.
+
+To set a command for a specific language, you can use the `description` method with an array of
+two-letter ISO 639-1 language code as keys
+and the description as value.
+
+You can specify `*` as a wildcard for all languages not explicitly set.
+
+
+#### No language code
+Commands will be applied to all users from the given scope, for whose language there are no dedicated commands.
+
+<Tabs>
+<TabItem value="onCommand-handler" label="onCommand Handler" default>
+
+```php
+$bot->onCommand('start', StartCommand::class)->description('The start command!');
+//or
+$bot->onCommand('start', StartCommand::class)->description(['*' => 'The start command!']);
+```
+
+</TabItem>
+
+<TabItem value="command-class" label="Command Class">
+
+```php
+// 1. create a command class like "StartCommand.php":
+class StartCommand extends Command
+{
+    protected string $command = 'start';
+
+    protected ?string $description = 'The start command!';
+
+    public function handle(Nutgram $bot): void
+    {
+        $bot->sendMessage('Hello there!');
+    }
+}
+
+// 2. Register StartCommand inside Nutgram
+$bot->registerCommand(StartCommand::class);
+```
+
+</TabItem>
+</Tabs>
+
+#### Specific language code
+
+<Tabs>
+<TabItem value="onCommand-handler" label="onCommand Handler" default>
+
+```php
+$bot->onCommand('start', StartCommand::class)->description([
+    'it' => 'Il comando start!', // Italian
+    'es' => 'El comando start!', // Spanish
+    '*' => 'The start command!', // All other languages
+]);
+```
+
+</TabItem>
+
+<TabItem value="command-class" label="Command Class">
+
+```php
+// 1. create a command class like "StartCommand.php":
+class StartCommand extends Command
+{
+    protected string $command = 'start';
+
+    protected ?string $description = 'The start command!'; // All other languages
+
+    protected array $localizedDescriptions = [
+        'it' => 'Il comando start!', // Italian
+        'es' => 'El comando start!', // Spanish
+    ];
+
+    public function handle(Nutgram $bot): void
+    {
+        $bot->sendMessage('Hello there!');
+    }
+}
+
+// 2. Register StartCommand inside Nutgram
+$bot->registerCommand(StartCommand::class);
+```
+
+</TabItem>
+</Tabs>
+
+
 ### Scope support
 [Command Scopes](https://core.telegram.org/bots/features#command-scopes) allows for more granular control over which users or groups can see specific commands in the bot.
-
-However, the support for `language_code` in command scope **is not supported**.<br/>
-If the `language_code` support is required, commands must be manually set using the `setMyCommands` method.
 
 #### How to set a scope
 
