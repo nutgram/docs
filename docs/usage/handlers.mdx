@@ -850,12 +850,11 @@ use SergiX44\Nutgram\Nutgram;
 
 $bot = new Nutgram($_ENV['TOKEN']);
 
-$bot->beforeApiRequest(function (Nutgram $bot, array $request) {
-    // print a value from the request
-    echo $request['json']['text'];
-
-    // modify the request
-    $request['json']['text'] = 'Modified!';
+$bot->beforeApiRequest(function (Nutgram $bot, array $request, string $endpoint) {
+    // modify the outgoing request changing the text of the message if the endpoint is sendMessage
+    if($endpoint === 'sendMessage'){
+        $request['json']['text'] = 'Modified!';
+    }
 
     return $request;
 });
