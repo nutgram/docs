@@ -38,5 +38,5 @@ $psr16Cache = new Psr16Cache($psr6Cache);
 
 $bot = new Nutgram('TOKEN', new Configuration(
     cache: $psr16Cache
-);
+));
 ```
