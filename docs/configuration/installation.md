@@ -130,3 +130,9 @@ Here a list of all the options you can specify:
 - **default:** `Psr\Log\NullLogger`
 - The logger used to log debug http requests.<br/>
   [Check out the Logging page for other info.](logging)
+
+### `container`
+
+- **type:** `Psr\Container\ContainerInterface`
+- **default:** `null`
+- Delegate container to resolve dependencies.
