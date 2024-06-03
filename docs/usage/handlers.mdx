@@ -391,8 +391,6 @@ Here a full list of all the handler that listens to specific type of updates:
 ### `onCommand`
 For the implicit style see the [`registerCommand`](#registercommand) section.
 
-It's possible to handle to specific commands, also with named parameters:
-
 ```php
 use SergiX44\Nutgram\Nutgram;
 
@@ -409,65 +407,6 @@ $bot->onCommand('help', function (Nutgram $bot) {
 });
 
 $bot->run();
-```
-
-#### Named parameters constraints
-You may constrain the format of your named parameters using the `where` method on a handler.
-The `where` method accepts the name of the parameter and a regular expression defining how the parameter should be constrained:
-
-```php
-$bot->onCommand('hello {name}', HelloCommand::class)
-    ->where('name', '[A-Za-z]+');
-
-$bot->onCommand('hello {name} {age}', HelloCommand::class)
-    ->where(['name' => '[A-Za-z]+', 'age' => '[0-9]+']);
-```
-
-:::info
-By default, parameters are constrained by the default regular expression `.*`.
-:::
-
-Here is the list of the other available constraints:
-
-- `whereIn(string $parameter, array $values)`<br/>
-The parameter must be contained in the given array.
-
-```php
-$bot->onCommand('confirm {answer}', ConfirmCommand::class)
-    ->whereIn('answer', ['y','n']);
-```
-
-- `whereAlpha(string $parameter)`<br/>
-The parameter must be entirely alphabetic characters.
-
-```php
-$bot->onCommand('hello {name}', HelloCommand::class)
-    ->whereAlpha('name');
-```
-
-- `whereNumber(string $parameter)`<br/>
-The parameter must be entirely numeric characters.
-
-```php
-$bot->onCommand('age {age}', AgeCommand::class)
-    ->whereNumber('age');
-```
-
-- `whereAlphaNumeric(string $parameter)`<br/>
-The parameter must be entirely alpha-numeric characters.
-
-```php
-$bot->onCommand('hello {name}', HelloCommand::class)
-    ->whereAlphaNumeric('name');
-```
-
-You can also use the `where` methods in group method:
-
-```php
-$bot->group(function () use (Nutgram $bot) {
-    $bot->onCommand('create {name}', CreateCommand::class);
-    $bot->onCommand('delete {name}', DeleteCommand::class);
-})->whereAlpha('name');
 ```
 
 ### `registerCommand`
@@ -882,6 +821,80 @@ $bot->afterApiRequest(function (Nutgram $bot, object $response) {
 });
 
 $bot->run();
+```
+
+## Named parameters constraints
+You may constrain the format of your named parameters using the `where` method on a handler.
+The `where` method accepts the name of the parameter and a regular expression defining how the parameter should be constrained:
+
+```php
+$bot->onCommand('hello {name}', HelloCommand::class)
+    ->where('name', '[A-Za-z]+');
+
+$bot->onCommand('hello {name} {age}', HelloCommand::class)
+    ->where(['name' => '[A-Za-z]+', 'age' => '[0-9]+']);
+```
+
+:::info
+By default, parameters are constrained by the default regular expression `.*`.
+:::
+
+Here is the list of the other available constraints:
+
+- `whereIn(string $parameter, array $values)`<br/>
+The parameter must be contained in the given array.
+
+```php
+$bot->onCommand('confirm {answer}', ConfirmCommand::class)
+    ->whereIn('answer', ['y','n']);
+```
+
+- `whereAlpha(string $parameter)`<br/>
+The parameter must be entirely alphabetic characters.
+
+```php
+$bot->onCommand('hello {name}', HelloCommand::class)
+    ->whereAlpha('name');
+```
+
+- `whereNumber(string $parameter)`<br/>
+The parameter must be entirely numeric characters.
+
+```php
+$bot->onCommand('age {age}', AgeCommand::class)
+    ->whereNumber('age');
+```
+
+- `whereAlphaNumeric(string $parameter)`<br/>
+The parameter must be entirely alpha-numeric characters.
+
+```php
+$bot->onCommand('hello {name}', HelloCommand::class)
+    ->whereAlphaNumeric('name');
+```
+
+You can also use the `where` methods in group method:
+
+```php
+$bot->group(function () use (Nutgram $bot) {
+    $bot->onCommand('create {name}', CreateCommand::class);
+    $bot->onCommand('delete {name}', DeleteCommand::class);
+})->whereAlpha('name');
+```
+
+## Custom parameters binding
+
+You can also bind custom parameters to the handler using the `bindParamer` method:
+
+```php
+$bot = new Nutgram($_ENV['TOKEN']);
+$bot->bindParamer('hex', function(Container $container, string $value){
+    return Color::fromHex($value);
+});
+
+$bot->onCommand('color {hex}', function(Nutgram $bot, Color $color){
+    $bot->sendMessage("The color is {$color->name}");
+});
 ```
 
 ## Handlers Priority
