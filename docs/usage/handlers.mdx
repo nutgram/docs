@@ -884,11 +884,11 @@ $bot->group(function () use (Nutgram $bot) {
 
 ## Custom parameters binding
 
-You can also bind custom parameters to the handler using the `bindParamer` method:
+You can also bind custom parameters to the handler using the `bindParameter` method:
 
 ```php
 $bot = new Nutgram($_ENV['TOKEN']);
-$bot->bindParamer('hex', function(Container $container, string $value){
+$bot->bindParameter('hex', function(Container $container, string $value){
     return Color::fromHex($value);
 });
 
