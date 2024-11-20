@@ -88,6 +88,17 @@ If you are using Laravel, you can skip this section, but take a look at the corr
 
 :::
 
+### Set url programmatically
+
+You can set the webhook url programmatically, using the `setWebhook` method:
+
+```php
+use SergiX44\Nutgram\Nutgram;
+
+$bot = new Nutgram($_ENV['TOKEN']);
+$bot->setWebhook('your-webhook-url');
+```
+
 ## Customization
 
 You can create your own running mode, if these do not satisfy you, in fact, you will just create a class that extends

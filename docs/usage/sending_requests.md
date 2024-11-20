@@ -20,14 +20,12 @@ use SergiX44\Nutgram\Telegram\Types\Message\Message;
 $bot = new Nutgram($_ENV['TOKEN']);
 
 // Send a message to a specific user
-/** @var Message $message */
 $message = $bot->sendMessage(
     text: 'Hi!',
-    chat_id: 111222333
+    chat_id: 123456789
 );
 
 // Send a message to a channel
-/** @var Message $message */
 $message = $bot->sendMessage(
     text: 'Hi channel!',
     chat_id: '@mychannel'
@@ -39,7 +37,7 @@ $message = $bot->sendMessage(
 For any method that require an [`InputFile`](https://core.telegram.org/bots/api#inputfile), you can pass a resource file
 descriptor to the right method, and the framework will take care of how uploading it, like in the following example.
 
-If you already have the Telegram `file_id`, you can simply specify it.
+### Via URL
 
 ```php
 use SergiX44\Nutgram\Nutgram;
@@ -48,39 +46,92 @@ use SergiX44\Nutgram\Telegram\Types\Message\Message;
 
 $bot = new Nutgram($_ENV['TOKEN']);
 
-// Send a photo to a specific user ***********************************************
-$photo = fopen('image.png', 'r+'); // open the file
-
-/** @var Message $message */
 $message = $bot->sendPhoto(
-    photo: InputFile::make($photo), // create the input file
-    chat_id: 111222333
+    photo: 'https://example.com/image.png',
+    chat_id: 123456789
 );
+```
 
+### Via InputFile (file path)
 
-// Send a video to a specific user ***********************************************
-$video = fopen('funnyvideo.mp4', 'r+'); // open the file
+```php
+use SergiX44\Nutgram\Nutgram;
+use SergiX44\Nutgram\Telegram\Types\Internal\InputFile;
+use SergiX44\Nutgram\Telegram\Types\Message\Message;
 
-/** @var Message $message */
+$bot = new Nutgram($_ENV['TOKEN']);
+
+$message = $bot->sendPhoto(
+    photo: InputFile::make('image.png'),
+    chat_id: 123456789
+);
+```
+
+### Via InputFile (file resource)
+
+```php
+use SergiX44\Nutgram\Nutgram;
+use SergiX44\Nutgram\Telegram\Types\Internal\InputFile;
+use SergiX44\Nutgram\Telegram\Types\Message\Message;
+
+$bot = new Nutgram($_ENV['TOKEN']);
+
 $message = $bot->sendVideo(
-    video: InputFile::make($video),
-    chat_id: 111222333
+    video: InputFile::make(fopen('funnyvideo.mp4', 'r+')),
+    chat_id: 123456789
 );
+```
 
+### Via `file_id`
 
-// send a sticker via file_id ****************************************************
-$fileId = $bot->message()->sticker->file_id;
+```php
+use SergiX44\Nutgram\Nutgram;
+use SergiX44\Nutgram\Telegram\Types\Internal\InputFile;
+use SergiX44\Nutgram\Telegram\Types\Message\Message;
 
-/** @var Message $message */
+$bot = new Nutgram($_ENV['TOKEN']);
+
 $message = $bot->sendSticker(
-    sticker: $fileId,
-    chat_id: 111222333
+    sticker: $bot->message()->sticker->file_id,
+    chat_id: 123456789
 );
+```
+
+### Get upload progress
+
+You can get the upload progress of the file by calling the `withProgress` method before your upload method.
+
+:::caution
+The callback will be called every time **a byte** is uploaded, so if you are printing the progress via Telegram, 
+you should find a way to avoid spamming the user and **hitting the API limits**.
+:::
+
+```php
+use SergiX44\Nutgram\Nutgram;
+use SergiX44\Nutgram\Telegram\Types\Internal\InputFile;
+use SergiX44\Nutgram\Telegram\Types\Message\Message;
+
+$bot = new Nutgram($_ENV['TOKEN']);
+
+$message = $bot
+    ->withProgress(function (Progress $progress) {
+        echo sprintf("Uploading video: %s%% - Uploded: %s bytes of %s bytes\n",
+            $progress->uploadPercentage(),
+            $progress->uploadedBytes,
+            $progress->totalUploadBytes,
+        );
+    })
+    ->sendVideo(
+        video: InputFile::make('video.mp4'),
+        chat_id: 123456789
+    );
 ```
 
 ## Downloading media
 
 As opposed to uploading, there are some additional methods available that allow you to download files:
+
+### Via `downloadFile` method
 
 ```php
 use SergiX44\Nutgram\Nutgram;
@@ -88,23 +139,75 @@ use SergiX44\Nutgram\Telegram\Types\Media\File;
 
 $bot = new Nutgram($_ENV['TOKEN']);
 
-$fileId = $bot->message()->sticker->file_id;
+$bot->onSticker(function (Nutgram $bot) {
+    // get the file_id
+    $fileId = $bot->message()->sticker->file_id;
+    
+    // get the File
+    $file = $bot->getFile($fileId);
+    
+    // download the file
+    $bot->downloadFile($file, 'file.ext');
+});
+```
 
-// get the File object
-/** @var File $message */
-$file = $bot->getFile($fileId);
+### Via `save` method
+```php
+use SergiX44\Nutgram\Nutgram;
+use SergiX44\Nutgram\Telegram\Types\Media\File;
 
-$bot->downloadFile($file, 'path/to/file');
+$bot = new Nutgram($_ENV['TOKEN']);
 
-// OR, via helper method
+$bot->onSticker(function (Nutgram $bot) {
+    // get the file_id
+    $fileId = $bot->message()->sticker->file_id;
+    
+    // get the File and download it
+    $bot->getFile($fileId)->save('file.ext');
+});
+```
 
-$bot->getFile($fileId)->save('file/or/directory');
+### Get download progress
 
+You can get the download progress of the file by calling the `withProgress` method before your download method.
+
+:::caution
+The callback will be called every time **a byte** is downloaded, so if you are printing the progress via Telegram,
+you should find a way to avoid spamming the user and **hitting the API limits**.
+:::
+
+```php
+use SergiX44\Nutgram\Nutgram;
+use SergiX44\Nutgram\Telegram\Types\Media\File;
+
+$bot = new Nutgram($_ENV['TOKEN']);
+
+$bot->onSticker(function (Nutgram $bot) {
+    // get the file_id
+    $fileId = $bot->message()->sticker->file_id;
+    
+    // get the File
+    $file = $bot->getFile($fileId);
+    
+    // download the file
+    $bot
+      ->withProgress(function (Progress $progress) {
+          echo sprintf("Downloading file: %s%% - Downloaded: %s bytes of %s bytes\n",
+              $progress->downloadPercentage(),
+              $progress->downloadedBytes,
+              $progress->totalDownloadBytes,
+          );
+      })
+      ->downloadFile($file, 'file.ext');
+});
 ```
 
 ## Formatting options
 
-The framework give you some helper constants to format your text messages:
+To format your text messages, you can use the `parse_mode` parameter.
+Just pass the valid string provided by the Telegram API to the method.
+
+Nutgram provides the ParseMode enum to help you with this:
 
 ```php
 use SergiX44\Nutgram\Nutgram;
@@ -114,18 +217,16 @@ use SergiX44\Nutgram\Telegram\Types\Message\Message;
 $bot = new Nutgram($_ENV['TOKEN']);
 
 // Send a message formatting in markdown
-/** @var Message $message */
 $message = $bot->sendMessage(
     text: '*Hi!*',
-    chat_id: 111222333,
+    chat_id: 123456789,
     parse_mode: ParseMode::MARKDOWN,
 );
 
 // Send a message formatting in html
-/** @var Message $message */
 $message = $bot->sendMessage(
     text: '<i>Hi!</i>',
-    chat_id: 111222333,
+    chat_id: 123456789,
     parse_mode: ParseMode::HTML,
 );
 ```
