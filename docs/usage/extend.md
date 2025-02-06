@@ -13,8 +13,8 @@ Nutgram::macro('sendHelloMessage', function() {
     return $this->sendMessage('Hello!');
 });
 
-Message::macro('pin', function(array $opt = []) {
-    return $this->pinChatMessage($this->chat->id, $this->message_id, $opt);
+Message::macro('pin', function() {
+    return $this->pinChatMessage($this->chat->id, $this->message_id);
 });
 
 $bot = new Nutgram('you telegram token here');
