@@ -53,6 +53,7 @@ const sidebars = {
                 'usage/extend',
                 'usage/bulk_messenger',
                 'usage/web_validation',
+                'usage/exceptions',
             ],
         },
         {
