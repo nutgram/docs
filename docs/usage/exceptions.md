@@ -4,8 +4,8 @@ Exceptions are a common part of programming.
 Normally, when an exception is raised, the program will crash.
 
 In Nutgram, exceptions can be categorized into two main types:
-- **Software Exceptions**: These are exceptions that originate from your code.
-- **Telegram API Exceptions**: These are exceptions that come from the Telegram Bot API.
+- **Exceptions**: These are exceptions that originate from your code.
+- **Telegram API Errors**: These are errors that come from the Telegram Bot API.
 
 ## Software Exceptions
 
@@ -72,15 +72,15 @@ $bot->onException(Exception::class, function (Nutgram $bot, Exception $exception
 $bot->run();
 ```
 
-## Telegram API Exceptions
+## Telegram API Errors
 
-Telegram API exceptions occur when the Telegram Bot API returns an error. 
+A Telegram API error occur when the Telegram Bot API returns an error. 
 
-These exceptions can be handled using `try/catch` blocks or the `onApiError` handler.
+These errors can be handled using `try/catch` blocks or the `onApiError` handler.
 
 ### `try/catch`
 
-You can also use a `try/catch` block to catch Telegram API exceptions.
+You can also use a `try/catch` block to catch Telegram API errors.
 
 ```php showLineNumbers
 $bot = new Nutgram('token');
@@ -148,7 +148,7 @@ class UserDeactivatedException extends ApiException
 
 ### `onApiError` handler
 
-The `onApiError` handler allows you to handle Telegram API exceptions globally.
+The `onApiError` handler allows you to handle Telegram API errors globally.
 
 ```php showLineNumbers
 $bot = new Nutgram('token');
