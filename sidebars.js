@@ -47,6 +47,7 @@ const sidebars = {
                 'usage/sending_requests',
                 'usage/handlers',
                 'usage/middleware',
+                'usage/rate_limiting',
                 'usage/keyboards',
                 'usage/conversations',
                 'usage/inline_menu',
