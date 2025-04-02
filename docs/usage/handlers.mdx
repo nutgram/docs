@@ -459,10 +459,6 @@ $bot->onText('I want ([0-9]+) pizzas', function (Nutgram $bot, $n) {
     $bot->sendMessage("You will get {$n} pizzas!");
 });
 
-$bot->onText('I want ([0-9]+) portions of (pizza|cake)', function (Nutgram $bot, $amount, $dish) {
-    $bot->sendMessage("You will get {$amount} portions of {$dish}!");
-});
-
 $bot->run();
 ```
 
@@ -711,7 +707,58 @@ $bot->afterApiRequest(function (Nutgram $bot, object $response) {
 $bot->run();
 ```
 
-## Named parameters constraints
+## Handlers Pattern
+
+Nutgram offers a powerful way to handle commands and specific handlers using a pattern system based on regex.<br/>
+You can use regex to match specific parts of the text, and you can also use named parameters to extract values from the text.
+
+```php
+// called on command "/start"
+$bot->onCommand('start', function (Nutgram $bot) {
+    $bot->sendMessage('This is the start command!');
+});
+
+// called on command "/hello Mario" (named parameter)
+$bot->onCommand('hello {name}', function (Nutgram $bot, string $name) {
+    $bot->sendMessage("Hi, {$name}!");
+});
+
+// called on text "I want 6 portions of cake" (regex)
+$bot->onText('I want ([0-9]+) portions of (pizza|cake)', function (Nutgram $bot, string $amount, string $dish) {
+    $bot->sendMessage("You will get {$amount} portions of {$dish}!");
+});
+```
+
+### Case insensitive
+
+By default, the pattern is **case sensitive**, but you can make it case insensitive by calling the `insensitive()` method on the handler:
+
+```php
+// called only on text "hello"
+$bot->onText('hello', function (Nutgram $bot) {)
+    $bot->sendMessage('Hello!');
+});
+
+// called on text "Hello", "HELLO", "hElLo" and so on
+$bot->onText('hello', function (Nutgram $bot) {)
+    $bot->sendMessage('Hello!');
+})->insensitive();
+```
+
+You can also use the `insensitive()` method in group method:
+
+```php
+$bot->group(function () use (Nutgram $bot) {
+    $bot->onText('hello', function (Nutgram $bot) {)
+        $bot->sendMessage('Hello!');
+    });
+    $bot->onText('hi', function (Nutgram $bot) {)
+        $bot->sendMessage('Hi!');
+    });
+})->insensitive();
+```
+
+### Named parameters constraints
 You may constrain the format of your named parameters using the `where` method on a handler.
 The `where` method accepts the name of the parameter and a regular expression defining how the parameter should be constrained:
 
@@ -770,7 +817,7 @@ $bot->group(function () use (Nutgram $bot) {
 })->whereAlpha('name');
 ```
 
-## Custom parameters binding
+### Custom parameters binding
 
 You can also bind custom parameters to the handler using the `bindParameter` method:
 
@@ -879,6 +926,12 @@ $bot->group(function(){
     $bot->onSuccessfulPayment(SuccessfulPaymentHandler::class);
 })->unless($donationEnabled);
 ```
+
+:::caution
+The `unless` method will be executed only when the handler is registered, not when it is executed.<br/>
+If you need to stop the execution of a handler at runtime, you can use a [Middleware](middleware.md).
+:::
+
 
 ## Automatically register bot commands
 

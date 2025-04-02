@@ -257,6 +257,27 @@ class MyConversation extends Conversation {
 
 In this way, your will force the next step execution.
 
+## Stop Conversation with Generic Handlers
+This implementation introduces a mechanism to forcefully exit an ongoing conversation when generic handlers,
+such as `myChatMember`, are triggered.
+
+The new functionality allows developers to explicitly stop conversations
+by using the `willStopConversations()` method on handlers.
+
+```php
+$bot = new Nutgram('your-token');
+
+$bot->onCommand('start', MyConversation::class);
+
+$bot->onMyChatMember(MyChatMemberHandler::class)
+    ->willStopConversations();
+
+$bot->run();
+```
+
+This enhancement ensures that events like `myChatMember` can properly take precedence over ongoing conversations,
+improving the application's ability to process user departures and other crucial state changes efficiently.
+
 ## Middleware
 
 By default, global middlewares are also applied before the conversation step, there may be situations, however, where
@@ -305,9 +326,15 @@ class MyConversation extends Conversation {
 }
 ```
 
-## Ending a conversation
+## Closing Hook
 
-You can define a method that will be called once the current conversation is terminated:
+You can override the `closing` method to define a custom behaviour when the conversation is closed.
+
+This method will be called every time a conversation is terminated, due to explicit call to `end`, or because
+[funnel escaping](conversations.md#funnel-escaping).
+
+This is useful for shutting stuff down, saving to a database or simply let the user know that the conversation is
+terminated.
 
 ```php
 use SergiX44\Nutgram\Conversations\Conversation;
@@ -320,21 +347,14 @@ class MyConversation extends Conversation {
         $bot->sendMessage('Time to say goodbye!');
         $this->end();
     }
-    /**
-    * This method will be called!
-    */
+    
+    //This method will be called!
     public function closing(Nutgram $bot)
     {
         $bot->sendMessage('Bye!');
     }
 }
 ```
-
-The `closing` method will be called every time a conversation is terminated, due to explicit call to `end`, or because
-[funnel escaping](conversations.md#funnel-escaping).
-
-This is useful for shutting stuff down, saving to a database or simply let the user know that the conversation is
-terminated.
 
 ## Procedural Usage
 
