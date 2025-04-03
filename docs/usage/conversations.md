@@ -257,12 +257,13 @@ class MyConversation extends Conversation {
 
 In this way, your will force the next step execution.
 
-## Stop Conversation with Generic Handlers
-This implementation introduces a mechanism to forcefully exit an ongoing conversation when generic handlers,
-such as `myChatMember`, are triggered.
+## Stop Conversation on Generic Handlers
 
-The new functionality allows developers to explicitly stop conversations
-by using the `willStopConversations()` method on handlers.
+By default, sends a message that match with a typed **specific** handler, the current conversation will be discarded,
+but in some cases, you may want to stop the conversation when a generic handler is triggered (e.g. `myChatMember`).
+
+In this case, you can use the `willStopConversations()` method on handlers to stop the conversation when a generic
+handler is triggered.
 
 ```php
 $bot = new Nutgram('your-token');
