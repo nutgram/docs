@@ -1,0 +1,240 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Examples
+
+This page contains some examples of how to use the testing framework.
+
+We assume that the `$bot` is loaded as mentioned on the [Introduction](testing/introduction.md) page.
+
+## Send a message
+
+<Tabs>
+<TabItem value="test" label="Test">
+
+```php
+$bot->hearText('/start')
+    ->reply()
+    ->assertReplyText('Hello World!');
+```
+
+</TabItem>
+<TabItem value="handler" label="Handler">
+
+```php
+$bot->onCommand('start', function (Nutgram $bot) {
+    $bot->sendMessage('Hello World!');
+});
+```
+
+</TabItem>
+</Tabs>
+
+## Send multiple messages
+
+<Tabs>
+<TabItem value="test" label="Test">
+
+```php
+$bot->hearText('/start')
+    ->reply()
+    ->assertSequence(
+        fn (FakeNutgram $x) => $x->assertReplyText('foo'),
+        fn (FakeNutgram $x) => $x->assertReplyText('bar'),
+    );
+```
+
+</TabItem>
+<TabItem value="handler" label="Handler">
+
+```php
+$bot->onCommand('start', function (Nutgram $bot) {
+    $bot->sendMessage('foo');
+    $bot->sendMessage('bar');
+});
+```
+
+</TabItem>
+</Tabs>
+
+## Remove a keyboard
+
+<Tabs>
+<TabItem value="test" label="Test">
+
+```php
+$bot->hearText('/remove_keyboard')
+    ->reply()
+    ->assertReplyMessage([
+        'text' => 'Removing keyboard...',
+        'reply_markup' => ReplyKeyboardRemove::make(true),
+    ])
+    ->assertCalled('deleteMessage');
+```
+
+</TabItem>
+<TabItem value="handler" label="Handler">
+
+```php
+$bot->onCommand('remove_keyboard', function (Nutgram $bot) {
+    $message = $bot->sendMessage(
+        text: 'Removing keyboard...',
+        reply_markup: ReplyKeyboardRemove::make(true),
+    );
+    $message->delete();
+});
+```
+
+</TabItem>
+</Tabs>
+
+## OnlyDev Middleware
+
+<Tabs>
+<TabItem value="test" label="Test">
+
+```php title="unable to get stats"
+$bot->onText('stats', function (Nutgram $bot) {
+    $bot->sendMessage('Sensitive data');
+})->middleware(OnlyDev::class);
+
+$bot->hearText('/stats')
+    ->reply()
+    ->assertNoReply();
+```
+
+```php title="able to get stats"
+$bot->onText('stats', function (Nutgram $bot) {
+    $bot->sendMessage('Sensitive data');
+})->middleware(OnlyDev::class);
+
+$bot->setCommonUser(User::make(123456789, false, 'John'))      // needed to not get a random user id
+    ->setCommonChat(Chat::make(123456789, ChatType::PRIVATE))  // needed to not get a random user id
+    ->hearText('/stats')
+    ->reply()
+    ->assertReplyText('Sensitive data');
+```
+
+</TabItem>
+<TabItem value="handler" label="Handler">
+
+```php
+class OnlyDev
+{
+    public function __invoke(Nutgram $bot, $next): void
+    {
+        if ($bot->user()?->id !== 123456789) {
+            return;
+        }
+
+        $next($bot);
+    }
+}
+```
+
+</TabItem>
+</Tabs>
+
+## Feedback Conversation
+
+<Tabs>
+<TabItem value="test" label="Test">
+
+```php title="send feedback"
+// first step
+$bot->willStartConversation()
+    ->hearText('/feedback')
+    ->reply()
+    ->assertReplyMessage([
+        'text' => 'Send your feedback',
+        'reply_markup' => InlineKeyboardMarkup::make()->addRow(
+            InlineKeyboardButton::make('Cancel', callback_data: 'feedback.cancel'),
+        ),
+    ])
+    ->assertActiveConversation();
+
+// second step
+$bot->hearText('this is a feedback')
+    ->reply()
+    ->assertReplyText('Thanks for your feedback!')
+    ->assertNoConversation();
+```
+
+```php title="cancel feedback"
+// first step
+$bot->willStartConversation()
+    ->hearText('/feedback')
+    ->reply()
+    ->assertReplyMessage([
+        'text' => 'Send your feedback',
+        'reply_markup' => InlineKeyboardMarkup::make()->addRow(
+            InlineKeyboardButton::make('Cancel', callback_data: 'feedback.cancel'),
+        ),
+    ])
+    ->assertActiveConversation();
+
+// second step
+$bot->hearCallbackQueryData('feedback.cancel')
+    ->reply()
+    ->assertReplyText('Feedback cancelled')
+    ->assertCalled('answerCallbackQuery')
+    ->assertNoConversation();
+```
+
+</TabItem>
+<TabItem value="handler" label="Conversation">
+
+```php
+class FeedbackConversation extends Conversation
+{
+    public function start(Nutgram $bot): void
+    {
+        // ask for feedback
+        $bot->sendMessage(
+            text: 'Send your feedback',
+            reply_markup: InlineKeyboardMarkup::make()->addRow(
+                InlineKeyboardButton::make('Cancel', callback_data: 'feedback.cancel')
+            ),
+        );
+
+        // wait for the user to send feedback
+        $this->next('getFeedback');
+    }
+
+    public function getFeedback(Nutgram $bot): void
+    {
+        //handle cancel button
+        if ($bot->callbackQuery()?->data === 'feedback.cancel') {
+            $bot->sendMessage('Feedback cancelled');
+            $bot->answerCallbackQuery();
+
+            //close conversation
+            $this->end();
+            return;
+        }
+
+        //get the input
+        $feedback = $bot->message()?->text;
+
+        //check valid input
+        if ($feedback === null) {
+            $bot->sendMessage('Invalid input, please send your feedback again');
+            $this->start($bot);
+            return;
+        }
+
+        //save the feedback
+        // TODO: save $feedback to database
+
+        // thanks the user
+        $bot->sendMessage('Thanks for your feedback!');
+
+        //close conversation
+        $this->end();
+    }
+}
+```
+
+</TabItem>
+</Tabs>
+
