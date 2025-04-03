@@ -10,18 +10,17 @@ you have to mock the received data.
 To do that, the framework gives you some methods to automatically generate incoming responses.
 
 ### Example
-We assume that the `$this->bot` is loaded as mentioned on the [Introduction](introduction.md) page.
+We assume that the `$this->bot` is loaded as mentioned on the [Introduction](testing/introduction.md) page.
 
 <Tabs>
 <TabItem value="test" label="Test" default>
 
 ```php
-$this
-    ->bot
-    ->hearText('dice')
-    ->willReceivePartial(['dice' => ['emoji' => '🎲', 'value' => 4]])
-    ->reply()
-    ->assertReplyMessage(['dice' => ['emoji' => '🎲', 'value' => 4]]);
+$this->bot
+     ->hearText('dice')
+     ->willReceivePartial(['dice' => ['emoji' => '🎲', 'value' => 4]])
+     ->reply()
+     ->assertReplyMessage(['dice' => ['emoji' => '🎲', 'value' => 4]]);
 ```
 
 </TabItem>

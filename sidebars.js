@@ -69,6 +69,7 @@ const sidebars = {
                 'testing/hearing',
                 'testing/mocking',
                 'testing/asserting',
+                'testing/examples',
             ],
         },
         {

@@ -9,16 +9,15 @@ After you have configured your first testcase, to test your handlers you have to
 To do that, the framework gives you some methods to automatically generate incoming updates.
 
 ### Example
-We assume that the `$this->bot` is loaded as mentioned on the [Introduction](introduction.md) page.
+We assume that the `$this->bot` is loaded as mentioned on the [Introduction](testing/introduction.md) page.
 
 <Tabs>
 <TabItem value="test" label="Test" default>
 
 ```php
-$this
-    ->bot
-    ->hearText('/foo')
-    ->reply();
+$this->bot
+     ->hearText('/foo')
+     ->reply();
 ```
 
 </TabItem>
