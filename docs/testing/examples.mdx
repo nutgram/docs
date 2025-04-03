@@ -94,7 +94,7 @@ $bot->onCommand('remove_keyboard', function (Nutgram $bot) {
 <TabItem value="test" label="Test">
 
 ```php title="unable to get stats"
-$bot->onText('stats', function (Nutgram $bot) {
+$bot->onCommand('stats', function (Nutgram $bot) {
     $bot->sendMessage('Sensitive data');
 })->middleware(OnlyDev::class);
 
@@ -104,7 +104,7 @@ $bot->hearText('/stats')
 ```
 
 ```php title="able to get stats"
-$bot->onText('stats', function (Nutgram $bot) {
+$bot->onCommand('stats', function (Nutgram $bot) {
     $bot->sendMessage('Sensitive data');
 })->middleware(OnlyDev::class);
 
@@ -184,7 +184,11 @@ $bot->hearCallbackQueryData('feedback.cancel')
 </TabItem>
 <TabItem value="handler" label="Conversation">
 
-```php
+```php title="Bot.php"
+$bot->onCommand('feedback', FeedbackConversation::class);
+```
+
+```php title="FeedbackConversation.php"
 class FeedbackConversation extends Conversation
 {
     public function start(Nutgram $bot): void
