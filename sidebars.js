@@ -51,6 +51,7 @@ const sidebars = {
                 'usage/keyboards',
                 'usage/conversations',
                 'usage/inline_menu',
+                'usage/helpers',
                 'usage/extend',
                 'usage/bulk_messenger',
                 'usage/web_validation',
