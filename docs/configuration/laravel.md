@@ -218,19 +218,12 @@ Just enable the `mixins` option in the `config/nutgram.php` file, and you will b
 ## Webhook updates
 
 For production mode, the webhook mode is recommended. Run the bot in that way is really simple, you should just create a
-new controller `php artisan make:controller FrontController`, and call the `run` method on the bot instance:
+new route and call the `run` method on the bot instance:
 
 ```php
-class FrontController extends Controller
-{
-    /**
-     * Handle the telegram webhook request.
-     */
-    public function __invoke(Nutgram $bot)
-    {
-        $bot->run();
-    }
-}
+// routes/api.php
+
+Route::post('/webhook', fn(Nutgram $bot) => $bot->run());
 ```
 
 :::tip
@@ -238,12 +231,15 @@ When calling the `run()` method on the bot instance, it automatically recognize 
 or `Webhook`, based on whether the current instance is running in a cli process, or is serving a web request.
 :::
 
-and remember to register it on you http routes:
+:::danger
+Remember to add your route to the `routes/api.php` file, or make sure that the route is not protected by any authentication middleware or CSRF protection.
+:::
 
-```php
-// routes/api.php
+### Set Webhook
+To set the bot webhook, you can use the `nutgram:hook:set` command:
 
-Route::post('/webhook', 'FrontController');
+```bash
+php artisan nutgram:hook:set https://your-domain.com/api/webhook
 ```
 
 ### Safe Mode
@@ -252,9 +248,7 @@ The safe mode is enabled by default via the `safe_mode` option in the `config/nu
 When enabled, the webhook mode will validate the incoming update using a secret token.
 
 :::caution
-
-Make sure to set the bot webhook via the `nutgram:hook:set` command! 
-
+Make sure to set the bot webhook via the `nutgram:hook:set` command otherwise the safe mode will reject all incoming updates.
 :::
 
 ## Facade support
