@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunknutgram_docs=self.webpackChunknutgram_docs||[]).push([[6495],{35357:function(t){t.exports=JSON.parse('{"permalink":"/blog/tags/why","page":1,"postsPerPage":10,"totalPages":1,"totalCount":1,"blogDescription":"Blog","blogTitle":"Blog"}')}}]);

@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunknutgram_docs=self.webpackChunknutgram_docs||[]).push([[2535],{45641:function(t){t.exports=JSON.parse('{"title":"Recent posts","items":[{"title":"Nutgram 4 \ud83d\ude80","permalink":"/blog/nutgram-4"},{"title":"Nutgram \ud83e\udd1d Symfony","permalink":"/blog/symfony-support"},{"title":"Hello World!","permalink":"/blog/hello-world"}]}')}}]);
