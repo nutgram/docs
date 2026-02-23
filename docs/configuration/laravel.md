@@ -4,7 +4,8 @@ sidebar_position: 4
 
 # Laravel
 
-Instead of installing the base `nutgram/nutgram` package, you have to install a specific version of the package:
+Instead of installing the base `nutgram/nutgram` package, 
+you have to install a specific version of the package: [nutgram/laravel](https://github.com/nutgram/laravel)
 
 ```bash
 composer require nutgram/laravel
