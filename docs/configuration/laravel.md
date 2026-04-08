@@ -140,6 +140,9 @@ To use it, you need to create the `telegram` channel inside the `config/logging.
 ]
 ```
 
+To get a Telegram chat ID (user, group, or channel), the easiest method is to message a bot like `@getidsbot` or `@rawdatabot` and send `/start`, which returns your personal ID. For group/channel IDs, add the bot to the group or forward a message from that channel to the bot. 
+
+
 Now, you can log any data to the chat using the `telegram` channel:
 
 ```php
