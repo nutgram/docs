@@ -1,0 +1,369 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# From 4.x to 5.x
+
+> Estimated Upgrade Time: 2 Hours
+
+## Updating dependencies
+
+> Likelihood Of Impact: High
+
+### PHP 8.4.0 required
+
+Nutgram now requires PHP 8.4.0 or greater.
+
+---
+
+## Configuration
+
+**Likelihood Of Impact: Low**
+
+### Removal of `botId` from `Configuration`
+
+The `botId` property has been removed from the `Configuration` class.
+Since the bot ID is always reliably derivable from the token, maintaining a separate, overridable configuration value introduced unnecessary complexity and the potential for inconsistent state between the configured ID and the actual token.
+
+If you were instantiating `Configuration` and passing a `botId` argument, you should remove it:
+
+```php
+// Before...
+$config = new Configuration(
+    botId: 123456789,
+    botName: 'my_bot',
+);
+
+// After...
+$config = new Configuration(
+    botName: 'my_bot',
+);
+```
+
+
+### Retrieving the Bot ID
+
+No changes are required when retrieving the bot ID. `Nutgram::getBotId()` continues to work as before and now always returns the ID parsed from the token:
+
+```php
+$bot->getBotId(); // (int) 123456789
+```
+
+---
+
+## Registering Commands via OOP
+
+> Likelihood Of Impact: High
+
+### Removed the `registerCommand` method
+
+This method has been removed in favor of the `$bot->onCommand()` method.
+
+```diff
+- $bot->registerCommand(StartCommand::class);
++ $bot->onCommand('start', StartCommand::class);
+```
+
+### The `Command` class is now an interface
+
+This makes possible to use the **dependency injection**.
+
+<Tabs>
+    <TabItem value="before" label="Nutgram 4.x" default>
+        ```php
+        // 1. create a command class like "StartCommand.php":
+
+        use SergiX44\Nutgram\Handlers\Type\Command;
+        use SergiX44\Nutgram\Nutgram;
+
+        class StartCommand extends Command
+        {
+            protected string $command = 'start';
+
+            protected ?string $description = 'A lovely start command';
+
+            public function handle(Nutgram $bot): void
+            {
+                $bot->sendMessage('Hello there!');
+            }
+        }
+
+        // 2. Register StartCommand inside Nutgram
+
+        $bot->registerCommand(StartCommand::class);
+        ```
+    </TabItem>
+    <TabItem value="after" label="Nutgram 5.x">
+        ```php
+        // 1. create a command class like "StartCommand.php":
+
+        use SergiX44\Nutgram\Handlers\Type\Command\Command;
+        use SergiX44\Nutgram\Nutgram;
+
+        class StartCommand implements Command
+        {
+            public function description(): string|array
+            {
+                return 'A lovely start command';
+            }
+
+            public function __invoke(Nutgram $bot): void
+            {
+                $bot->sendMessage('Hello there!');
+            }
+        }
+
+        // 2. Register StartCommand inside Nutgram
+
+        $bot->onCommand('start', StartCommand::class);
+        ```
+    </TabItem>
+</Tabs>
+
+### Localization and Scopes support
+
+**Description in multiple languages**<br/>
+You can provide a description in multiple languages.
+
+**`WithScope` interface**<br/>
+To use command scopes you need to implement the `WithScope` interface.
+
+```php
+// 1. create a command class like "StartCommand.php":
+
+use SergiX44\Nutgram\Handlers\Type\Command\Command;
+use SergiX44\Nutgram\Handlers\Type\Command\WithScopes;
+use SergiX44\Nutgram\Nutgram;
+
+class StartCommand implements Command, WithScopes
+{
+    public function description(): string|array
+    {
+        return [
+            '*' => 'Description in default language',
+            'es' => 'Description in Spanish',
+            'de' => 'Description in German',
+            'it' => 'Description in Italian',
+        ];
+    }
+
+    public function __invoke(Nutgram $bot): void
+    {
+        $bot->sendMessage('Hello there!');
+    }
+
+    public function scopes(): array
+    {
+        return [
+            new BotCommandScopeAllPrivateChats,
+        ];
+    }
+}
+```
+
+### Removed `isHidden` method
+
+If you want to "hide" a command, simply don't implement the `Command` interface
+and don't call the `description` method after the `onCommand` method.
+
+---
+
+## File handling
+
+> Likelihood Of Impact: Low
+
+### InputFile
+
+The `resource` parameter of the `InputFile` constructor has been changed to `stream`.
+
+```diff
+  $file = InputFile::make(
+-    resource: fopen('php://temp', 'rb'),
++    stream: fopen('php://temp', 'rb'),
+     filename: 'sticker.png',
+  );
+```
+
+### OutgoingResource
+
+The `getTmpResource` method has been removed in favor of the new `getStream` method.<br/>
+The `getType` method has been removed in favor of the new `getMime` method.<br/>
+The `getError` method has been removed.
+
+---
+
+## Bot API
+
+> Likelihood Of Impact: High
+
+### Changed the return type of the `getChat` method
+
+The `getChat` method now returns a `ChatFullInfo` object instead of a `Chat` object.
+
+### `MaybeInaccessibleMessage` support
+
+- The type of the `message` property of the `CallbackQuery` object has been changed from `Message` to `MaybeInaccessibleMessage`.
+- The type of the `pinned_message` property of the `Message` object has been changed from `Message` to `MaybeInaccessibleMessage`.
+- The type of the `poll_message` property of the `PollOptionAdded` object has been changed from `Message` to `MaybeInaccessibleMessage`.
+- The type of the `poll_message` property of the `PollOptionDeleted` object has been changed from `Message` to `MaybeInaccessibleMessage`.
+
+---
+
+## Removed `make` method from Telegram Types
+
+The `make` method has been removed from **all Telegram types**.<br/>
+Instead, you can use the `new` operator to create a new instance.
+
+```diff
+- $content = InputTextMessageContent::make('Hello there!');
++ $content = new InputTextMessageContent('Hello there!');
+```
+
+---
+
+## Removed deprecations
+
+> Likelihood Of Impact: Low
+
+### Classes removed
+
+- KeyboardButtonRequestUser
+- UserShared
+
+### Parameters removed
+
+- `createNewStickerSet()`<br/>
+  sticker_format
+
+### Fields removed
+
+- `InlineQueryResultArticle`<br/>
+   hide_url
+- `InlineTextMessageContent`<br/>
+   disable_web_page_preview
+- `KeyboardButton`<br/>
+   request_user
+- `Message`<br/>
+   forward_from, forward_from_chat, forward_from_message_id, forward_signature, forward_sender_name, forward_date, user_shared
+- `UsersShared`<br/>
+   user_ids
+- `StickerSet`<br/>
+   is_animated, is_video
+
+---
+
+## Conversation class
+
+> Likelihood Of Impact: High
+
+### Changed `begin()` method signature
+
+Added a new `threadId` parameter to the `begin()` method before the `data` parameter.<br/>
+If you are using named parameters, you can skip this change.
+
+```diff
+- ServerConversation::begin($bot, 123, 456, ['foo' => 'bar']);
++ ServerConversation::begin($bot, 123, 456, null, ['foo' => 'bar']);
+```
+
+### Removed `beginThread` method
+
+The `beginThread()` method has been removed from the `Conversation` class.<br/>
+Use the `begin()` method instead.
+
+```diff
+- ServerConversation::beginThread($bot, 123, 456, 789);
++ ServerConversation::begin($bot, 123, 456, 789);
+```
+
+### Removed `getChatId` and `getUserId` methods
+
+The `getChatId` and `getUserId` methods have been removed from the `Conversation` class.<br/>
+You can now safely remove them from your code or you can explicitly use the `$bot->chatId()` and `$bot->userId()` methods instead.
+
+```php
+ServerConversation::begin($bot, 123, 456);
+```
+
+```diff
+  class ServerConversation extends Conversation
+  {
+      public function start(Nutgram $bot): void
+      {
+-         $bot->sendMessage('First step', chat_id: $this->getChatId());
++         $bot->sendMessage('First step');
+          $this->next('secondStep');
+      }
+
+      public function secondStep(Nutgram $bot): void
+      {
+          $bot->sendMessage('Second step');
+          $this->end();
+      }
+  }
+```
+
+---
+
+## Changed `Webhook` signature
+
+> Likelihood Of Impact: High
+
+The parameters of the `Webhook` constructor have been flipped.<br/>
+You can now remove the named parameter.
+
+```diff
+  use SergiX44\Nutgram\Nutgram;
+
+  $bot = new Nutgram($_ENV['TOKEN']);
+
+- $webhook = new Webhook(secretToken: 'your-secret-token');
++ $webhook = new Webhook('your-secret-token');
+  $webhook->setSafeMode(true);
+
+  $bot->setRunningMode($webhook);
+```
+
+---
+
+## Renamed `deepLink` function
+
+> Likelihood Of Impact: Medium
+
+The `deepLink` helper function has been renamed to `deep_link`.
+
+```diff
+- $userLink = deepLink()->username('FooUser'); // https://t.me/FooUser
++ $userLink = deep_link()->username('FooUser'); // https://t.me/FooUser
+```
+
+---
+
+## Testing
+
+> Likelihood Of Impact: High
+
+### FormDataParsed class removed
+
+The `FormDataParsed` helper class has been removed.<br/>
+You can now use the `RequestData` class provided by the `assertRaw` callback method.
+
+**Before:**
+```php
+$bot->assertRaw(function (Request $request): bool {
+    $parsed = FormDataParser::parse($request);
+    $caption = $parsed->params['caption'];
+    $photo = $parsed->files['photo'];
+
+    return $caption === 'Hello' && $photo->getSize() < 1024;
+});
+```
+
+**After:**
+```php
+$bot->assertRaw(function (RequestData $request, ResponseData $response): bool {
+    $caption = $request->get('caption');
+    $photo = $request->file('photo');
+
+    return $caption === 'Hello' && $photo->getSize() < 1024;
+});
+```

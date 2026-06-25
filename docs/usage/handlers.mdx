@@ -389,7 +389,6 @@ Here a full list of all the handler that listens to specific type of updates:
 ## Specific & Special Handlers
 
 ### `onCommand`
-For the implicit style see the [`registerCommand`](#registercommand) section.
 
 ```php
 use SergiX44\Nutgram\Nutgram;
@@ -407,37 +406,6 @@ $bot->onCommand('help', function (Nutgram $bot) {
 });
 
 $bot->run();
-```
-
-### `registerCommand`
-
-A different and clean way to register commands implicitly.
-
-
-```php
-// 1. create a command class like "StartCommand.php":
-
-namespace App\Telegram\Commands;
-
-use SergiX44\Nutgram\Handlers\Type\Command;
-use SergiX44\Nutgram\Nutgram;
-
-class StartCommand extends Command
-{
-    protected string $command = 'start';
-
-    protected ?string $description = 'A lovely start command';
-
-    public function handle(Nutgram $bot): void
-    {
-        $bot->sendMessage('Hello there!');
-    }
-}
-
-// 2. Register StartCommand inside Nutgram
-
-$bot->registerCommand(StartCommand::class);
-
 ```
 
 ### `onText`
@@ -938,7 +906,7 @@ If you need to stop the execution of a handler at runtime, you can use a [Middle
 The framework can also automatically set the bot commands for you, if you configure the **description** on it:
 
 <Tabs>
-<TabItem value="onCommand-handler" label="onCommand Handler" default>
+<TabItem value="inline" label="Inline" default>
 
 ```php
 use SergiX44\Nutgram\Nutgram;
@@ -961,24 +929,22 @@ $bot->onCommand('secret', function (Nutgram $bot) {
 
 </TabItem>
 
-<TabItem value="command-class" label="Command Class">
+<TabItem value="oop" label="OOP + Interface">
 
 ```php
 // 1. create a command class like "StartCommand.php":
 
 namespace App\Telegram\Commands;
 
-use SergiX44\Nutgram\Handlers\Type\Command;
+use SergiX44\Nutgram\Handlers\Type\Command\Command;
 use SergiX44\Nutgram\Nutgram;
 
-class StartCommand extends Command
+class StartCommand implements Command
 {
-    // Called on command "/start"
-    protected string $command = 'start';
-
-    // It's possible to set a description for the current command
-    // this WILL be automatically registered
-    protected ?string $description = 'A lovely start command';
+    public function description(): string|array
+    {
+        return 'A lovely start command';
+    }
 
     public function handle(Nutgram $bot): void
     {
@@ -988,34 +954,11 @@ class StartCommand extends Command
 
 // 2. Register StartCommand inside Nutgram
 
-$bot->registerCommand(StartCommand::class);
+$bot->onCommand('start', StartCommand::class);
 ```
 
-You can also explicitly set a command as hidden overriding the `isHidden` method adding your logic:
-
-```php
-namespace App\Telegram\Commands;
-
-use SergiX44\Nutgram\Handlers\Type\Command;
-use SergiX44\Nutgram\Nutgram;
-
-class HiddenCommand extends Command
-{
-    protected string $command = 'hidden';
-
-    protected ?string $description = 'A super secret command';
-
-    public function handle(Nutgram $bot): void
-    {
-        $bot->sendMessage('Shhh!');
-    }
-
-    public function isHidden(): bool
-    {
-        return true;
-    }
-}
-```
+If you want to "hide" a command, simply don't implement the `Command` interface
+and don't call the `description` method after the `onCommand` method.
 
 </TabItem>
 </Tabs>
@@ -1034,7 +977,7 @@ You can specify `*` as a wildcard for all languages not explicitly set.
 Commands will be applied to all users from the given scope, for whose language there are no dedicated commands.
 
 <Tabs>
-<TabItem value="onCommand-handler" label="onCommand Handler" default>
+<TabItem value="inline" label="Inline" default>
 
 ```php
 $bot->onCommand('start', StartCommand::class)->description('The start command!');
@@ -1044,15 +987,19 @@ $bot->onCommand('start', StartCommand::class)->description(['*' => 'The start co
 
 </TabItem>
 
-<TabItem value="command-class" label="Command Class">
+<TabItem value="oop" label="OOP + Interface">
 
 ```php
 // 1. create a command class like "StartCommand.php":
-class StartCommand extends Command
-{
-    protected string $command = 'start';
+use SergiX44\Nutgram\Handlers\Type\Command\Command;
+use SergiX44\Nutgram\Nutgram;
 
-    protected ?string $description = 'The start command!';
+class StartCommand implements Command
+{
+    public function description(): string|array
+    {
+        return 'The start command!';
+    }
 
     public function handle(Nutgram $bot): void
     {
@@ -1061,7 +1008,7 @@ class StartCommand extends Command
 }
 
 // 2. Register StartCommand inside Nutgram
-$bot->registerCommand(StartCommand::class);
+$bot->onCommand('start', StartCommand::class);
 ```
 
 </TabItem>
@@ -1070,7 +1017,7 @@ $bot->registerCommand(StartCommand::class);
 #### Specific language code
 
 <Tabs>
-<TabItem value="onCommand-handler" label="onCommand Handler" default>
+<TabItem value="inline" label="Inline" default>
 
 ```php
 $bot->onCommand('start', StartCommand::class)->description([
@@ -1082,20 +1029,23 @@ $bot->onCommand('start', StartCommand::class)->description([
 
 </TabItem>
 
-<TabItem value="command-class" label="Command Class">
+<TabItem value="oop" label="OOP + Interface">
 
 ```php
 // 1. create a command class like "StartCommand.php":
-class StartCommand extends Command
+use SergiX44\Nutgram\Handlers\Type\Command\Command;
+use SergiX44\Nutgram\Nutgram;
+
+class StartCommand implements Command
 {
-    protected string $command = 'start';
-
-    protected ?string $description = 'The start command!'; // All other languages
-
-    protected array $localizedDescriptions = [
-        'it' => 'Il comando start!', // Italian
-        'es' => 'El comando start!', // Spanish
-    ];
+    public function description(): string|array
+    {
+        return [
+            'it' => 'Il comando start!', // Italian
+            'es' => 'El comando start!', // Spanish
+            '*' => 'The start command!', // All other languages
+        ];
+    }
 
     public function handle(Nutgram $bot): void
     {
@@ -1104,7 +1054,7 @@ class StartCommand extends Command
 }
 
 // 2. Register StartCommand inside Nutgram
-$bot->registerCommand(StartCommand::class);
+$bot->onCommand('start', StartCommand::class);
 ```
 
 </TabItem>
@@ -1117,7 +1067,7 @@ $bot->registerCommand(StartCommand::class);
 #### How to set a scope
 
 <Tabs>
-<TabItem value="onCommand-handler" label="onCommand Handler" default>
+<TabItem value="inline" label="Inline" default>
 
 Just use the `scope` method:
 
@@ -1147,15 +1097,21 @@ $bot
 
 </TabItem>
 
-<TabItem value="command-class" label="Command Class">
+<TabItem value="oop" label="OOP + Interfaces">
 
-Just override the `scopes` method:
+To use command scopes you need to implement the `WithScope` interface.
 
 ```php
-class StartCommand extends Command
+use SergiX44\Nutgram\Handlers\Type\Command\Command;
+use SergiX44\Nutgram\Handlers\Type\Command\WithScopes;
+use SergiX44\Nutgram\Nutgram;
+
+class StartCommand implements Command, WithScope
 {
-    protected string $command = 'start';
-    protected ?string $description = 'Start command';
+    public function description(): string|array
+    {
+        return 'Start command';
+    }
 
     public function scopes(): array
     {

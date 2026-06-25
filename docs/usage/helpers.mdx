@@ -187,13 +187,13 @@ If you need to persist data on disk, be sure to choose an appropriate cache adap
 ## Deep Link Builder
 
 Nutgram provides a simple way to create [deep links](https://core.telegram.org/api/links) to use in your bot.<br/>
-You can use the <code>deepLink()</code> function to create a deep link to your bot:
+You can use the <code>deep_link()</code> function to create a deep link to your bot:
 
 **Example:**
 ```php
-use function SergiX44\Nutgram\Support\deepLink;
+use function SergiX44\Nutgram\Support\deep_link;
 
-$userLink = deepLink()->username('FooUser'); // https://t.me/FooUser
+$userLink = deep_link()->username('FooUser'); // https://t.me/FooUser
 ```
 
 ### Available Methods

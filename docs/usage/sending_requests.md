@@ -82,6 +82,21 @@ $message = $bot->sendVideo(
 );
 ```
 
+### Via InputFile (string content)
+
+```php
+use SergiX44\Nutgram\Nutgram;
+use SergiX44\Nutgram\Telegram\Types\Internal\InputFile;
+use SergiX44\Nutgram\Telegram\Types\Message\Message;
+
+$bot = new Nutgram($_ENV['TOKEN']);
+
+$message = $bot->sendDocument(
+    document: InputFile::makeFromString('This is a document', 'mydocument.txt'),
+    chat_id: 123456789
+);
+```
+
 ### Via `file_id`
 
 ```php
