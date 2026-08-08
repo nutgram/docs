@@ -52,21 +52,6 @@ $bot->run();
 - <Declaration name="inlineMessageId" type="?string">
     The current <code>chosen_inline_result.inline_message_id ?? callback_query.inline_message_id</code> if available, <code>null</code> otherwise.
   </Declaration>
-- <Declaration name="directMessagesTopicId()" type="?int">
-    The current <code>message.direct_messages_topic.topic_id</code> if available, <code>null</code> otherwise.
-  </Declaration>
-- <Declaration name="managedBotId()" type="?int">
-    The current <code>message.managed_bot_created.bot.id ?? update.managed_bot.bot.id</code> if available, <code>null</code> otherwise.
-  </Declaration>
-- <Declaration name="guestQueryId()" type="?string">
-    The current <code>message.guest_query_id</code> if available, <code>null</code> otherwise.
-  </Declaration>
-- <Declaration name="receiverUserId()" type="?int">
-    The current <code>message.receiver_user.id</code> if available, <code>null</code> otherwise.
-  </Declaration>
-- <Declaration name="ephemeralMessageId()" type="?int">
-    The current <code>message.ephemeral_message_id</code> if available, <code>null</code> otherwise.
-  </Declaration>
 
 ### Object Methods
 
@@ -130,35 +115,23 @@ $bot->run();
 - <Declaration name="removedChatBoost"type="?ChatBoostRemoved">
     The current <code>ChatBoostRemoved</code> if available, <code>null</code> otherwise.
   </Declaration>
-- <Declaration name="checklist" type="?Checklist">
-    The current <code>Checklist</code> if available, <code>null</code> otherwise.
-  </Declaration>
-- <Declaration name="managedBot" type="?User">
-    The current <code>message.managed_bot_created.bot ?? update.managed_bot.bot</code> if available, <code>null</code> otherwise.
-  </Declaration>
 
 ### Utility Methods
 
 - <Declaration name="isCommand" type="?bool">
-    True, if the current update is a command.
+    If the current update is a command.
   </Declaration>
 - <Declaration name="isInlineQuery" type="?bool">
-    True, if the current update contains an <code>inline_query</code>.
+    If the current update contains an <code>inline_query</code>.
   </Declaration>
 - <Declaration name="isCallbackQuery" type="?bool">
-    True, if the current update contains a <code>callback_query</code>.
+    If the current update contains a <code>callback_query</code>.
   </Declaration>
 - <Declaration name="isPreCheckoutQuery" type="?bool">
-    True, if the current update contains a <code>pre_checkout_query</code>.
+    If the current update contains a <code>pre_checkout_query</code>.
   </Declaration>
 - <Declaration name="isMyChatMember" type="?bool">
-    True, if the current <code>ChatMemberUpdated</code> is in the <code>my_chat_member</code>.
-  </Declaration>
-- <Declaration name="isDirectMessagesTopic" type="bool">
-    True, if the current update is a direct messages topic.
-  </Declaration>
-- <Declaration name="isSuggestedPost" type="bool">
-    True, if the current update is a suggested post.
+    If the current <code>ChatMemberUpdated</code> is in the <code>my_chat_member</code>.
   </Declaration>
 
 ## Persisting Data
@@ -214,13 +187,13 @@ If you need to persist data on disk, be sure to choose an appropriate cache adap
 ## Deep Link Builder
 
 Nutgram provides a simple way to create [deep links](https://core.telegram.org/api/links) to use in your bot.<br/>
-You can use the <code>deep_link()</code> function to create a deep link to your bot:
+You can use the <code>deepLink()</code> function to create a deep link to your bot:
 
 **Example:**
 ```php
-use function SergiX44\Nutgram\Support\deep_link;
+use function SergiX44\Nutgram\Support\deepLink;
 
-$userLink = deep_link()->username('FooUser'); // https://t.me/FooUser
+$userLink = deepLink()->username('FooUser'); // https://t.me/FooUser
 ```
 
 ### Available Methods

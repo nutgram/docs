@@ -1,8 +1,9 @@
 // @ts-check
 // Note: type annotations allow type checking and IDEs autocompletion
 
-const lightCodeTheme = require('prism-react-renderer/themes/github');
-const darkCodeTheme = require('prism-react-renderer/themes/vsDark');
+const {themes} = require('prism-react-renderer');
+const lightCodeTheme = themes.github;
+const darkCodeTheme = themes.vsDark;
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
@@ -11,7 +12,12 @@ const config = {
   url: 'https://nutgram.dev',
   baseUrl: '/',
   onBrokenLinks: 'throw',
-  onBrokenMarkdownLinks: 'warn',
+  markdown: {
+    mermaid: true,
+    hooks: {
+      onBrokenMarkdownLinks: 'ignore',
+    },
+  },
   favicon: 'img/favicon.ico',
   organizationName: 'nutgram', // Usually your GitHub org/user name.
   projectName: 'docs', // Usually your repo name.
@@ -22,13 +28,12 @@ const config = {
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         docs: {
-          remarkPlugins: [require('mdx-mermaid')],
           sidebarPath: require.resolve('./sidebars.js'),
           editUrl: 'https://github.com/nutgram/docs/tree/master',
           lastVersion: 'current',
           versions: {
             current: {
-              label: '4.x',
+              label: '5.x',
               // path: '.',
             },
           },
@@ -54,6 +59,8 @@ const config = {
       }),
     ],
   ],
+
+  themes: ['@docusaurus/theme-mermaid'],
 
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
@@ -125,7 +132,7 @@ const config = {
       prism: {
         theme: lightCodeTheme,
         darkTheme: darkCodeTheme,
-        additionalLanguages: ['php', 'bash'],
+        additionalLanguages: ['php', 'bash', 'diff'],
       },
     }),
 

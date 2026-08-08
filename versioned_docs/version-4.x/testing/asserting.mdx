@@ -170,7 +170,7 @@ With a multi-part request, the assertions [`assertRaw`](#assertraw), [`assertRep
 in the field containing the file.
 
 ### Example
-To assert files you must use the `assertRaw` assertion,
+To assert files you must use the `assertRaw` assertion in combination with `FormDataParser::parse($request)->files`, 
 see the example below:
 
 <Tabs>
@@ -186,9 +186,9 @@ $this
         'caption' => 'my caption',
         'parse_mode' => ParseMode::HTML,
     ])
-    ->assertRaw(function (RequestData $request) {
+    ->assertRaw(function (Request $request) {
         /** @var OutgoingResource $document */
-        $document = $request->file('document');
+        $document = FormDataParser::parse($request)->files['document'];
     
         //check size
         return $document->getSize() <= 123456;
@@ -216,9 +216,10 @@ $bot->onText('foo', function (Nutgram $bot) {
 ### OutgoingResource
 This object is a wrapper from an outgoing resource and provide the following methods:
 
-| Method        | Type              | Description                     |
-|:--------------|:------------------|:--------------------------------|
-| `getName()`   | `?string`         | Returns the file name.          |
-| `getMime()`   | `string`          | Returns the MIME content type.  |
-| `getSize()`   | `?int`            | Returns the file size in bytes. |
-| `getStream()` | `StreamInterface` | Returns the resource.           |
+| Method             | Type        | Description                                                        |
+|:-------------------|:------------|:-------------------------------------------------------------------|
+| `getName()`        | `?string`   | Returns the file name.                                             |
+| `getType()`        | `?string`   | Returns the MIME content type.                                     |
+| `getSize()`        | `int`       | Returns the file size in bytes.                                    |
+| `getError()`       | `int`       | Returns 0 (There is no error) or 7 (Failed to create the resource) |
+| `getTmpResource()` | `?resource` | Returns the resource.                                              |

@@ -69,7 +69,7 @@ use SergiX44\Nutgram\Nutgram;
 
 $bot = new Nutgram($_ENV['TOKEN']);
 
-$webhook = new Webhook('your-secret-token');
+$webhook = new Webhook(secretToken: 'your-secret-token');
 $webhook->setSafeMode(true);
 
 $bot->setRunningMode($webhook);
