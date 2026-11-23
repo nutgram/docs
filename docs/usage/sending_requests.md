@@ -241,12 +241,9 @@ Four built-in trigger strategies are available:
 use SergiX44\Nutgram\Support\Progress\Progress;
 use SergiX44\Nutgram\Support\Progress\Triggers\EverySecond;
 
-->withProgress(
-    function (Progress $progress) {
-        // Handle progress
-    },
-    new EverySecond(2),
-);
+->withProgress(function (Progress $progress) {
+    // Handle progress
+}, new EverySecond(2));
 ```
 
 In this example, the callback is invoked at most once every **2 seconds**.
