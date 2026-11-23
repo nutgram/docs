@@ -57,14 +57,41 @@ $bot->onText('foo', function (Nutgram $bot) {
 </div>
 
 ### assertRaw
-The `assertRaw` asserts the given callback returns a truthy value.
-The `index` parameter is optional.
+
+The `assertRaw()` method allows you to perform custom assertions on outgoing Telegram API requests and their responses.
+
+The callback receives two objects:
+
+- **`RequestData`**: Inspect request parameters, headers, and uploaded files.
+- **`ResponseData`**: Inspect response data, status, and errors.
+
+#### Usage
+
+You can either return a boolean or use assertions directly without returning a value.
+
 ```php
-->assertRaw(function(GuzzleHttp\Psr7\Request $request){
-    $content = json_decode((string)$request->getBody(), true, flags: JSON_THROW_ON_ERROR);
-    return $content['text'] === 'bar';
-}, index: 0);
+// Using a boolean return
+->assertRaw(function (RequestData $request, ResponseData $response): bool {
+    return $request->get('chat_id') === 123;
+});
+
+// Using assertions
+->assertRaw(function (RequestData $request, ResponseData $response): void {
+    expect($request->get('chat_id'))->toBe(123);
+    expect($request->get('text'))->toBe('Hello!');
+    expect($response->isOk())->toBeTrue();
+});
 ```
+
+#### Available Methods
+
+| Object | Methods |
+|---|---|
+| `RequestData` | `get()`, `getRaw()`, `has()`, `missing()`, `file()`, `header()`, `hasHeader()`, `isMultipart()`, `method()` |
+| `ResponseData` | `get()`, `has()`, `missing()`, `isOk()`, `error()` |
+
+Both objects support **dot notation** for accessing nested data.
+
 **⚠️ Caution!** See the [Asserting files](#asserting-files) section to assert files sent with multi-part requests.
 
 ### assertCalled

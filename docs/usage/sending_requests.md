@@ -112,36 +112,6 @@ $message = $bot->sendSticker(
 );
 ```
 
-### Get upload progress
-
-You can get the upload progress of the file by calling the `withProgress` method before your upload method.
-
-:::caution
-The callback will be called every time **a byte** is uploaded, so if you are printing the progress via Telegram, 
-you should find a way to avoid spamming the user and **hitting the API limits**.
-:::
-
-```php
-use SergiX44\Nutgram\Nutgram;
-use SergiX44\Nutgram\Telegram\Types\Internal\InputFile;
-use SergiX44\Nutgram\Telegram\Types\Message\Message;
-
-$bot = new Nutgram($_ENV['TOKEN']);
-
-$message = $bot
-    ->withProgress(function (Progress $progress) {
-        echo sprintf("Uploading video: %s%% - Uploded: %s bytes of %s bytes\n",
-            $progress->uploadPercentage(),
-            $progress->uploadedBytes,
-            $progress->totalUploadBytes,
-        );
-    })
-    ->sendVideo(
-        video: InputFile::make('video.mp4'),
-        chat_id: 123456789
-    );
-```
-
 ## Downloading media
 
 As opposed to uploading, there are some additional methods available that allow you to download files:
@@ -182,14 +152,40 @@ $bot->onSticker(function (Nutgram $bot) {
 });
 ```
 
+## Progress Handling
+
+The `withProgress()` method allows you to monitor upload and download progress through a callback that receives a `Progress` object.
+The callback provides access to the current transferred bytes, total bytes, completion percentage, and transfer type (ProgressType::Download or ProgressType::Upload).
+
+### Get upload progress
+
+You can get the upload progress of the file by calling the `withProgress` method before your upload method.
+
+```php
+use SergiX44\Nutgram\Nutgram;
+use SergiX44\Nutgram\Telegram\Types\Internal\InputFile;
+use SergiX44\Nutgram\Telegram\Types\Message\Message;
+
+$bot = new Nutgram($_ENV['TOKEN']);
+
+$message = $bot
+    ->withProgress(function (Progress $progress) {
+        echo sprintf("Uploading video: %s%% - Uploded: %s bytes of %s bytes\n",
+            $progress->currentBytes;
+            $progress->totalBytes;
+            $progress->percentage();
+            $progress->type; // ProgressType::Upload
+        );
+    })
+    ->sendVideo(
+        video: InputFile::make('video.mp4'),
+        chat_id: 123456789
+    );
+```
+
 ### Get download progress
 
 You can get the download progress of the file by calling the `withProgress` method before your download method.
-
-:::caution
-The callback will be called every time **a byte** is downloaded, so if you are printing the progress via Telegram,
-you should find a way to avoid spamming the user and **hitting the API limits**.
-:::
 
 ```php
 use SergiX44\Nutgram\Nutgram;
@@ -208,14 +204,58 @@ $bot->onSticker(function (Nutgram $bot) {
     $bot
       ->withProgress(function (Progress $progress) {
           echo sprintf("Downloading file: %s%% - Downloaded: %s bytes of %s bytes\n",
-              $progress->downloadPercentage(),
-              $progress->downloadedBytes,
-              $progress->totalDownloadBytes,
+                $progress->currentBytes;
+                $progress->totalBytes;
+                $progress->percentage();
+                $progress->type; // ProgressType::Download
           );
       })
       ->downloadFile($file, 'file.ext');
 });
 ```
+
+### Trigger strategy
+
+:::caution
+By default, the `withProgress()` callback is invoked **for every byte transferred**, which can result in a large number of calls. 
+If you're reporting progress through Telegram messages, use an appropriate **Trigger Strategy** (see below) to throttle updates, 
+avoid spamming users, and prevent hitting **Telegram API rate limits**.
+:::
+
+The `withProgress()` method accepts an optional second parameter to control **when the progress callback is invoked**, helping reduce unnecessary updates and avoid API rate limits.
+
+If no trigger strategy is specified, it defaults to **`new EveryByte(1)`**, meaning the callback is invoked for every byte transferred.
+
+Four built-in trigger strategies are available:
+
+| Trigger | Description |
+|---|---|
+| `EveryByte` | Every N bytes transferred (default: 1 byte) |
+| `EveryPercent` | Every N percentage points (default: 1%) |
+| `EverySecond` | Every N seconds (default: 1 second) |
+| `EveryMillisecond` | Every N milliseconds (default: 100 ms) |
+
+**Example:**
+
+```php
+use SergiX44\Nutgram\Support\Progress\Progress;
+use SergiX44\Nutgram\Support\Progress\Triggers\EverySecond;
+
+->withProgress(
+    function (Progress $progress) {
+        // Handle progress
+    },
+    new EverySecond(2),
+);
+```
+
+In this example, the callback is invoked at most once every **2 seconds**.
+
+**Recommendation:** If you're reporting progress through Telegram messages, using `new EverySecond(2)` is recommended to reduce the risk of hitting **Telegram API rate limits**. This is not necessary if you're only tracking progress locally.
+
+You can also implement the `Trigger` interface to define a custom strategy.
+
+See [PR #1004](https://github.com/nutgram/nutgram/pull/1004) for more details.
 
 ## Formatting options
 

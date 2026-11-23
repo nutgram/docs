@@ -189,6 +189,28 @@ The `getTmpResource` method has been removed in favor of the new `getStream` met
 The `getType` method has been removed in favor of the new `getMime` method.<br/>
 The `getError` method has been removed.
 
+### Progress Handling
+
+The `Progress` class has been simplified by unifying upload and download tracking.
+The new `ProgressType` enum identifies the operation, while shared properties and methods handle progress consistently.
+
+```php
+// Before
+->withProgress(function (Progress $progress) {
+    $progress->downloadedBytes;      // or $progress->uploadedBytes;
+    $progress->totalDownloadBytes;   // or $progress->totalUploadBytes;
+    $progress->downloadPercentage(); // or $progress->uploadPercentage();
+});
+
+// After
+->withProgress(function (Progress $progress) {
+    $progress->currentBytes;
+    $progress->totalBytes;
+    $progress->percentage();
+    $progress->type; // ProgressType::Download or ProgressType::Upload
+});
+```
+
 ---
 
 ## Bot API
@@ -205,6 +227,32 @@ The `getChat` method now returns a `ChatFullInfo` object instead of a `Chat` obj
 - The type of the `pinned_message` property of the `Message` object has been changed from `Message` to `MaybeInaccessibleMessage`.
 - The type of the `poll_message` property of the `PollOptionAdded` object has been changed from `Message` to `MaybeInaccessibleMessage`.
 - The type of the `poll_message` property of the `PollOptionDeleted` object has been changed from `Message` to `MaybeInaccessibleMessage`.
+
+---
+
+## Special Handlers
+
+> Likelihood Of Impact: Low
+
+Special handler registration methods now return `void` instead of a `Handler` instance.
+
+This affects methods such as `fallback()`, `fallbackOn()`, `onException()`, `onApiError()`, `registerApiException()`, `beforeApiRequest()`, and other special handlers.
+
+**Example:**
+
+```php
+// Before
+$handler = $bot->onException(function ($bot, $exception) {
+    // Handle exception
+});
+
+// After
+$bot->onException(function ($bot, $exception) {
+    // Handle exception
+});
+```
+
+If your code relies on the returned `Handler` instance, you must update it accordingly. Otherwise, no changes are required.
 
 ---
 
@@ -367,3 +415,23 @@ $bot->assertRaw(function (RequestData $request, ResponseData $response): bool {
     return $caption === 'Hello' && $photo->getSize() < 1024;
 });
 ```
+
+### `assertRaw()` Callbacks
+
+The `assertRaw()` method now supports callbacks that return `void`, allowing you to write assertions without explicitly returning a value.
+
+**Example:**
+
+```php
+// Before (still supported)
+$bot->assertRaw(function ($request) {
+    return $request->method() === 'sendMessage';
+});
+
+// After
+$bot->assertRaw(function ($request): void {
+    expect($request->method())->toBe('sendMessage');
+});
+```
+
+Callbacks returning a boolean are still supported, so **no changes are required** to existing code.
