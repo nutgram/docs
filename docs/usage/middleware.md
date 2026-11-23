@@ -364,6 +364,16 @@ $bot->group(function (Nutgram $bot){
 })->middleware(IsAdmin::class);
 ```
 
+## Ephemeral support
+You can mark your commands as [ephemeral](https://core.telegram.org/bots/api#ephemeral-messages-and-commands).
+
+```php
+$bot->group(function (Nutgram $bot){
+    $bot->onCommand('mute', MuteCommand::class);
+    $bot->onCommand('ban', BanCommand::class);
+})->ephemeral();
+```
+
 ### Scope
 
 The `scope()` method allows you to define the visibility of commands within a specific chat context.
