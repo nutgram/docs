@@ -57,14 +57,41 @@ $bot->onText('foo', function (Nutgram $bot) {
 </div>
 
 ### assertRaw
-The `assertRaw` asserts the given callback returns a truthy value.
-The `index` parameter is optional.
+
+The `assertRaw()` method allows you to perform custom assertions on outgoing Telegram API requests and their responses.
+
+The callback receives two objects:
+
+- **`RequestData`**: Inspect request parameters, headers, and uploaded files.
+- **`ResponseData`**: Inspect response data, status, and errors.
+
+#### Usage
+
+You can either return a boolean or use assertions directly without returning a value.
+
 ```php
-->assertRaw(function(GuzzleHttp\Psr7\Request $request){
-    $content = json_decode((string)$request->getBody(), true, flags: JSON_THROW_ON_ERROR);
-    return $content['text'] === 'bar';
-}, index: 0);
+// Using a boolean return
+->assertRaw(function (RequestData $request, ResponseData $response): bool {
+    return $request->get('chat_id') === 123;
+});
+
+// Using assertions
+->assertRaw(function (RequestData $request, ResponseData $response): void {
+    expect($request->get('chat_id'))->toBe(123);
+    expect($request->get('text'))->toBe('Hello!');
+    expect($response->isOk())->toBeTrue();
+});
 ```
+
+#### Available Methods
+
+| Object | Methods |
+|---|---|
+| `RequestData` | `get()`, `getRaw()`, `has()`, `missing()`, `file()`, `header()`, `hasHeader()`, `isMultipart()`, `method()` |
+| `ResponseData` | `get()`, `has()`, `missing()`, `isOk()`, `error()` |
+
+Both objects support **dot notation** for accessing nested data.
+
 **⚠️ Caution!** See the [Asserting files](#asserting-files) section to assert files sent with multi-part requests.
 
 ### assertCalled
@@ -170,7 +197,7 @@ With a multi-part request, the assertions [`assertRaw`](#assertraw), [`assertRep
 in the field containing the file.
 
 ### Example
-To assert files you must use the `assertRaw` assertion in combination with `FormDataParser::parse($request)->files`, 
+To assert files you must use the `assertRaw` assertion,
 see the example below:
 
 <Tabs>
@@ -186,9 +213,9 @@ $this
         'caption' => 'my caption',
         'parse_mode' => ParseMode::HTML,
     ])
-    ->assertRaw(function (Request $request) {
+    ->assertRaw(function (RequestData $request) {
         /** @var OutgoingResource $document */
-        $document = FormDataParser::parse($request)->files['document'];
+        $document = $request->file('document');
     
         //check size
         return $document->getSize() <= 123456;
@@ -216,10 +243,9 @@ $bot->onText('foo', function (Nutgram $bot) {
 ### OutgoingResource
 This object is a wrapper from an outgoing resource and provide the following methods:
 
-| Method             | Type        | Description                                                        |
-|:-------------------|:------------|:-------------------------------------------------------------------|
-| `getName()`        | `?string`   | Returns the file name.                                             |
-| `getType()`        | `?string`   | Returns the MIME content type.                                     |
-| `getSize()`        | `int`       | Returns the file size in bytes.                                    |
-| `getError()`       | `int`       | Returns 0 (There is no error) or 7 (Failed to create the resource) |
-| `getTmpResource()` | `?resource` | Returns the resource.                                              |
+| Method        | Type              | Description                     |
+|:--------------|:------------------|:--------------------------------|
+| `getName()`   | `?string`         | Returns the file name.          |
+| `getMime()`   | `string`          | Returns the MIME content type.  |
+| `getSize()`   | `?int`            | Returns the file size in bytes. |
+| `getStream()` | `StreamInterface` | Returns the resource.           |
